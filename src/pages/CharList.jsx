@@ -11,8 +11,10 @@ const CharList = () => {
             try {
                 const response = await axios.get("http://localhost:8080/api/characters");
                 if (response.status === 200) {
-                    setCharacters(response.data);
-                    console.log("Personajes", response.data);
+                    const sortedChars = [...response.data].sort((a, b) => 
+                        a.name.localeCompare(b.name)
+                    );
+                    setCharacters(sortedChars);
                 }
             } catch (error) {
                 console.error("Something went wrong", error);

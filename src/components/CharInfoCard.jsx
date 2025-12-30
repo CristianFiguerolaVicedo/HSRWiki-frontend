@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:8080/";
 
@@ -27,8 +28,14 @@ const CharInfoCard = ({char}) => {
     const elementIconPath = ELEMENT_ICONS[char.element];
     const pathIconPath = PATH_ICONS[char.path.toUpperCase()];
 
+    const navigate = useNavigate();
+
+    const idString = char.id.toString();
+
     return (
-        <div className="bg-gradient-to-br from-[#3a506b] to-[#1c2541] text-white border border-[#4a5568] rounded-lg p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div className="bg-gradient-to-br from-[#3a506b] to-[#1c2541] text-white border border-[#4a5568] rounded-lg p-4 shadow-lg hover:cursor-pointer transition-all duration-[600ms] hover:scale-[1.1]" 
+        onClick={() => navigate(`/char/${idString}`)}
+        >
             <div className="flex justify-center mb-3">
                 <img 
                     src={`${API_URL}${char.icon}`} 

@@ -40,3 +40,36 @@
 .read-the-docs {
   color: #888;
 }
+
+.floating-gif {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.gif-image {
+  width: 120px;
+  height: auto;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.gif-image:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.floating-gif {
+  animation: float 3s ease-in-out infinite;
+}

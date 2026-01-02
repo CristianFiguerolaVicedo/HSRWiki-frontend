@@ -40,7 +40,7 @@ const CharDetails = () => {
     const {id} = useParams();
     const [char, setChar] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [activeTab, setActiveTab] = useState("overvieww");
+    const [activeTab, setActiveTab] = useState("overview");
 
     useEffect(() => {
         const fetchCharById = async () => {
@@ -49,6 +49,7 @@ const CharDetails = () => {
                 const response = await axios.get(`http://localhost:8080/api/characters/${id}`);
                 if (response.status === 200) {
                     setChar(response.data);
+                    console.log("Build data:", response.data.build);
                 }
             } catch (error) {
                 console.error("Something went wrong", error);
@@ -262,7 +263,7 @@ const CharDetails = () => {
             </div>
             <div className="mb-6">
                 <nav className="flex flex-wrap gap-2">
-                    {["overview", "skills", "eidolons", "traces"].map((tab) => (
+                    {["overview", "skills", "eidolons", "traces", "builds"].map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -611,6 +612,167 @@ const CharDetails = () => {
                         )}
                     </div>
                 )}
+
+                {activeTab === "builds" && char.build && (
+                    <div className="space-y-6">
+                        {char.build.lightCones && char.build.lightCones.length > 0 && (
+                            <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/30">
+                                <h3 className="text-xl font-bold mb-4 text-yellow-300">Recommended Light Cones</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {char.build.lightCones.map((cone, index) => (
+                                        <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <h4 className="text-lg font-semibold text-blue-300">{cone.name}</h4>
+                                                <div className="flex items-center gap-1">
+                                                    {Array.from({ length: cone.rarity }).map((_, i) => (
+                                                        <Star key={i} className="text-amber-400 fill-amber-400" size={14}/>
+                                                    ))}
+                                                    {cone.priority === 1 && (
+                                                        <span className="ml-2 px-2 py-0.5 bg-red-500/20 text-red-300 text-xs rounded-full">
+                                                            Best
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <p className="text-gray-300 text-sm">{cone.description}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {char.build.relicSets && char.build.relicSets.length > 0 && (
+                                <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
+                                    <h3 className="text-xl font-bold mb-4 text-purple-300">Relic Sets</h3>
+                                    <div className="space-y-4">
+                                        {char.build.relicSets.map((set, index) => (
+                                            <div key={index} className="bg-gray-800/50 rounded-lg p-4">
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <h4 className="text-lg font-semibold">{set.name}</h4>
+                                                    {set.priority === 1 && (
+                                                        <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
+                                                            Recommended
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="text-gray-300 text-sm">{set.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {char.build.planarSets && char.build.planarSets.length > 0 && (
+                                <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/30">
+                                    <h3 className="text-xl font-bold mb-4 text-blue-300">Planar Ornaments</h3>
+                                    <div className="space-y-4">
+                                        {char.build.planarSets.map((set, index) => (
+                                            <div key={index} className="bg-gray-800/50 rounded-lg p-4">
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <h4 className="text-lg font-semibold">{set.name}</h4>
+                                                    {set.priority === 1 && (
+                                                        <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
+                                                            Recommended
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="text-gray-300 text-sm">{set.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {char.build.mainStats && (
+                                <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-green-500/30">
+                                    <h3 className="text-xl font-bold mb-4 text-green-300">Main Stats Priority</h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <h4 className="text-gray-400 text-sm font-medium">Body</h4>
+                                            <p className="text-white font-medium">{char.build.mainStats.body}</p>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-gray-400 text-sm font-medium">Feet</h4>
+                                            <p className="text-white font-medium">{char.build.mainStats.feet}</p>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-gray-400 text-sm font-medium">Sphere</h4>
+                                            <p className="text-white font-medium">{char.build.mainStats.sphere}</p>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-gray-400 text-sm font-medium">Rope</h4>
+                                            <p className="text-white font-medium">{char.build.mainStats.rope}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {char.build.subStats && (
+                                <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-orange-500/30">
+                                    <h3 className="text-xl font-bold mb-4 text-orange-300">Sub Stats Priority</h3>
+                                    <div className="space-y-2">
+                                        {char.build.subStats.priority && char.build.subStats.priority.map((stat, index) => (
+                                            <div key={index} className="flex items-center gap-2">
+                                                <div className="w-6 h-6 flex items-center justify-center bg-gray-700 rounded-full text-sm font-bold">
+                                                    {index + 1}
+                                                </div>
+                                                <span className="text-gray-300">{stat}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {char.build.teams && char.build.teams.length > 0 && (
+                            <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-pink-500/30">
+                                <h3 className="text-xl font-bold mb-4 text-pink-300">Team Compositions</h3>
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    {char.build.teams.map((team, index) => (
+                                        <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                                            <div className="flex justify-between items-start mb-3">
+                                                <h4 className="text-lg font-semibold text-blue-300">{team.name}</h4>
+                                                <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">
+                                                    Team {index + 1}
+                                                </span>
+                                            </div>
+                                            <p className="text-gray-300 text-sm mb-3">{team.description}</p>
+                                            
+                                            <div className="mb-3">
+                                                <h5 className="text-gray-400 text-sm font-medium mb-2">Team Members:</h5>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {team.teamMembers.map((member, idx) => (
+                                                        <span key={idx} className="px-3 py-1 bg-gray-700/50 text-gray-300 rounded-full text-sm">
+                                                            {member}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            
+                                            {team.rotation && (
+                                                <div className="mb-3">
+                                                    <h5 className="text-gray-400 text-sm font-medium mb-1">Rotation:</h5>
+                                                    <p className="text-gray-300 text-sm">{team.rotation}</p>
+                                                </div>
+                                            )}
+                                            
+                                            {team.notes && (
+                                                <div>
+                                                    <h5 className="text-gray-400 text-sm font-medium mb-1">Notes:</h5>
+                                                    <p className="text-gray-300 text-sm italic">{team.notes}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 {activeTab === "overview" && (
                     <div className="space-y-6">
                         <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">

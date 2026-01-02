@@ -13,6 +13,13 @@ const App = () => {
           <Route path='/' element={<CharList />}/>
         </Routes>
       </BrowserRouter>
+      <div className="floating-gif">
+        <img 
+          src="/public/assets/Dance Evernight GIF.gif" 
+          alt="Floating Gif" 
+          className='gif-image'
+        />
+      </div>
     </>
   )
 }

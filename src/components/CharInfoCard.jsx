@@ -50,7 +50,7 @@ const CharInfoCard = ({char}) => {
             
             <div className="flex justify-center mb-3">
                 {Array.from({ length: char.rarity }).map((_, index) => (
-                    <Star key={index} className="text-amber-400" size={16}/>
+                    <Star key={index} className="text-amber-400 fill-amber-400" size={16}/>
                 ))}
             </div>
             

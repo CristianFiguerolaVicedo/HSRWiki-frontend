@@ -362,7 +362,6 @@ const CharDetails = () => {
                                                 <tr className="border-b border-gray-700">
                                                     <th className="text-left py-2 px-2 text-gray-300">Level</th>
                                                     <th className="text-left py-2 px-2 text-green-300">SPD Increase</th>
-                                                    <th className="text-left py-2 px-2 text-yellow-300">Additional DMG</th>
                                                     <th className="text-left py-2 px-2 text-gray-300">Description with Values</th>
                                                 </tr>
                                             </thead>
@@ -390,11 +389,6 @@ const CharDetails = () => {
                                                             <td className="py-2 px-2">
                                                                 <div className="font-mono text-green-300 font-semibold">
                                                                     {paramArray[0]}%
-                                                                </div>
-                                                            </td>
-                                                            <td className="py-2 px-2">
-                                                                <div className="font-mono text-yellow-300 font-semibold">
-                                                                    {paramArray[1]}%
                                                                 </div>
                                                             </td>
                                                             <td className="py-2 px-2 text-gray-300">
@@ -751,20 +745,6 @@ const CharDetails = () => {
                                                     ))}
                                                 </div>
                                             </div>
-                                            
-                                            {team.rotation && (
-                                                <div className="mb-3">
-                                                    <h5 className="text-gray-400 text-sm font-medium mb-1">Rotation:</h5>
-                                                    <p className="text-gray-300 text-sm">{team.rotation}</p>
-                                                </div>
-                                            )}
-                                            
-                                            {team.notes && (
-                                                <div>
-                                                    <h5 className="text-gray-400 text-sm font-medium mb-1">Notes:</h5>
-                                                    <p className="text-gray-300 text-sm italic">{team.notes}</p>
-                                                </div>
-                                            )}
                                         </div>
                                     ))}
                                 </div>

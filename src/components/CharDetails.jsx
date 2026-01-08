@@ -49,7 +49,6 @@ const CharDetails = () => {
                 const response = await axios.get(`http://localhost:8080/api/characters/${id}`);
                 if (response.status === 200) {
                     setChar(response.data);
-                    console.log("Build data:", response.data.build);
                 }
             } catch (error) {
                 console.error("Something went wrong", error);
@@ -104,15 +103,100 @@ const CharDetails = () => {
 
     const maxStats = calculateMaxStats();
 
+    // Helper function to render skill values in compact format
+    const renderSkillValues = (skillData) => {
+        if (!skillData.params || skillData.params.length === 0) {
+            return <p className="text-gray-400">No skill data available</p>;
+        }
+
+        // Get values for level 1
+        const level1Values = skillData.params[0] || [];
+
+        return (
+            <div className="mt-4">
+                <div className="mb-6 p-4 bg-gray-800/30 rounded-lg border border-gray-700">
+                    <h5 className="text-sm font-semibold text-blue-300 mb-2">Skill Effect:</h5>
+                    <div className="text-gray-300 text-sm space-y-2">
+                        {(() => {
+                            let desc = skillData.desc;
+                            let parts = [];
+                            let lastIndex = 0;
+                            
+                            const regex = /\{(\d+)\}/g;
+                            let match;
+                            let paramIndex = 0;
+                            
+                            while ((match = regex.exec(desc)) !== null) {
+                                if (match.index > lastIndex) {
+                                    parts.push(desc.substring(lastIndex, match.index));
+                                }
+                                
+                                const placeholderIndex = parseInt(match[1]);
+                                const value = level1Values[placeholderIndex] || "N/A";
+                                parts.push(
+                                    <span key={`value-${paramIndex}`} className="text-yellow-300 font-bold mx-1">
+                                        {value}
+                                    </span>
+                                );
+                                
+                                lastIndex = regex.lastIndex;
+                                paramIndex++;
+                            }
+                            
+                            if (lastIndex < desc.length) {
+                                parts.push(desc.substring(lastIndex));
+                            }
+                            
+                            if (parts.length === 0) {
+                                return <p>{desc}</p>;
+                            }
+                            
+                            return parts;
+                        })()}
+                    </div>
+                    <div className="mt-2 text-xs text-gray-400">
+                        <span className="text-yellow-400">Note:</span> Values shown in <span className="text-yellow-300 font-bold">yellow</span> are for Level 1.
+                    </div>
+                </div>
+                
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                        <tbody>
+                            {skillData.params[0].map((_, paramIndex) => {
+                                const values = skillData.params.map(levelParams => 
+                                    levelParams[paramIndex] || "N/A"
+                                );
+                                
+                                return (
+                                    <tr key={paramIndex} className="border-b border-gray-700 hover:bg-gray-700/30 transition-colors">
+                                        <td className="py-3 px-2">
+                                            <div className="font-mono text-lg text-yellow-300">
+                                                {values.join("/")}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div className="mt-4 p-3 bg-gray-900/50 rounded-lg text-xs text-gray-400">
+                    <p className="mt-1"><span className="text-green-400">Example:</span> "50/60/70" means 50 at level 1, 60 at level 2, 70 at level 3</p>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-white p-4 md:p-8">
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
                     <div className="relative">
                         <img 
-                            src={`${API_URL}${char.icon}`} 
+                            src={`${char.icon}`} 
                             alt={char.name} 
-                            className="w-48 h-48 rounded-xl border-4 border-[#5bc0be] shadow-lg"
+                            className="w-75 h-100 rounded-xl border-4 border-[#5bc0be] shadow-lg"
                         />
                         <div className="absolute -top-3 -right-3 flex flex-col gap-2">
                             <div className="flex items-center gap-2 bg-gray-800/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gray-700">
@@ -277,6 +361,7 @@ const CharDetails = () => {
             <div className="mt-6">
                 {activeTab === "skills" && char.skills && (
                     <div className="space-y-6">
+                        {/* Basic Attack */}
                         <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center border border-blue-500/30">
@@ -292,51 +377,10 @@ const CharDetails = () => {
                                 </div>
                             </div>
                             <h4 className="text-lg font-semibold mb-2">{char.skills.basic.name}</h4>
-                            
-                            {char.skills.basic.params && char.skills.basic.params.length > 0 && (
-                                <div className="mt-4">
-                                    <h5 className="text-gray-400 text-sm font-medium mb-3">Values per Level:</h5>
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full text-sm">
-                                            <thead>
-                                                <tr className="border-b border-gray-700">
-                                                    <th className="text-left py-2 px-2 text-gray-300">Level</th>
-                                                    <th className="text-left py-2 px-2 text-blue-300">Damage</th>
-                                                    <th className="text-left py-2 px-2 text-gray-300">Description with Values</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {char.skills.basic.params.map((paramArray, levelIndex) => {
-                                                    const level = levelIndex + 1;
-                                                    let descriptionWithValues = char.skills.basic.desc;
-                                                    paramArray.forEach((value, paramIndex) => {
-                                                        descriptionWithValues = descriptionWithValues.replace(
-                                                            `{${paramIndex}}`, 
-                                                            `${value}`
-                                                        );
-                                                    });
-                                                    
-                                                    return (
-                                                        <tr key={level} className="border-b border-gray-700 hover:bg-gray-700/30 transition-colors">
-                                                            <td className="py-2 px-2 font-mono font-medium">Lv. {level}</td>
-                                                            <td className="py-2 px-2">
-                                                                <div className="font-mono text-blue-300 font-semibold">
-                                                                    {paramArray[0]}%
-                                                                </div>
-                                                            </td>
-                                                            <td className="py-2 px-2 text-gray-300">
-                                                                {descriptionWithValues}
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            )}
+                            {renderSkillValues(char.skills.basic)}
                         </div>
 
+                        {/* Skill */}
                         <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center border border-green-500/30">
@@ -352,58 +396,10 @@ const CharDetails = () => {
                                 </div>
                             </div>
                             <h4 className="text-lg font-semibold mb-2">{char.skills.skill.name}</h4>
-                            
-                            {char.skills.skill.params && char.skills.skill.params.length > 0 && (
-                                <div className="mt-4">
-                                    <h5 className="text-gray-400 text-sm font-medium mb-3">Values per Level:</h5>
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full text-sm">
-                                            <thead>
-                                                <tr className="border-b border-gray-700">
-                                                    <th className="text-left py-2 px-2 text-gray-300">Level</th>
-                                                    <th className="text-left py-2 px-2 text-green-300">SPD Increase</th>
-                                                    <th className="text-left py-2 px-2 text-gray-300">Description with Values</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {char.skills.skill.params.map((paramArray, levelIndex) => {
-                                                    const level = levelIndex + 1;
-                                                    let descriptionWithValues = char.skills.skill.desc;
-                                                    paramArray.forEach((value, paramIndex) => {
-                                                        if (paramIndex === 0) {
-                                                            descriptionWithValues = descriptionWithValues.replace(
-                                                                `{${paramIndex}}`, 
-                                                                `${value}`
-                                                            );
-                                                        } else if (paramIndex === 1) {
-                                                            descriptionWithValues = descriptionWithValues.replace(
-                                                                `{${paramIndex}}`, 
-                                                                `${value}`
-                                                            );
-                                                        }
-                                                    });
-                                                    
-                                                    return (
-                                                        <tr key={level} className="border-b border-gray-700 hover:bg-gray-700/30 transition-colors">
-                                                            <td className="py-2 px-2 font-mono font-medium">Lv. {level}</td>
-                                                            <td className="py-2 px-2">
-                                                                <div className="font-mono text-green-300 font-semibold">
-                                                                    {paramArray[0]}%
-                                                                </div>
-                                                            </td>
-                                                            <td className="py-2 px-2 text-gray-300">
-                                                                {descriptionWithValues}
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            )}
+                            {renderSkillValues(char.skills.skill)}
                         </div>
 
+                        {/* Ultimate */}
                         <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center border border-purple-500/30">
@@ -418,52 +414,11 @@ const CharDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <h4 className="text-lg font-semibold mb-2">{char.skills.ult.name}</h4>                            
-                            
-                            {char.skills.ult.params && char.skills.ult.params.length > 0 && (
-                                <div className="mt-4">
-                                    <h5 className="text-gray-400 text-sm font-medium mb-3">Values per Level:</h5>
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full text-sm">
-                                            <thead>
-                                                <tr className="border-b border-gray-700">
-                                                    <th className="text-left py-2 px-2 text-gray-300">Level</th>
-                                                    <th className="text-left py-2 px-2 text-purple-300">DMG</th>
-                                                    <th className="text-left py-2 px-2 text-gray-300">Description with Values</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {char.skills.ult.params.map((paramArray, levelIndex) => {
-                                                    const level = levelIndex + 1;
-                                                    let descriptionWithValues = char.skills.ult.desc;
-                                                    paramArray.forEach((value, paramIndex) => {
-                                                        descriptionWithValues = descriptionWithValues.replace(
-                                                            `{${paramIndex}}`, 
-                                                            `${value}`
-                                                        );
-                                                    });
-                                                    
-                                                    return (
-                                                        <tr key={level} className="border-b border-gray-700 hover:bg-gray-700/30 transition-colors">
-                                                            <td className="py-2 px-2 font-mono font-medium">Lv. {level}</td>
-                                                            <td className="py-2 px-2">
-                                                                <div className="font-mono text-purple-300 font-semibold">
-                                                                    {paramArray[0]}%
-                                                                </div>
-                                                            </td>
-                                                            <td className="py-2 px-2 text-gray-300">
-                                                                {descriptionWithValues}
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            )}
+                            <h4 className="text-lg font-semibold mb-2">{char.skills.ult.name}</h4>
+                            {renderSkillValues(char.skills.ult)}
                         </div>
 
+                        {/* Talent */}
                         <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center border border-yellow-500/30">
@@ -479,49 +434,7 @@ const CharDetails = () => {
                                 </div>
                             </div>
                             <h4 className="text-lg font-semibold mb-2">{char.skills.talent.name}</h4>
-                            
-                            {char.skills.talent.params && char.skills.talent.params.length > 0 && (
-                                <div className="mt-4">
-                                    <h5 className="text-gray-400 text-sm font-medium mb-3">Values per Level:</h5>
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full text-sm">
-                                            <thead>
-                                                <tr className="border-b border-gray-700">
-                                                    <th className="text-left py-2 px-2 text-gray-300">Level</th>
-                                                    <th className="text-left py-2 px-2 text-yellow-300">DMG Bonus</th>
-                                                    <th className="text-left py-2 px-2 text-gray-300">Description with Values</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {char.skills.talent.params.map((paramArray, levelIndex) => {
-                                                    const level = levelIndex + 1;
-                                                    let descriptionWithValues = char.skills.talent.desc;
-                                                    paramArray.forEach((value, paramIndex) => {
-                                                        descriptionWithValues = descriptionWithValues.replace(
-                                                            `{${paramIndex}}`, 
-                                                            `${value}`
-                                                        );
-                                                    });
-                                                    
-                                                    return (
-                                                        <tr key={level} className="border-b border-gray-700 hover:bg-gray-700/30 transition-colors">
-                                                            <td className="py-2 px-2 font-mono font-medium">Lv. {level}</td>
-                                                            <td className="py-2 px-2">
-                                                                <div className="font-mono text-yellow-300 font-semibold">
-                                                                    {paramArray[0]}%
-                                                                </div>
-                                                            </td>
-                                                            <td className="py-2 px-2 text-gray-300">
-                                                                {descriptionWithValues}
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            )}
+                            {renderSkillValues(char.skills.talent)}
                         </div>
                     </div>
                 )}
@@ -760,7 +673,7 @@ const CharDetails = () => {
                             <div className="flex items-start gap-4">
                                 <div className="flex flex-col items-center gap-2">
                                     <img 
-                                        src={`${API_URL}${char.icon}`} 
+                                        src={`${char.miniIcon}`} 
                                         alt={char.name} 
                                         className="w-24 h-24 rounded-full border-2 border-[#5bc0be]"
                                     />
@@ -790,7 +703,7 @@ const CharDetails = () => {
                                         <span className="font-semibold"> {char.element} </span>
                                         character following the 
                                         <span className="font-semibold"> {char.path} </span>
-                                        path. This character specializes in dealing damage and supporting the team with various abilities.
+                                        path.
                                     </p>
                                     <div className="mt-4 flex items-center gap-2">
                                         <span className="text-gray-400">Rarity:</span>

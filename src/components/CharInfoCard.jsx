@@ -1,8 +1,6 @@
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:8080/";
-
 const ELEMENT_ICONS = {
     FIRE: '/assets/Type_Fire.webp',
     ICE: '/assets/Type_Ice.webp',
@@ -38,7 +36,7 @@ const CharInfoCard = ({char}) => {
         >
             <div className="flex justify-center mb-3">
                 <img 
-                    src={`${API_URL}${char.icon}`} 
+                    src={`${char.miniIcon}`} 
                     alt={char.name} 
                     className="w-20 h-20 rounded-full border-2 border-[#5bc0be]"
                 />

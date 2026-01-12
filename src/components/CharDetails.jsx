@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getLightConeByName } from "../services/lightConeService";
 
-const API_URL = "http://localhost:8080/";
-
 const ELEMENT_ICONS = {
     FIRE: '/assets/Type_Fire.webp',
     ICE: '/assets/Type_Ice.webp',
@@ -26,16 +24,6 @@ const PATH_ICONS = {
     REMEMBRANCE: '/assets/Icon_Remembrance.webp',
     HUNT: '/assets/Icon_The_Hunt.webp',
 }
-
-const LEVEL_RANGES = [
-    "1-20",
-    "20-40",
-    "40-50",
-    "50-60",
-    "60-70",
-    "70-80",
-    "80 (max)"
-];
 
 const CharDetails = () => {
     const {id} = useParams();
@@ -135,13 +123,11 @@ const CharDetails = () => {
 
     const maxStats = calculateMaxStats();
 
-    // Helper function to render skill values in compact format
     const renderSkillValues = (skillData) => {
         if (!skillData.params || skillData.params.length === 0) {
             return <p className="text-gray-400">No skill data available</p>;
         }
 
-        // Get values for level 1
         const level1Values = skillData.params[0] || [];
 
         return (

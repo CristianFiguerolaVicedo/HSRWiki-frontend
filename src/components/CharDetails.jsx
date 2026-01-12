@@ -2,6 +2,7 @@ import axios from "axios";
 import { Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getLightConeByName } from "../services/lightConeService";
 
 const API_URL = "http://localhost:8080/";
 
@@ -41,6 +42,7 @@ const CharDetails = () => {
     const [char, setChar] = useState(null);
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState("overview");
+    const [lightConeData, setLightConeData] = useState({});
 
     useEffect(() => {
         const fetchCharById = async () => {
@@ -49,6 +51,10 @@ const CharDetails = () => {
                 const response = await axios.get(`http://localhost:8080/api/characters/${id}`);
                 if (response.status === 200) {
                     setChar(response.data);
+
+                    if (response.data.build?.lightCones) {
+                        fetchLightConeData(response.data.build.lightCones);
+                    }
                 }
             } catch (error) {
                 console.error("Something went wrong", error);
@@ -61,6 +67,32 @@ const CharDetails = () => {
             fetchCharById();
         }
     }, [id]);
+
+    const fetchLightConeData = async (lightCones) => {
+        const lightConeMap = {};
+        const promises = lightCones.map(async (cone) => {
+            const data = await getLightConeByName(cone.name);
+            if (data) {
+                lightConeMap[cone.name] = data;
+            }
+        });
+
+        await Promise.all(promises);
+        setLightConeData(lightConeMap);
+    };
+
+    const getLightConeImage = (coneName) => {
+        const coneData = lightConeData[coneName];
+        return coneData?.icon || coneData?.image || '';
+    };
+
+    const getLightConePathIcon = (coneName) => {
+        const coneData = lightConeData[coneName];
+        if (!coneData?.path) return null;
+        
+        const path = coneData.path.replace("The ", "").toUpperCase();
+        return PATH_ICONS[path] || null;
+    };
 
     if (loading) {
         return (
@@ -526,25 +558,67 @@ const CharDetails = () => {
                             <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/30">
                                 <h3 className="text-xl font-bold mb-4 text-yellow-300">Recommended Light Cones</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {char.build.lightCones.map((cone, index) => (
-                                        <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
-                                            <div className="flex justify-between items-start mb-2">
-                                                <h4 className="text-lg font-semibold text-blue-300">{cone.name}</h4>
-                                                <div className="flex items-center gap-1">
-                                                    {Array.from({ length: cone.rarity }).map((_, i) => (
-                                                        <Star key={i} className="text-amber-400 fill-amber-400" size={14}/>
-                                                    ))}
-                                                    {cone.priority === 1 && (
-                                                        <span className="ml-2 px-2 py-0.5 bg-red-500/20 text-red-300 text-xs rounded-full">
-                                                            Best
-                                                        </span>
+                                    {char.build.lightCones.map((cone, index) => {
+                                        const coneImage = getLightConeImage(cone.name);
+                                        const pathIcon = getLightConePathIcon(cone.name);
+                                        
+                                        return (
+                                            <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-blue-500/30 transition-colors">
+                                                <div className="flex gap-3">
+                                                    {coneImage && (
+                                                        <div className="relative flex-shrink-0">
+                                                            <img 
+                                                                src={coneImage} 
+                                                                alt={cone.name}
+                                                                className="w-16 h-16 rounded-lg border border-blue-500/30"
+                                                            />
+                                                            {pathIcon && (
+                                                                <div className="absolute -top-1 -right-1 w-6 h-6 bg-gray-900/80 rounded-full border border-gray-700 flex items-center justify-center">
+                                                                    <img 
+                                                                        src={pathIcon} 
+                                                                        alt={cone.path}
+                                                                        className="w-4 h-4"
+                                                                        title={`Path: ${lightConeData[cone.name]?.path}`}
+                                                                    />
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                     )}
+                                                    <div className="flex-1">
+                                                        <div className="flex justify-between items-start mb-2">
+                                                            <div>
+                                                                <h4 className="text-lg font-semibold text-blue-300">{cone.name}</h4>
+                                                                {lightConeData[cone.name]?.path && (
+                                                                    <div className="flex items-center gap-1 mt-1">
+                                                                        <span className="text-xs text-gray-400">Path:</span>
+                                                                        <span className="text-xs text-blue-200">{lightConeData[cone.name].path}</span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                            <div className="flex items-center gap-1">
+                                                                {Array.from({ length: cone.rarity }).map((_, i) => (
+                                                                    <Star key={i} className="text-amber-400 fill-amber-400" size={14}/>
+                                                                ))}
+                                                                {cone.priority === 1 && (
+                                                                    <span className="ml-2 px-2 py-0.5 bg-red-500/20 text-red-300 text-xs rounded-full">
+                                                                        Best
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                        <p className="text-gray-300 text-sm">{cone.description}</p>                                                                                                            
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <p className="text-gray-300 text-sm">{cone.description}</p>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
+                                
+                                {Object.keys(lightConeData).length === 0 && (
+                                    <div className="text-center py-4">
+                                        <div className="text-gray-400 text-sm">Loading light cone images...</div>
+                                    </div>
+                                )}
                             </div>
                         )}
 

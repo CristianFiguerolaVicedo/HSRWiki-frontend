@@ -36,9 +36,9 @@ const CharInfoCard = ({char}) => {
         >
             <div className="flex justify-center mb-3">
                 <img 
-                    src={`${char.miniIcon}`} 
-                    alt={char.name} 
-                    className="w-20 h-20 rounded-full border-2 border-[#5bc0be]"
+                    src={`${char.splash}`} 
+                    alt={char.name}
+                    className="h-40" 
                 />
             </div>
             

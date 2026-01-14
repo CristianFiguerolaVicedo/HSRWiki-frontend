@@ -3,6 +3,7 @@ import { Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getLightConeByName } from "../services/lightConeService";
+import { getRelicSetByName } from "../services/relicService";
 
 const ELEMENT_ICONS = {
     FIRE: '/assets/Type_Fire.webp',
@@ -31,8 +32,68 @@ const CharDetails = () => {
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState("overview");
     const [lightConeData, setLightConeData] = useState({});
+    const [allSetData, setAllSetData] = useState({});
+    const [relicSetData, setRelicSetData] = useState({});
+    const [planarSetData, setPlanarSetData] = useState({});
 
     const navigate = useNavigate();
+
+    const fetchRelicData = async (sets) => {
+        const allSetMap = {};
+        const promises = sets.map(async (set) => {
+            const data = await getRelicSetByName(set.name);
+            if (data) {
+                allSetMap[set.name] = data;
+            }
+        });
+
+        await Promise.all(promises);
+        setAllSetData(allSetMap);
+        
+        const relics = {};
+        const planars = {};
+        
+        Object.entries(allSetMap).forEach(([setName, setData]) => {
+            if (isRelicSet(setData)) {
+                relics[setName] = setData;
+            } else if (isPlanarSet(setData)) {
+                planars[setName] = setData;
+            }
+        });
+        
+        setRelicSetData(relics);
+        setPlanarSetData(planars);
+    };
+
+    const isRelicSet = (setData) => {
+        if (!setData.pieces) return false;
+        
+        const pieceKeys = Object.keys(setData.pieces);
+        const relicPieceNames = ["Head", "Hands", "Body", "Feet"];
+        
+        return pieceKeys.some(key => 
+            relicPieceNames.includes(key) || 
+            key.includes("Head") || 
+            key.includes("Hand") || 
+            key.includes("Body") || 
+            key.includes("Foot") || 
+            key.includes("Feet")
+        );
+    };
+
+    const isPlanarSet = (setData) => {
+        if (!setData.pieces) return false;
+        
+        const pieceKeys = Object.keys(setData.pieces);
+        const planarPieceNames = ["Planar Sphere", "Link Rope"];
+        
+        return pieceKeys.some(key => 
+            planarPieceNames.includes(key) || 
+            key.includes("Sphere") || 
+            key.includes("Rope")
+        );
+    };
+
 
     useEffect(() => {
         const fetchCharById = async () => {
@@ -44,6 +105,14 @@ const CharDetails = () => {
 
                     if (response.data.build?.lightCones) {
                         fetchLightConeData(response.data.build.lightCones);
+                    }
+
+                    if (response.data.build?.relicSets || response.data.build?.planarSets) {
+                        const allSets = [
+                            ...(response.data.build.relicSets || []),
+                            ...(response.data.build.planarSets || [])
+                        ];
+                        fetchRelicData(allSets);
                     }
                 }
             } catch (error) {
@@ -87,6 +156,32 @@ const CharDetails = () => {
         
         const path = coneData.path.replace("The ", "").toUpperCase();
         return PATH_ICONS[path] || null;
+    };
+
+    const getRelicSetIcon = (setName) => {
+        const setData = relicSetData[setName] || allSetData[setName];
+        if (!setData?.pieces) return null;
+        
+        const firstPieceKey = Object.keys(setData.pieces)[0];
+        return setData.pieces[firstPieceKey]?.icon || null;
+    };
+
+    const getPlanarSetIcon = (setName) => {
+        const setData = planarSetData[setName] || allSetData[setName];
+        if (!setData?.pieces) return null;
+        
+        const firstPieceKey = Object.keys(setData.pieces)[0];
+        return setData.pieces[firstPieceKey]?.icon || null;
+    };
+
+    const getPieceIcons = (setData) => {
+        if (!setData?.pieces) return [];
+        
+        return Object.entries(setData.pieces).map(([pieceType, pieceData]) => ({
+            type: pieceType,
+            name: pieceData.name,
+            icon: pieceData.icon
+        }));
     };
 
     if (loading) {
@@ -624,20 +719,79 @@ const CharDetails = () => {
                                 <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
                                     <h3 className="text-xl font-bold mb-4 text-purple-300">Relic Sets</h3>
                                     <div className="space-y-4">
-                                        {char.build.relicSets.map((set, index) => (
-                                            <div key={index} className="bg-gray-800/50 rounded-lg p-4">
-                                                <div className="flex justify-between items-center mb-2">
-                                                    <h4 className="text-lg font-semibold">{set.name}</h4>
-                                                    {set.priority === 1 && (
-                                                        <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
-                                                            Recommended
-                                                        </span>
-                                                    )}
+                                        {char.build.relicSets.map((set, index) => {
+                                            const setIcon = getRelicSetIcon(set.name);
+                                            const setData = relicSetData[set.name] || allSetData[set.name];
+                                            const pieceIcons = getPieceIcons(setData);
+                                            const pieceCount = pieceIcons.length;
+                                            
+                                            return (
+                                                <div key={index} className="bg-gray-800/50 rounded-lg p-4 hover:bg-gray-700/50 transition-colors">
+                                                    <div className="flex gap-4 items-start">
+                                                        {setIcon && (
+                                                            <div className="relative flex-shrink-0">
+                                                                <img 
+                                                                    src={setIcon} 
+                                                                    alt={set.name}
+                                                                    className="w-16 h-16 rounded-lg border border-purple-500/30"
+                                                                    title={set.name}
+                                                                />
+                                                                {pieceCount > 0 && (
+                                                                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gray-900/90 rounded-full border border-gray-700 flex items-center justify-center">
+                                                                        <span className="text-xs font-bold text-purple-300">
+                                                                            {pieceCount}
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                        <div className="flex-1">
+                                                            <div className="flex justify-between items-start mb-2">
+                                                                <div>
+                                                                    <h4 className="text-lg font-semibold text-blue-300">{set.name}</h4>
+                                                                    {pieceCount > 0 && (
+                                                                        <div className="mt-1 text-xs text-gray-400">
+                                                                            {pieceCount} pieces
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                {set.priority === 1 && (
+                                                                    <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
+                                                                        Recommended
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <p className="text-gray-300 text-sm mb-3">{set.description}</p>
+                                                            
+                                                            {pieceIcons.length > 0 && (
+                                                                <div className="mt-3 flex gap-2 flex-wrap">
+                                                                    {pieceIcons.map((piece, idx) => (
+                                                                        <div key={idx} className="relative group">
+                                                                            <img 
+                                                                                src={piece.icon} 
+                                                                                alt={piece.name}
+                                                                                className="w-8 h-8 rounded border border-gray-600 hover:border-purple-400 transition-colors"
+                                                                                title={`${piece.type}: ${piece.name}`}
+                                                                            />
+                                                                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 border border-gray-700">
+                                                                                {piece.type}: {piece.name}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <p className="text-gray-300 text-sm">{set.description}</p>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
+                                    
+                                    {Object.keys(relicSetData).length === 0 && (
+                                        <div className="text-center py-4">
+                                            <div className="text-gray-400 text-sm">Loading relic set images...</div>
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
@@ -645,20 +799,82 @@ const CharDetails = () => {
                                 <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/30">
                                     <h3 className="text-xl font-bold mb-4 text-blue-300">Planar Ornaments</h3>
                                     <div className="space-y-4">
-                                        {char.build.planarSets.map((set, index) => (
-                                            <div key={index} className="bg-gray-800/50 rounded-lg p-4">
-                                                <div className="flex justify-between items-center mb-2">
-                                                    <h4 className="text-lg font-semibold">{set.name}</h4>
-                                                    {set.priority === 1 && (
-                                                        <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
-                                                            Recommended
-                                                        </span>
-                                                    )}
+                                        {char.build.planarSets.map((set, index) => {
+                                            const setIcon = getPlanarSetIcon(set.name);
+                                            const setData = planarSetData[set.name] || allSetData[set.name];
+                                            const pieceIcons = getPieceIcons(setData);
+                                            const pieceCount = pieceIcons.length;
+                                            
+                                            return (
+                                                <div key={index} className="bg-gray-800/50 rounded-lg p-4 hover:bg-gray-700/50 transition-colors">
+                                                    <div className="flex gap-4 items-start">
+                                                        {setIcon && (
+                                                            <div className="relative flex-shrink-0">
+                                                                <img 
+                                                                    src={setIcon} 
+                                                                    alt={set.name}
+                                                                    className="w-16 h-16 rounded-lg border border-blue-500/30"
+                                                                    title={set.name}
+                                                                />
+                                                                {pieceCount > 0 && (
+                                                                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gray-900/90 rounded-full border border-gray-700 flex items-center justify-center">
+                                                                        <span className="text-xs font-bold text-blue-300">
+                                                                            {pieceCount}
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                        <div className="flex-1">
+                                                            <div className="flex justify-between items-start mb-2">
+                                                                <div>
+                                                                    <h4 className="text-lg font-semibold text-cyan-300">{set.name}</h4>
+                                                                    {pieceCount > 0 && (
+                                                                        <div className="mt-1 text-xs text-gray-400">
+                                                                            {pieceCount} pieces
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                {set.priority === 1 && (
+                                                                    <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
+                                                                        Recommended
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <p className="text-gray-300 text-sm mb-3">{set.description}</p>
+                                                            
+                                                            {pieceIcons.length > 0 && (
+                                                                <div className="mt-3 flex gap-3">
+                                                                    {pieceIcons.map((piece, idx) => (
+                                                                        <div key={idx} className="relative group">
+                                                                            <div className="flex flex-col items-center">
+                                                                                <img 
+                                                                                    src={piece.icon} 
+                                                                                    alt={piece.name}
+                                                                                    className="w-10 h-10 rounded border border-blue-500/30 hover:border-blue-400 transition-colors"
+                                                                                    title={`${piece.type}: ${piece.name}`}
+                                                                                />
+                                                                                <span className="text-xs text-gray-400 mt-1">{piece.type.split(' ')[0]}</span>
+                                                                            </div>
+                                                                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 border border-gray-700">
+                                                                                {piece.name}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <p className="text-gray-300 text-sm">{set.description}</p>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
+                                    
+                                    {Object.keys(planarSetData).length === 0 && (
+                                        <div className="text-center py-4">
+                                            <div className="text-gray-400 text-sm">Loading planar set images...</div>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>

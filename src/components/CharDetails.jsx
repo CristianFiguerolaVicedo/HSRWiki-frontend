@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getLightConeByName } from "../services/lightConeService";
 
 const ELEMENT_ICONS = {
@@ -31,6 +31,8 @@ const CharDetails = () => {
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState("overview");
     const [lightConeData, setLightConeData] = useState({});
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCharById = async () => {
@@ -73,6 +75,11 @@ const CharDetails = () => {
         const coneData = lightConeData[coneName];
         return coneData?.icon || coneData?.image || '';
     };
+
+    const getLightconeId = (coneName) => {
+        const coneData = lightConeData[coneName];
+        return coneData?.id || '';
+    }
 
     const getLightConePathIcon = (coneName) => {
         const coneData = lightConeData[coneName];
@@ -550,10 +557,11 @@ const CharDetails = () => {
                                     {char.build.lightCones.map((cone, index) => {
                                         const coneImage = getLightConeImage(cone.name);
                                         const pathIcon = getLightConePathIcon(cone.name);
+                                        const lcId = getLightconeId(cone.name);
                                         
                                         return (
-                                            <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-blue-500/30 transition-colors">
-                                                <div className="flex gap-3">
+                                            <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-blue-500/30 hover:border-2 transition-colors">
+                                                <div onClick={() => navigate(`/lightcones/${lcId}`)} className="flex gap-3 hover:cursor-pointer">
                                                     {coneImage && (
                                                         <div className="relative flex-shrink-0">
                                                             <img 

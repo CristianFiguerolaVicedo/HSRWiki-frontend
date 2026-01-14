@@ -252,18 +252,25 @@ const CharDetails = () => {
                     </div>
                 </div>
                 <div className="flex-1 bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-                    <h2 className="text-2xl font-bold mb-6 text-bluw-300">Base Stats (Lvl 1)</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-blue-300">Base Stats (Lvl 1)</h2>
                     {char.ascension && char.ascension.length > 0 && (
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors">
-                                <div className="text-red-400 font-bold flex items-center gap-2">
-                                    <span className="text-lg"><Heart/></span>
+                            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
+                                <div className="text-red-400 font-bold flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-lg"><Heart/></span> HP
+                                    </div>
+                                    <div className="text-xs text-gray-400">+{char.ascension[0].hp.step}/lvl</div>
                                 </div>
-                                <div className="text-2xl font-mono mt-2">
-                                    {char.ascension[0].hp.base.toFixed(0)}
-                                </div>
-                                <div className="text-gray-400 text-sm mt-1">
-                                    +{char.ascension[0].hp.step}/lvl
+                                <div className="flex justify-between items-baseline mt-2">
+                                    <div>
+                                        <div className="text-xl font-mono">{char.ascension[0].hp.base.toFixed(0)}</div>
+                                        <div className="text-xs text-gray-400 mt-1">Lv. 1</div>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-2xl font-mono text-red-300">{Math.round(maxStats.hp)}</div>
+                                        <div className="text-xs text-gray-400 mt-1">Lv. 80</div>
+                                    </div>
                                 </div>
                             </div>
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
@@ -302,7 +309,7 @@ const CharDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 hover:border-green-500 transition-colors">
+                            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 transition-colors">
                                 <div className="text-green-400 font-bold flex items-center gap-2">
                                     <span className="text-lg"><Zap/></span> SPD
                                 </div>
@@ -323,7 +330,7 @@ const CharDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 hover:border-purple-500 transition-colors">
+                            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 transition-colors">
                                 <div className="text-purple-400 font-bold flex items-center gap-2">
                                     <span className="text-lg"><Target/></span> CRIT Rate
                                 </div>
@@ -379,7 +386,6 @@ const CharDetails = () => {
             <div className="mt-6">
                 {activeTab === "skills" && char.skills && (
                     <div className="space-y-6">
-                        {/* Basic Attack */}
                         <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center border border-blue-500/30">
@@ -398,7 +404,6 @@ const CharDetails = () => {
                             {renderSkillValues(char.skills.basic)}
                         </div>
 
-                        {/* Skill */}
                         <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center border border-green-500/30">
@@ -417,7 +422,6 @@ const CharDetails = () => {
                             {renderSkillValues(char.skills.skill)}
                         </div>
 
-                        {/* Ultimate */}
                         <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center border border-purple-500/30">
@@ -436,7 +440,6 @@ const CharDetails = () => {
                             {renderSkillValues(char.skills.ult)}
                         </div>
 
-                        {/* Talent */}
                         <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center border border-yellow-500/30">

@@ -19,7 +19,7 @@ const LightconeInfoCard = ({lightcone}) => {
     const idString = lightcone.id.toString();
     return (
         <div 
-            className="bg-gradient-to-br from-[#3a506b] to-[#1c2541] text-white border border-[#4a5568] rounded-lg p-4 shadow-lg hover:cursor-pointer transition-all duration-[600ms] hover:scale-[1.1]"
+            className="bg-gradient-to-br from-[#3a506b] to-[#1c2541] text-white border border-[#4a5568] rounded-lg p-4 shadow-lg hover:cursor-pointer transition-all duration-[300ms] hover:border-blue-600"
             onClick={() => navigate(`/lightcones/${idString}`)}
         >
             <div className="flex justify-center mb-3">

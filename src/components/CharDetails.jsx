@@ -655,7 +655,7 @@ const CharDetails = () => {
                                         const lcId = getLightconeId(cone.name);
                                         
                                         return (
-                                            <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-blue-500/30 hover:border-2 transition-colors">
+                                            <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-blue-500/30 transition-colors duration-[300ms]">
                                                 <div onClick={() => navigate(`/lightcones/${lcId}`)} className="flex gap-3 hover:cursor-pointer">
                                                     {coneImage && (
                                                         <div className="relative flex-shrink-0">

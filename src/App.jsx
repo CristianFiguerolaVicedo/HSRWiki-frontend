@@ -4,6 +4,9 @@ import CharList from './pages/CharList'
 import CharDetails from './components/CharDetails'
 import Lightcones from './pages/Lightcones'
 import LightconeDetails from './components/LightconeDetails'
+import Relics from './pages/Relics'
+import RelicsDetails from './components/RelicsDetails'
+import PlanarsDetails from './components/PlanarsDetails'
 
 const App = () => {
 
@@ -15,6 +18,9 @@ const App = () => {
           <Route path='/' element={<CharList />}/>
           <Route path='/lightcones' element={<Lightcones />}/>
           <Route path='/lightcones/:id' element={<LightconeDetails />}/>
+          <Route path='/relics' element={<Relics />}/>
+          <Route path='/relics/:name' element={<RelicsDetails />}/>
+          <Route path='/planars/:name' element={<PlanarsDetails />}/>
         </Routes>
       </BrowserRouter>
       <div className="floating-gif">

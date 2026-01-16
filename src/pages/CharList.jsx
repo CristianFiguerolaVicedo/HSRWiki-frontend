@@ -163,7 +163,7 @@ const CharList = () => {
 
               <button
                 onClick={() => navigate("/relics")}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800/50 text-gray-300 hover:text-white transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
               >
                 <GalleryVertical size={20} />
                 <span className="font-medium">Relics</span>
@@ -261,7 +261,7 @@ const CharList = () => {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {trailblazers.map((char) => (
                     <CharInfoCard key={char.id} char={char} />
                   ))}
@@ -287,7 +287,7 @@ const CharList = () => {
                     No regular characters match the current filters.
                   </div>
                 ) : (
-                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {regularChars.map((char) => (
                       <CharInfoCard key={char.id} char={char} />
                     ))}

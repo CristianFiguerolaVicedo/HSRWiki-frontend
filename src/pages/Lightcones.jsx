@@ -153,7 +153,7 @@ const Lightcones = () => {
 
               <button
                 onClick={() => navigate("/relics")}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800/50 text-gray-300 hover:text-white transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
               >
                 <GalleryVertical size={20} />
                 <span className="font-medium">Relics</span>

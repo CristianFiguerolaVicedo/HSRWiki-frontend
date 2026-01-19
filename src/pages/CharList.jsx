@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import CharInfoCard from "../components/CharInfoCard";
 import CharFilters from "../components/CharFilters";
 import { useNavigate } from "react-router-dom";
-import { GalleryVertical, Gamepad2, Menu, Swords, User, Users, X } from "lucide-react";
+import { GalleryVertical, Gamepad2, Menu, Orbit, Swords, User, Users, X } from "lucide-react";
 
 const CharList = () => {
   const [characters, setCharacters] = useState([]);
@@ -167,6 +167,13 @@ const CharList = () => {
               >
                 <GalleryVertical size={20} />
                 <span className="font-medium">Relics</span>
+              </button>
+              <button
+                onClick={() => navigate("/planets")}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
+              >
+                <Orbit size={20}/>
+                <span className="font-medium">Planets</span>
               </button>
             </div>
 

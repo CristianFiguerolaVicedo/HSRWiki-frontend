@@ -7,6 +7,8 @@ import LightconeDetails from './components/LightconeDetails'
 import Relics from './pages/Relics'
 import RelicsDetails from './components/RelicsDetails'
 import PlanarsDetails from './components/PlanarsDetails'
+import Planets from './pages/Planets'
+import PlanetDetails from './components/PlanetDetails'
 
 const App = () => {
 
@@ -21,6 +23,8 @@ const App = () => {
           <Route path='/relics' element={<Relics />}/>
           <Route path='/relics/:name' element={<RelicsDetails />}/>
           <Route path='/planars/:name' element={<PlanarsDetails />}/>
+          <Route path='/planets' element={<Planets />}/>
+          <Route path='/planets/:id' element={<PlanetDetails />}/>
         </Routes>
       </BrowserRouter>
       <div className="floating-gif">

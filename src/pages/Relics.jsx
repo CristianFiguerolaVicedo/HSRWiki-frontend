@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GalleryVertical, Gamepad2, Menu, Swords, Users } from "lucide-react";
+import { GalleryVertical, Gamepad2, Menu, Orbit, Swords, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RelicsInfoCard from "../components/RelicsInfoCard";
@@ -147,6 +147,13 @@ const Relics = () => {
                         <span className="ml-auto bg-gray-800 text-sm px-2 py-1 rounded">
                         {sets.length}
                         </span>
+                    </button>
+                    <button
+                        onClick={() => navigate("/planets")}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
+                    >
+                        <Orbit size={20}/>
+                        <span className="font-medium">Planets</span>
                     </button>
                     </div>
 

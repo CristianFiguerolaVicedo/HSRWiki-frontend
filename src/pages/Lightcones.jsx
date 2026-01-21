@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import LightconeInfoCard from "../components/LightconeInfoCard";
 import LightconeFilters from "../components/LightconeFilters";
 import { useNavigate } from "react-router-dom";
-import { GalleryVertical, Gamepad2, Menu, Orbit, Swords, Users } from "lucide-react";
+import { Component, GalleryVertical, Gamepad2, Menu, Orbit, Swords, Users } from "lucide-react";
 
 const API_URL = "http://localhost:8080/";
 
@@ -146,9 +146,6 @@ const Lightcones = () => {
               >
                 <Swords size={20} />
                 <span className="font-medium">Light Cones</span>
-                <span className="ml-auto bg-gray-800 text-sm px-2 py-1 rounded">
-                  {lightcones.length}
-                </span>
               </button>
 
               <button
@@ -164,6 +161,13 @@ const Lightcones = () => {
               >
                 <Orbit size={20}/>
                 <span className="font-medium">Planets</span>
+              </button>
+              <button
+                onClick={() => navigate("/factions")}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
+              >
+                <Component size={20}/>
+                <span className="font-medium">Factions</span>
               </button>
             </div>
 

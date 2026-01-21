@@ -9,6 +9,8 @@ import RelicsDetails from './components/RelicsDetails'
 import PlanarsDetails from './components/PlanarsDetails'
 import Planets from './pages/Planets'
 import PlanetDetails from './components/PlanetDetails'
+import Factions from './pages/Factions'
+import FactionDetails from './components/FactionDetails'
 
 const App = () => {
 
@@ -25,11 +27,13 @@ const App = () => {
           <Route path='/planars/:name' element={<PlanarsDetails />}/>
           <Route path='/planets' element={<Planets />}/>
           <Route path='/planets/:id' element={<PlanetDetails />}/>
+          <Route path='/factions' element={<Factions />}/>
+          <Route path='/factions/:id' element={<FactionDetails />}/>
         </Routes>
       </BrowserRouter>
       <div className="floating-gif">
         <img 
-          src="/public/assets/Dance Evernight GIF.gif" 
+          src="/assets/Dance Evernight GIF.gif" 
           alt="Floating Gif" 
           className='gif-image'
         />

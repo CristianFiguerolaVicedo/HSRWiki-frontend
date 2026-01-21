@@ -1,56 +1,13 @@
 import { Component, GalleryVertical, Gamepad2, Menu, Orbit, Swords, Users } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PLANETS_DATA } from "../util/util";
-import axios from "axios";
-import PlanetInfoCard from "../components/PlanetInfoCard";
+import { FACTIONS } from "../util/util";
+import FactionInfoCard from "../components/FactionInfoCard";
 
-const Planets = () => {
-    const [planets] = useState(PLANETS_DATA);
-    const [characters, setCharacters] = useState([]);
+const Factions = () => {
+    const [factions] = useState(FACTIONS);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchChars = async () => {
-            try {
-                const response = await axios.get(
-                    "http://localhost:8080/api/characters"
-                );
-                if (response.status === 200) {
-                    const sortedChars = [...response.data].sort((a, b) =>
-                        a.name.localeCompare(b.name)
-                    );
-                    setCharacters(sortedChars);
-                }
-            } catch (error) {
-                console.error("Something went wrong", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchChars();
-    }, []);
-
-    {/*Chars in each planet */}
-    const trailblazers = characters.filter((char) =>
-        char.name.includes("Trailblazer")
-    );
-
-    const regularChars = characters.filter(
-        (char) => !char.name.includes("Trailblazer")
-    );
-
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="text-white text-xl">Loading characters...</div>
-            </div>
-        );
-    }
 
     return (
         <div className="bg-gradient-to-b from-gray-900 to-gray-950 text-white">
@@ -63,7 +20,7 @@ const Planets = () => {
 
             <div className="flex">
                 <aside
-                className={`
+                    className={`
                             fixed lg:sticky lg:top-0 left-0 z-40 h-screen
                             bg-gradient-to-b from-gray-900 to-gray-950 border-r border-gray-800
                             transition-transform duration-300 ease-in-out
@@ -135,30 +92,30 @@ const Planets = () => {
                 </aside>
 
                 {sidebarOpen && (
-                <div
-                    className="fixed inset-0 bg-black/50 backdrop-blur-sm lg:hidden z-30"
-                    onClick={() => setSidebarOpen(false)}
-                />
+                    <div
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm lg:hidden z-30"
+                        onClick={() => setSidebarOpen(false)}
+                    />
                 )}
 
                 <main className="flex-1 p-4 md:p-6">
                     <div className="max-w-7xl mx-auto">
-                        {planets.length > 0 && (
+                        {factions.length > 0 && (
                             <div className="mb-8">
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="text-2xl font-bold flex items-center gap-2">
                                         <span className="text-white bg-clip-text text-transparent">
-                                            Planets
+                                            Factions
                                         </span>
                                         <span className="text-sm text-gray-400">
-                                            ({planets.length} planets)
+                                            ({factions.length} factions)
                                         </span>
                                     </h2>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                                    {planets.map((pl) => (
-                                        <PlanetInfoCard key={pl.id} planet={pl}/>
+                                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 lg:grid-cols-2 gap-4">
+                                    {factions.map((fc) => (
+                                        <FactionInfoCard key={fc.id} faction={fc}/>
                                     ))}
                                 </div>
                             </div>
@@ -170,4 +127,4 @@ const Planets = () => {
     )
 }
 
-export default Planets;
+export default Factions;

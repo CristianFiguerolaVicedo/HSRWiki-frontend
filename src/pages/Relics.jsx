@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GalleryVertical, Gamepad2, Menu, Orbit, Swords, Users } from "lucide-react";
+import { Component, GalleryVertical, Gamepad2, Menu, Orbit, Swords, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RelicsInfoCard from "../components/RelicsInfoCard";
@@ -122,39 +122,43 @@ const Relics = () => {
 
                 <nav className="flex-1 p-4 overflow-y-auto">
                     <div className="space-y-1">
-                    <button
-                        onClick={() => navigate("/")}
-                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
-                    >
-                        <Users size={20} />
-                        <span className="font-medium">Characters</span>
-                    </button>
+                        <button
+                            onClick={() => navigate("/")}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
+                        >
+                            <Users size={20} />
+                            <span className="font-medium">Characters</span>
+                        </button>
 
-                    <button
-                        onClick={() => navigate("/lightcones")}
-                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
-                    >
-                        <Swords size={20} />
-                        <span className="font-medium">Light Cones</span>
-                    </button>
+                        <button
+                            onClick={() => navigate("/lightcones")}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
+                        >
+                            <Swords size={20} />
+                            <span className="font-medium">Light Cones</span>
+                        </button>
 
-                    <button
-                        onClick={() => navigate("/relics")}
-                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
-                    >
-                        <GalleryVertical size={20} />
-                        <span className="font-medium">Relics</span>
-                        <span className="ml-auto bg-gray-800 text-sm px-2 py-1 rounded">
-                        {sets.length}
-                        </span>
-                    </button>
-                    <button
-                        onClick={() => navigate("/planets")}
-                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
-                    >
-                        <Orbit size={20}/>
-                        <span className="font-medium">Planets</span>
-                    </button>
+                        <button
+                            onClick={() => navigate("/relics")}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
+                        >
+                            <GalleryVertical size={20} />
+                            <span className="font-medium">Relics</span>
+                        </button>
+                        <button
+                            onClick={() => navigate("/planets")}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
+                        >
+                            <Orbit size={20}/>
+                            <span className="font-medium">Planets</span>
+                        </button>
+                        <button
+                            onClick={() => navigate("/factions")}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
+                        >
+                            <Component size={20}/>
+                            <span className="font-medium">Factions</span>
+                        </button>
                     </div>
 
                     <div className="my-6 border-t border-gray-800"></div>

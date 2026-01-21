@@ -11,63 +11,63 @@ const PlanetDetails = () => {
 
     const IMAGES_CARROUSEL = {
         "Herta Space Station": [
-            "/public/assets/herta1.png",
-            "/public/assets/herta2.png",
-            "/public/assets/herta3.png",
-            "/public/assets/herta4.png",
-            "/public/assets/herta5.png",
-            "/public/assets/herta6.png",
+            "/assets/herta1.png",
+            "/assets/herta2.png",
+            "/assets/herta3.png",
+            "/assets/herta4.png",
+            "/assets/herta5.png",
+            "/assets/herta6.png",
         ],
         "Jarilo VI": [
-            "/public/assets/jarilo1.png",
-            "/public/assets/jarilo2.png",
-            "/public/assets/jarilo3.png",
-            "/public/assets/jarilo4.png",
-            "/public/assets/jarilo5.png",
-            "/public/assets/jarilo6.png",
+            "/assets/jarilo1.png",
+            "/assets/jarilo2.png",
+            "/assets/jarilo3.png",
+            "/assets/jarilo4.png",
+            "/assets/jarilo5.png",
+            "/assets/jarilo6.png",
         ],
         "The Xianzhou Luofu": [
-            "/public/assets/xianzhou1.png",
-            "/public/assets/xianzhou2.png",
-            "/public/assets/xianzhou3.png",
-            "/public/assets/xianzhou4.png",
-            "/public/assets/xianzhou5.png",
-            "/public/assets/xianzhou6.png",
-            "/public/assets/xianzhou7.png",
-            "/public/assets/xianzhou8.png",
-            "/public/assets/xianzhou9.png",
+            "/assets/xianzhou1.png",
+            "/assets/xianzhou2.png",
+            "/assets/xianzhou3.png",
+            "/assets/xianzhou4.png",
+            "/assets/xianzhou5.png",
+            "/assets/xianzhou6.png",
+            "/assets/xianzhou7.png",
+            "/assets/xianzhou8.png",
+            "/assets/xianzhou9.png",
         ],
         "Penacony": [
-            "/public/assets/penacony1.png",
-            "/public/assets/penacony2.png",
-            "/public/assets/penacony3.png",
-            "/public/assets/penacony4.png",
-            "/public/assets/penacony5.png",
-            "/public/assets/penacony6.png",
-            "/public/assets/penacony7.png",
-            "/public/assets/penacony8.png",
-            "/public/assets/penacony9.png",
-            "/public/assets/penacony10.png",
-            "/public/assets/penacony11.png",
+            "/assets/penacony1.png",
+            "/assets/penacony2.png",
+            "/assets/penacony3.png",
+            "/assets/penacony4.png",
+            "/assets/penacony5.png",
+            "/assets/penacony6.png",
+            "/assets/penacony7.png",
+            "/assets/penacony8.png",
+            "/assets/penacony9.png",
+            "/assets/penacony10.png",
+            "/assets/penacony11.png",
         ],
         "Amphoreus": [
-            "/public/assets/amph1.png",
-            "/public/assets/amph2.png",
-            "/public/assets/amph3.png",
-            "/public/assets/amph4.png",
-            "/public/assets/amph5.png",
-            "/public/assets/amph6.png",
-            "/public/assets/amph7.png",
-            "/public/assets/amph8.png",
-            "/public/assets/amph9.png",
-            "/public/assets/amph10.png",
-            "/public/assets/amph11.png",
-            "/public/assets/amph12.png",
-            "/public/assets/amph13.png",
-            "/public/assets/amph14.png",
-            "/public/assets/amph15.png",
-            "/public/assets/amph16.png",
-            "/public/assets/amph17.png",
+            "/assets/amph1.png",
+            "/assets/amph2.png",
+            "/assets/amph3.png",
+            "/assets/amph4.png",
+            "/assets/amph5.png",
+            "/assets/amph6.png",
+            "/assets/amph7.png",
+            "/assets/amph8.png",
+            "/assets/amph9.png",
+            "/assets/amph10.png",
+            "/assets/amph11.png",
+            "/assets/amph12.png",
+            "/assets/amph13.png",
+            "/assets/amph14.png",
+            "/assets/amph15.png",
+            "/assets/amph16.png",
+            "/assets/amph17.png",
         ]
     };
 
@@ -89,7 +89,7 @@ const PlanetDetails = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center h-64">
-                <div className="text-white text-xl">Loading Planets</div>
+                <div className="text-white text-xl">Loading Planet</div>
             </div>
         );
     }
@@ -109,7 +109,7 @@ const PlanetDetails = () => {
                     {planet.name}
                 </h1>
 
-                {planetImages.length > 0 ? (
+                {planetImages.length > 0 && (
                     <div className="relative mb-6">
                         <img 
                             src={planetImages[currentImageIndex]} 
@@ -131,8 +131,6 @@ const PlanetDetails = () => {
                             <ChevronRight />
                         </button>
                     </div>
-                ) : (
-                    <div>No va</div>
                 )}
 
                 <p className="text-gray-300 leading-relaxed mb-3">

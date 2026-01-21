@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import CharInfoCard from "../components/CharInfoCard";
 import CharFilters from "../components/CharFilters";
 import { useNavigate } from "react-router-dom";
-import { GalleryVertical, Gamepad2, Menu, Orbit, Swords, User, Users, X } from "lucide-react";
+import { Component, GalleryVertical, Gamepad2, Menu, Orbit, Swords, User, Users, X } from "lucide-react";
 
 const CharList = () => {
   const [characters, setCharacters] = useState([]);
@@ -148,9 +148,6 @@ const CharList = () => {
               >
                 <Users size={20} />
                 <span className="font-medium">Characters</span>
-                <span className="ml-auto bg-gray-800 text-sm px-2 py-1 rounded">
-                  {characters.length}
-                </span>
               </button>
 
               <button
@@ -174,6 +171,13 @@ const CharList = () => {
               >
                 <Orbit size={20}/>
                 <span className="font-medium">Planets</span>
+              </button>
+              <button
+                onClick={() => navigate("/factions")}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 text-white hover:cursor-pointer"
+              >
+                <Component size={20}/>
+                <span className="font-medium">Factions</span>
               </button>
             </div>
 

@@ -40,3 +40,41 @@ export const PLANETS_DATA = [
         description4: "Taken as a whole, Amphoreus stands as a philosophical chapter in the Trailblazer’s journey—a world where lore, gameplay, and story converge to question the nature of fate itself, and whether the path laid before you is something to follow… or something to defy."
     }
 ]
+
+export const FACTIONS = [
+    {
+        id: "1",
+        name: "Astral Express",
+        characters: ["Trailblazer", "Dan Heng", "March 7th", "Himeko", "Welt", "Sunday", "Black Swan", "TrailblazerDestruction#F", "TrailblazerDestruction#M", "TrailblazerPreservance#F", "TrailblazerPreservance#M", "TrailblazerHarmony#F", "TrailblazerHarmony#M", "TrailblazerRemembrance#F", "TrailblazerRemembrance#M"]
+    },
+    {
+        id: "2",
+        name: "Stellaron Hunters",
+        characters: ["Kafka", "Blade", "Firefly", "Silver Wolf"]
+    },
+    {
+        id: "3",
+        name: "Xianzhou Alliance",
+        characters: ["Bailu", "Dan Heng - Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Jingliu", "Lingsha", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yanqing", "Yukong", "Yunli"]
+    },
+    {
+        id: "4",
+        name: "Chrysos Heirs",
+        characters: ["Tribbie", "Cerydra", "Evernight", "Permansor Terrae", "Hysilens", "Hyacine", "Phainon", "Anaxa", "Aglaea", "Mydei", "Castorice", "Cipher", "Cyrene"]
+    },
+    {
+        id: "5",
+        name: "Galaxy Rangers",
+        characters: ["Rappa", "Boothill"]
+    },
+    {
+        id: "6",
+        name: "Genius Society",
+        characters: ["Herta", "The Herta", "Ruan Mei", "Screwllum", "Dr. Ratio"]
+    },
+    {
+        id: "7",
+        name: "Ten Stonehearts",
+        characters: ["Topaz & Numby", "Jade", "Aventurine"]
+    }
+]

@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
 import { PLANETS_DATA } from "../util/util";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import axios from "axios";
 
 const PlanetDetails = () => {
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const {id} = useParams();
     const planet = PLANETS_DATA.find((p) => p.id === id);
+    const [characters, setCharacters] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const IMAGES_CARROUSEL = {
@@ -85,6 +87,31 @@ const PlanetDetails = () => {
         );
     };
 
+    useEffect(() => {
+        const fetchChars = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:8080/api/characters"
+                );
+                if (response.status === 200) {
+                    const sortedChars = [...response.data].sort((a, b) =>
+                        a.name.localeCompare(b.name)
+                    );
+                    setCharacters(sortedChars);
+                }
+            } catch (error) {
+                console.error("Something went wrong", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchChars();
+    }, []);
+
+    const planetCharacters = characters.filter((char) => 
+        planet.characters.includes(char.name)
+    );
 
     if (loading) {
         return (
@@ -145,6 +172,22 @@ const PlanetDetails = () => {
                 <p className="text-gray-300 leading-relaxed">
                     {planet.description4}
                 </p>
+
+                <h1 className="text-3xl font-bold mb-4 border-b border-t border-gray-400 p-2 mt-4">
+                    Characters related to the planet
+                </h1>
+                <div className="grid grid-cols-4 gap-6">
+                    {planetCharacters.map((char) => (
+                        <div key={char.id} className="text-center">
+                            <img 
+                                src={char.miniIcon} 
+                                alt={char.name}
+                                className="w-40 h-40 objecto-cover rounded-lg mx-auto"
+                            />
+                            <p className="mt-2">{char.name}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

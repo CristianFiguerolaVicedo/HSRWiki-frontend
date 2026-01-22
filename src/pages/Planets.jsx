@@ -1,56 +1,14 @@
 import { Component, GalleryVertical, Gamepad2, Menu, Orbit, Swords, Users } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PLANETS_DATA } from "../util/util";
-import axios from "axios";
 import PlanetInfoCard from "../components/PlanetInfoCard";
 
 const Planets = () => {
     const [planets] = useState(PLANETS_DATA);
-    const [characters, setCharacters] = useState([]);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchChars = async () => {
-            try {
-                const response = await axios.get(
-                    "http://localhost:8080/api/characters"
-                );
-                if (response.status === 200) {
-                    const sortedChars = [...response.data].sort((a, b) =>
-                        a.name.localeCompare(b.name)
-                    );
-                    setCharacters(sortedChars);
-                }
-            } catch (error) {
-                console.error("Something went wrong", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchChars();
-    }, []);
-
-    {/*Chars in each planet */}
-    const trailblazers = characters.filter((char) =>
-        char.name.includes("Trailblazer")
-    );
-
-    const regularChars = characters.filter(
-        (char) => !char.name.includes("Trailblazer")
-    );
-
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="text-white text-xl">Loading characters...</div>
-            </div>
-        );
-    }
 
     return (
         <div className="bg-gradient-to-b from-gray-900 to-gray-950 text-white">

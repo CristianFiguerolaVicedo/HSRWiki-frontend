@@ -60,14 +60,6 @@ const FactionDetails = () => {
                     {faction.name}
                 </h1>
 
-                <div className="relative mb-6">
-                    <img 
-                        src={`/assets/${faction.name}.jpg`}
-                        alt={faction.name}
-                        className="w-full max-h-96 object-cover rounded-lg" 
-                    />
-                </div>
-
                 <div className="border border-gray-800">
                     <h2 className="text-xl font-bold mb-4">
                         Playable characters from this faction

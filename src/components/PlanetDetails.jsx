@@ -130,7 +130,7 @@ const PlanetDetails = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-white p-6">
+        <div className=" text-white p-4 md:p-8">
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold mb-4 border-b border-gray-400 pb-3">
                     {planet.name}
@@ -146,14 +146,14 @@ const PlanetDetails = () => {
 
                         <button
                             onClick={handlePrev}
-                            className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:cursor-pointer transition-all duration-[300ms] hover:scale-[1.1]"
+                            className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-50/40 text-white p-2 rounded-full hover:cursor-pointer transition-all duration-[300ms] hover:scale-[1.1]"
                         >
                             <ChevronLeft />
                         </button>
 
                         <button
                             onClick={handleNext}
-                            className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:cursor-pointer transition-all duration-[300ms] hover:scale-[1.1]"
+                            className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-50/40 text-white p-2 rounded-full hover:cursor-pointer transition-all duration-[300ms] hover:scale-[1.1]"
                         >
                             <ChevronRight />
                         </button>

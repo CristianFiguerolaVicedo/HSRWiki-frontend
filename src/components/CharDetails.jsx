@@ -254,7 +254,7 @@ const CharDetails = () => {
                                 const placeholderIndex = parseInt(match[1]);
                                 const value = level1Values[placeholderIndex] || "N/A";
                                 parts.push(
-                                    <span key={`value-${paramIndex}`} className="text-yellow-300 font-bold mx-1">
+                                    <span key={`value-${paramIndex}`} className="text-[#E1D9BC] font-bold mx-1">
                                         {value}
                                     </span>
                                 );
@@ -275,7 +275,7 @@ const CharDetails = () => {
                         })()}
                     </div>
                     <div className="mt-2 text-xs text-gray-400">
-                        <span className="text-yellow-400">Note:</span> Values shown in <span className="text-yellow-300 font-bold">yellow</span> are for Level 1.
+                        <span className="text-[#E1D9BC]">Note:</span> Values shown in <span className="text-[#E1D9BC] font-bold">yellow</span> are for Level 1.
                     </div>
                 </div>
                 
@@ -290,7 +290,7 @@ const CharDetails = () => {
                                 return (
                                     <tr key={paramIndex} className="border-b border-gray-700 hover:bg-gray-700/30 transition-colors">
                                         <td className="py-3 px-2">
-                                            <div className="font-mono text-lg text-yellow-300">
+                                            <div className="font-mono text-lg text-[#E1D9BC]">
                                                 {values.join("/")}
                                             </div>
                                         </td>
@@ -309,7 +309,7 @@ const CharDetails = () => {
     };
 
     return (
-        <div className="bg-50/12 text-white p-4 md:p-8">
+        <div className=" text-white p-4 md:p-8">
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
                     <div className="relative">
@@ -320,7 +320,7 @@ const CharDetails = () => {
                         />
                     </div>
                     <div className="mt-6 text-center md:text-left">
-                        <h1 className="text-4xl font-bold text-[#ACBAC4]">
+                        <h1 className="text-4xl font-bold text-[#E1D9BC]">
                             {formatCharName(char.name)}
                         </h1>
                         <div className="flex items-center justify-center md:justify-start gap-2 mt-3">
@@ -332,11 +332,11 @@ const CharDetails = () => {
                     </div>
                 </div>
                 <div className="flex-1 bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-                    <h2 className="text-2xl font-bold mb-6 text-[#ACBAC4]">Base Stats (Lvl 1)</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-[#E1D9BC]">Base Stats (Lvl 1)</h2>
                     {char.ascension && char.ascension.length > 0 && (
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
-                                <div className="text-[#ACBAC4] font-bold flex items-center justify-between">
+                                <div className="text-[#E1D9BC] font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Heart/></span> HP
                                     </div>
@@ -354,7 +354,7 @@ const CharDetails = () => {
                                 </div>
                             </div>
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
-                                <div className="text-[#ACBAC4] font-bold flex items-center justify-between">
+                                <div className="text-[#E1D9BC] font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Swords/></span> ATK
                                     </div>
@@ -372,7 +372,7 @@ const CharDetails = () => {
                                 </div>
                             </div>
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
-                                <div className="text-[#ACBAC4] font-bold flex items-center justify-between">
+                                <div className="text-[#E1D9BC] font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Shield/></span> DEF
                                     </div>
@@ -390,7 +390,7 @@ const CharDetails = () => {
                                 </div>
                             </div>
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 transition-colors">
-                                <div className="text-[#ACBAC4] font-bold flex items-center gap-2">
+                                <div className="text-[#E1D9BC] font-bold flex items-center gap-2">
                                     <span className="text-lg"><Zap/></span> SPD
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
@@ -405,7 +405,7 @@ const CharDetails = () => {
                                 </div>
                             </div>
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 transition-colors">
-                                <div className="text-[#ACBAC4] font-bold flex items-center gap-2">
+                                <div className="text-[#E1D9BC] font-bold flex items-center gap-2">
                                     <span className="text-lg"><Target/></span> CRIT Rate
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
@@ -420,7 +420,7 @@ const CharDetails = () => {
                                 </div>
                             </div>
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
-                                <div className="text-[#ACBAC4] font-bold flex items-center justify-between">
+                                <div className="text-[#E1D9BC] font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Sparkles/></span> CRIT DMG
                                     </div>
@@ -446,7 +446,7 @@ const CharDetails = () => {
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${activeTab === tab ? "bg-[#ACBAC4] text-[#30364F] border border-[#30364F] shadow-lg" : "bg-gray-800/50 text-gray-300 hover:text-white hover:bg-gray-700/50 border border-gray-700 hover:cursor-pointer"}`}
+                            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${activeTab === tab ? "bg-[#E1D9BC] text-[#30364F] border border-[#30364F] shadow-lg" : "bg-gray-800/50 text-gray-300 hover:text-white hover:bg-gray-700/50 border border-gray-700 hover:cursor-pointer"}`}
                         >
                             {tab.charAt(0).toUpperCase() + tab.slice(1)}
                         </button>
@@ -462,7 +462,7 @@ const CharDetails = () => {
                                     <span className="text-[#ACBAC4] text-xl">A</span>
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-[#ACBAC4]">Basic Attack</h3>
+                                    <h3 className="text-xl font-bold text-[#E1D9BC]">Basic Attack</h3>
                                     <div className="flex items-center gap-2 mt-1">
                                         <span className="text-[#ACBAC4] text-sm font-semibold px-2 py-0.5 bg-[#30364F] rounded-full">
                                             Max Level: {char.skills.basic.maxLevel}
@@ -480,7 +480,7 @@ const CharDetails = () => {
                                     <span className="text-[#ACBAC4] text-xl">S</span>
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-[#ACBAC4]">Skill</h3>
+                                    <h3 className="text-xl font-bold text-[#E1D9BC]">Skill</h3>
                                     <div className="flex items-center gap-2 mt-1">
                                         <span className="text-[#ACBAC4] text-sm font-semibold px-2 py-0.5 bg-[#30364F] rounded-full">
                                             Max Level: {char.skills.skill.maxLevel}
@@ -498,7 +498,7 @@ const CharDetails = () => {
                                     <span className="text-[#ACBAC4] text-xl">U</span>
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-[#ACBAC4]">Ultimate</h3>
+                                    <h3 className="text-xl font-bold text-[#E1D9BC]">Ultimate</h3>
                                     <div className="flex items-center gap-2 mt-1">
                                         <span className="text-[#ACBAC4] text-sm font-semibold px-2 py-0.5 bg-[#30364F] rounded-full">
                                             Max Level: {char.skills.ult.maxLevel}
@@ -516,7 +516,7 @@ const CharDetails = () => {
                                     <span className="text-[#ACBAC4] text-xl">T</span>
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-[#ACBAC4]">Talent</h3>
+                                    <h3 className="text-xl font-bold text-[#E1D9BC]">Talent</h3>
                                     <div className="flex items-center gap-2 mt-1">
                                         <span className="text-[#ACBAC4] text-sm font-semibold px-2 py-0.5 bg-[#30364F] rounded-full">
                                             Max Level: {char.skills.talent.maxLevel}
@@ -538,12 +538,12 @@ const CharDetails = () => {
                                 className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-[#ACBAC4]"
                             >
                                 <div className="flex items-center justify-between mb-4">
-                                    <div className="text-[#ACBAC4] font-bold text-lg bg-[#ACBAC4]/10 px-3 py-1 rounded-full">
+                                    <div className="text-[#E1D9BC] font-bold text-lg bg-[#ACBAC4]/10 px-3 py-1 rounded-full">
                                         E{index + 1}
                                     </div>
                                     <div className="text-sm text-gray-400">Eidolon {index + 1}</div>
                                 </div>
-                                <h3 className="text-lg font-semibold mb-3">{eidolon.name}</h3>
+                                <h3 className="text-lg font-semibold mb-3 text-[#E1D9BC]">{eidolon.name}</h3>
                                 <p className="text-gray-300 text-sm mb-4">{eidolon.desc}</p>
                                 
                                 {eidolon.levelUpSkills && Object.keys(eidolon.levelUpSkills).length > 0 && (
@@ -568,23 +568,23 @@ const CharDetails = () => {
                                     <div className="w-10 h-10 bg-[#ACBAC4]/20 rounded-lg flex items-center justify-center border border-[#ACBAC4]/30">
                                         <span className="text-[#ACBAC4] text-xl">T</span>
                                     </div>
-                                    <h3 className="text-xl font-bold text-[#ACBAC4]">Technique</h3>
+                                    <h3 className="text-xl font-bold text-[#E1D9BC]">Technique</h3>
                                 </div>
-                                <h4 className="text-lg font-semibold mb-2">{char.traces.technique.name}</h4>
+                                <h4 className="text-lg font-semibold mb-2 text-[#E1D9BC]">{char.traces.technique.name}</h4>
                                 <p className="text-gray-300 mt-2">{char.traces.technique.desc}</p>
                             </div>
                         )}
 
                         {char.traces.abilities && Object.keys(char.traces.abilities).length > 0 && (
                             <div>
-                                <h3 className="text-xl font-bold mb-4 text-[#ACBAC4] border-b border-[#ACBAC4] pb-2">Abilities</h3>
+                                <h3 className="text-xl font-bold mb-4 text-[#E1D9BC] border-b border-[#E1D9BC] pb-2">Abilities</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {Object.entries(char.traces.abilities).map(([key, ability]) => (
                                         <div 
                                             key={key} 
                                             className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-4 border border-gray-700"
                                         >
-                                            <h4 className="text-lg font-semibold text-[#ACBAC4] mb-2">{ability.name}</h4>
+                                            <h4 className="text-lg font-semibold text-[#E1D9BC] mb-2">{ability.name}</h4>
                                             <p className="text-gray-300 text-sm">{ability.desc}</p>
                                         </div>
                                     ))}
@@ -594,14 +594,14 @@ const CharDetails = () => {
 
                         {char.traces.stats && Object.keys(char.traces.stats).length > 0 && (
                             <div>
-                                <h3 className="text-xl font-bold mb-4 text-[#ACBAC4] border-b border-[#ACBAC4] pb-2">Stat Bonuses</h3>
+                                <h3 className="text-xl font-bold mb-4 text-[#E1D9BC] border-b border-[#E1D9BC] pb-2">Stat Bonuses</h3>
                                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                                     {Object.entries(char.traces.stats).map(([key, stat]) => (
                                         <div 
                                             key={key} 
                                             className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-4 border border-gray-700"
                                         >
-                                            <h4 className="font-semibold text-[#ACBAC4] text-sm mb-2">{stat.name}</h4>
+                                            <h4 className="font-semibold text-[#E1D9BC] text-sm mb-2">{stat.name}</h4>
                                             <p className="text-gray-300 text-xs">{stat.desc}</p>
                                         </div>
                                     ))}
@@ -615,7 +615,7 @@ const CharDetails = () => {
                     <div className="space-y-6">
                         {char.build.lightCones && char.build.lightCones.length > 0 && (
                             <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/30">
-                                <h3 className="text-xl font-bold mb-4 text-[#ACBAC4]">Recommended Light Cones</h3>
+                                <h3 className="text-xl font-bold mb-4 text-[#E1D9BC]">Recommended Light Cones</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {char.build.lightCones.map((cone, index) => {
                                         const coneImage = getLightConeImage(cone.name);
@@ -685,7 +685,7 @@ const CharDetails = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {char.build.relicSets && char.build.relicSets.length > 0 && (
                                 <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
-                                    <h3 className="text-xl font-bold mb-4 text-[#ACBAC4]">Relic Sets</h3>
+                                    <h3 className="text-xl font-bold mb-4 text-[#E1D9BC]">Relic Sets</h3>
                                     <div className="space-y-4">
                                         {char.build.relicSets.map((set, index) => {
                                             const setIcon = getRelicSetIcon(set.name);
@@ -765,7 +765,7 @@ const CharDetails = () => {
 
                             {char.build.planarSets && char.build.planarSets.length > 0 && (
                                 <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/30">
-                                    <h3 className="text-xl font-bold mb-4 text-[#ACBAC4]">Planar Ornaments</h3>
+                                    <h3 className="text-xl font-bold mb-4 text-[#E1D9BC]">Planar Ornaments</h3>
                                     <div className="space-y-4">
                                         {char.build.planarSets.map((set, index) => {
                                             const setIcon = getPlanarSetIcon(set.name);
@@ -850,7 +850,7 @@ const CharDetails = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {char.build.mainStats && (
                                 <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-green-500/30">
-                                    <h3 className="text-xl font-bold mb-4 text-[#ACBAC4]">Main Stats Priority</h3>
+                                    <h3 className="text-xl font-bold mb-4 text-[#E1D9BC]">Main Stats Priority</h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <h4 className="text-gray-400 text-sm font-medium">Body</h4>
@@ -874,7 +874,7 @@ const CharDetails = () => {
 
                             {char.build.subStats && (
                                 <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-orange-500/30">
-                                    <h3 className="text-xl font-bold mb-4 text-[#ACBAC4]">Sub Stats Priority</h3>
+                                    <h3 className="text-xl font-bold mb-4 text-[#E1D9BC]">Sub Stats Priority</h3>
                                     <div className="space-y-2">
                                         {char.build.subStats.priority && char.build.subStats.priority.map((stat, index) => (
                                             <div key={index} className="flex items-center gap-2">
@@ -891,12 +891,12 @@ const CharDetails = () => {
 
                         {char.build.teams && char.build.teams.length > 0 && (
                             <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-pink-500/30">
-                                <h3 className="text-xl font-bold mb-4 text-[#ACBAC4]">Team Compositions</h3>
+                                <h3 className="text-xl font-bold mb-4 text-[#E1D9BC]">Team Compositions</h3>
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                     {char.build.teams.map((team, index) => (
                                         <div key={index} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
                                             <div className="flex justify-between items-start mb-3">
-                                                <h4 className="text-lg font-semibold text-[#ACBAC4]">{team.name}</h4>
+                                                <h4 className="text-lg font-semibold text-[#E1D9BC]">{team.name}</h4>
                                                 <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">
                                                     Team {index + 1}
                                                 </span>
@@ -974,18 +974,18 @@ const CharDetails = () => {
 
                         {char.ascension && (
                             <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-                                <h3 className="text-xl font-bold mb-4 text-[#ACBAC4]">Ascension Stats by Level Range</h3>
+                                <h3 className="text-xl font-bold mb-4 text-[#E1D9BC]">Ascension Stats by Level Range</h3>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm">
                                         <thead>
                                             <tr className="border-b border-gray-700">
                                                 <th className="text-left py-3 px-2 text-gray-300">Level Range</th>
-                                                <th className="text-left py-3 px-2 text-[#ACBAC4]">Base HP</th>
-                                                <th className="text-left py-3 px-2 text-[#ACBAC4]">Base ATK</th>
-                                                <th className="text-left py-3 px-2 text-[#ACBAC4]">Base DEF</th>
-                                                <th className="text-left py-3 px-2 text-[#ACBAC4]">SPD</th>
-                                                <th className="text-left py-3 px-2 text-[#ACBAC4]">CRIT Rate</th>
-                                                <th className="text-left py-3 px-2 text-[#ACBAC4]">CRIT DMG</th>
+                                                <th className="text-left py-3 px-2 text-[#E1D9BC]">Base HP</th>
+                                                <th className="text-left py-3 px-2 text-[#E1D9BC]">Base ATK</th>
+                                                <th className="text-left py-3 px-2 text-[#E1D9BC]">Base DEF</th>
+                                                <th className="text-left py-3 px-2 text-[#E1D9BC]">SPD</th>
+                                                <th className="text-left py-3 px-2 text-[#E1D9BC]">CRIT Rate</th>
+                                                <th className="text-left py-3 px-2 text-[#E1D9BC]">CRIT DMG</th>
                                             </tr>
                                         </thead>
                                         <tbody>

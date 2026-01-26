@@ -82,11 +82,11 @@ const Relics = () => {
     }
 
     return (
-        <div className="bg-gray-50/12 text-white rounded-xl">
+        <div className="text-white rounded-xl">
             <div className="flex">
                 <Sidebar/>
                 <main className="flex-1 p-4 md:p-6">
-                    <div className="max-w-7xl mx-auto bg-[#ACBAC4] px-8 py-5 rounded-lg">
+                    <div className="max-w-7xl mx-auto bg-[#E1D9BC] px-8 py-5 rounded-lg">
                         <div className="mb-8">
                             <h1 className="text-4xl font-bold text-[#30364F] mb-2">
                                 Relic and Planar Sets List

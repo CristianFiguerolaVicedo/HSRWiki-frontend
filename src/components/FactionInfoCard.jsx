@@ -5,7 +5,7 @@ const FactionInfoCard = ({faction}) => {
 
     return (
         <div
-            className="bg-[#0C2C55] text-white rounded-lg p-4 shadow-lg hover:cursor-pointer"
+            className="bg-[#30364F] text-[#E1D9BC] rounded-lg p-4 shadow-lg hover:cursor-pointer"
             onClick={() => navigate(`/factions/${faction.id}`)}
         >
             <div className="flex justify-center mb-3">

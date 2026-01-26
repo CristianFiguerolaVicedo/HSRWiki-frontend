@@ -55,7 +55,7 @@ const LightconeDetails = () => {
         level1Params.forEach((value, index) => {
             formattedDesc = formattedDesc.replace(
                 `{${index}}`,
-                `<span class="text-yellow-300 font-bold">${value}</span>`
+                `<span class="text-[#E1D9BC] font-bold">${value}</span>`
             );
         });
 
@@ -67,12 +67,12 @@ const LightconeDetails = () => {
                 />
 
                 <div className="mt-6">
-                    <h4 className="text-lg font-bold mb-4 text-blue-300">Superimposition Levels</h4>
+                    <h4 className="text-lg font-bold mb-4 text-[#E1D9BC]">Superimposition Levels</h4>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
                                 <tr className="border-b border-gray-700">
-                                    <th className="text-left py-3 px-2 text-gray-300">Superimposition</th>
+                                    <th className="text-left py-3 px-2 text-[#E1D9BC]">Superimposition</th>
                                     {params[0].map((_, paramIndex) => (
                                         <th key={paramIndex} className="text-center py-3 px-2 text-gray-300">
                                             Parameter {paramIndex + 1}
@@ -85,14 +85,14 @@ const LightconeDetails = () => {
                                     <tr key={levelIndex} className="border-b border-gray-700 hover:bg-gray-700/30 transition-colors">
                                         <td className="py-3 px-2 font-medium">
                                             <div className="flex items-center gap-2">
-                                                <div className="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-full text-sm">
+                                                <div className="w-6 h-6 flex items-center justify-center bg-[#E1D9BC] rounded-full text-sm text-[#30364F]">
                                                     S{levelIndex + 1}
                                                 </div>
                                             </div>
                                         </td>
                                         {paramArray.map((value, paramIndex) => (
                                             <td key={paramIndex} className="py-3 px-2">
-                                                <div className="font-mono text-yellow-300">{value}</div>
+                                                <div className="font-mono text-[#E1D9BC]">{value}</div>
                                             </td>
                                         ))}
                                     </tr>
@@ -121,8 +121,6 @@ const LightconeDetails = () => {
         )
     }
 
-    const pathIconPath = PATH_ICONS[lightcone.path.toUpperCase()];
-
     const calculateMaxStats = () => {
         if (!lightcone.ascension || lightcone.ascension.length === 0) return null;
 
@@ -139,31 +137,19 @@ const LightconeDetails = () => {
     const maxStats = calculateMaxStats();
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-white p-4 md:p-8">
+        <div className=" text-white p-4 md:p-8">
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
                     <div className="relative">
                         <img 
                             src={`${lightcone.image}`} 
                             alt={lightcone.name}
-                            className="w-75 h-100 rounded-xl border-4 border-[#5bc0be] shadow-lg" 
+                            className="w-75 h-100 rounded-xl shadow-lg" 
                         />
-                        <div className="absolute -top-3 -right-3 flex flex-col gap-2">
-                            <div className="flex items-center gap-2 bg-gray-800/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gray-700">
-                                {pathIconPath && (
-                                    <img 
-                                        src={pathIconPath}
-                                        alt={lightcone.path} 
-                                        className="w-6 h-6"
-                                    />
-                                )}
-                                <span className="font-bold text-sm">{lightcone.path}</span>
-                            </div>
-                        </div>
                     </div>
 
                     <div className="mt-6 text-center md:text-left">
-                        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent">
+                        <h1 className="text-4xl font-bold text-[#E1D9BC]">
                             {lightcone.name}
                         </h1>
                         <div className="flex items-center justify-center md:justify-start gap-2 mt-3">
@@ -176,11 +162,11 @@ const LightconeDetails = () => {
                 </div>
                 
                 <div className="flex-1 bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-                    <h2 className="text-2xl font-bold mb-6 text-blue-300">Base Stats (Lvl 1)</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-[#E1D9BC]">Base Stats (Lvl 1)</h2>
                     {lightcone.ascension && lightcone.ascension.length > 0 && (
                         <div className="grid grid-cols-2 grid-rows-1 md:grid-cols-3 md:grid-rows-1 gap-4">
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
-                                <div className="text-red-400 font-bold flex items-center justify-between">
+                                <div className="text-[#E1D9BC] font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Heart/></span> HP
                                     </div>
@@ -192,14 +178,14 @@ const LightconeDetails = () => {
                                         <div className="text-xs text-gray-400 mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-red-300">{Math.round(maxStats.hp)}</div>
+                                        <div className="text-2xl font-mono text-[#ACBAC4]">{Math.round(maxStats.hp)}</div>
                                         <div className="text-xs text-gray-400 mt-1">Lv. 80</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
-                                <div className="text-yellow-400 font-bold flex items-center justify-between">
+                                <div className="text-[#E1D9BC] font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Swords/></span> ATK
                                     </div>
@@ -211,13 +197,13 @@ const LightconeDetails = () => {
                                         <div className="text-xs text-gray-400 mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-yellow-300">{Math.round(maxStats.atk)}</div>
+                                        <div className="text-2xl font-mono text-[#ACBAC4]">{Math.round(maxStats.atk)}</div>
                                         <div className="text-xs text-gray-400 mt-1">Lv. 80</div>
                                     </div>
                                 </div>
                             </div>
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
-                                <div className="text-blue-400 font-bold flex items-center justify-between">
+                                <div className="text-[#E1D9BC] font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Shield/></span> DEF
                                     </div>
@@ -229,7 +215,7 @@ const LightconeDetails = () => {
                                         <div className="text-xs text-gray-400 mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-blue-300">{Math.round(maxStats.def)}</div>
+                                        <div className="text-2xl font-mono text-[#ACBAC4]">{Math.round(maxStats.def)}</div>
                                         <div className="text-xs text-gray-400 mt-1">Lv. 80</div>
                                     </div>
                                 </div>
@@ -240,7 +226,7 @@ const LightconeDetails = () => {
             </div>
 
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 mb-6">
-                <h3 className="text-xl font-bold mb-4 text-blue-300">Description</h3>
+                <h3 className="text-xl font-bold mb-4 text-[#E1D9BC]">Description</h3>
                 <div className="text-gray-300">
                     {lightcone.desc}
                 </div>
@@ -248,7 +234,7 @@ const LightconeDetails = () => {
 
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                 <div className="mb-6">
-                    <h3 className="text-xl font-bold text-blue-300">{lightcone.ability.name}</h3>
+                    <h3 className="text-xl font-bold text-[#E1D9BC]">{lightcone.ability.name}</h3>
                 </div>
                 
                 {renderAbilityDescription()}

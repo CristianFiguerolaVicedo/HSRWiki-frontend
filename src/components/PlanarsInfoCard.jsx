@@ -7,7 +7,7 @@ const PlanarsInfoCard = ({planarSet}) => {
 
     return (
         <div
-            className="bg-[#0C2C55] text-white border border-[#4a5568] rounded-lg p-4 shadow-lg hover:cursor-pointer transition-all duration-[300ms] hover:border-blue-600"
+            className="bg-[#30364F] text-[#E1D9BC] border border-[#4a5568] rounded-lg p-4 shadow-lg hover:cursor-pointer transition-all duration-[300ms] hover:border-blue-600"
             onClick={() => navigate(`/planars/${planarName}`)}
         >
             <div className="flex justify-center mb-3">

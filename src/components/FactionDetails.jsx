@@ -54,7 +54,7 @@ const FactionDetails = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-white p-6">
+        <div className="text-white p-4 md:p-8 rounded-xl">
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold mb-4 border-b border-gray-400 pb-3">
                     {faction.name}
@@ -68,7 +68,7 @@ const FactionDetails = () => {
                     Playable characters from this faction
                 </h2>
                 
-                <div className="border border-gray-800 rounded-lg">
+                <div>
                     <div className="grid grid-cols-4 gap-6">
                         {factionCharacters.map((char) => (
                             <div key={char.id} className="text-center">

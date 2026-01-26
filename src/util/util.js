@@ -166,7 +166,7 @@ export const FACTIONS = [
     {
         id: "4",
         name: "Chrysos Heirs",
-        characters: ["Tribbie", "Cerydra", "Evernight", "Permansor Terrae", "Hysilens", "Hyacine", "Phainon", "Anaxa", "Aglaea", "Mydei", "Castorice", "Cipher", "Cyrene"],
+        characters: ["Tribbie", "Cerydra", "Evernight", "Dan Heng • Permansor Terrae", "Hysilens", "Hyacine", "Phainon", "Anaxa", "Aglaea", "Mydei", "Castorice", "Cipher", "Cyrene"],
         info: [
             "While there are only twelve Coreflames, there exist more than twelve Chrysos Heirs \"not mentioned in the prophecy.\" A Chrysos Heir that conquers a Coreflame's Trial will inherit its respective Titan's divinity and become a demigod; however, only a chosen few possess the capacity to assume divinity.",
 

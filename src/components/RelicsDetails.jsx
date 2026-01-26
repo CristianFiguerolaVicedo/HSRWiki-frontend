@@ -45,22 +45,22 @@ const RelicsDetails = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-white p-4 md:p-8">
+        <div className=" text-white p-4 md:p-8">
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
                     <div className="relative">
                         <img 
                             src={`${relic.pieces.Head.icon}`}
                             alt={relic.name} 
-                            className="w-100 h-110 rounded-xl border-4 border-[#5bc0be] shadow-lg"
+                            className="w-100 h-110 rounded-xl shadow-lg"
                         />
                     </div>
                 </div>
 
                 <div className="flex-1 bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-                    <h2 className="text-2xl font-bold mb-6 text-blue-300">Set Effects</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-[#E1D9BC]">Set Effects</h2>
                     <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">
-                        <div className="text-blue-400 font-bold flex items-center justify-between">
+                        <div className="text-[#E1D9BC] font-bold flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <span className="text-lg">2-pc Effect</span>
                             </div>
@@ -72,7 +72,7 @@ const RelicsDetails = () => {
                         </div>
                     </div>
                     <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 mt-4">
-                        <div className="text-blue-400 font-bold flex items-center justify-between">
+                        <div className="text-[#E1D9BC] font-bold flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <span className="text-lg">4-pc Effect</span>
                             </div>
@@ -88,7 +88,7 @@ const RelicsDetails = () => {
 
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 mb-6">
                 <div className="mb-6">
-                    <h3 className="text-xl font-bold mb-4 text-blue-300">Relic Set Pieces</h3>
+                    <h3 className="text-xl font-bold mb-4 text-[#E1D9BC]">Relic Set Pieces</h3>
                 </div>
 
                 <div className="grid grid-cols-4">

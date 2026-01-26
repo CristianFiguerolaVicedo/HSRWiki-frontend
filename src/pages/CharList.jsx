@@ -101,11 +101,11 @@ const CharList = () => {
   }
 
   return (
-    <div className="bg-gray-50/12 text-white rounded-xl">
+    <div className="text-white rounded-xl">
       <div className="flex">
         <Sidebar/>
         <main className="flex-1 p-4 md:p-6">
-          <div className="max-w-7xl mx-auto bg-[#ACBAC4] px-8 py-5 rounded-lg">
+          <div className="max-w-7xl mx-auto bg-[#E1D9BC] px-8 py-5 rounded-lg">
             <div className="mb-8">
               <h1 className="text-4xl font-bold text-[#30364F] mb-2">
                 Honkai Star Rail Characters
@@ -172,7 +172,7 @@ const CharList = () => {
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl font-bold flex items-center gap-2">
-                    <span className="bg-gradient-to-r from-amber-500 to-yellow-300 bg-clip-text text-transparent">
+                    <span className="text-[#30364F]">
                       Trailblazer
                     </span>
                     <span className="text-sm text-[#30364F]">

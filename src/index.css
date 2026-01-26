@@ -1,7 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
+html, body {
+    min-height: 100%;
+}
+
 body {
     background-image: url("/assets/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* optional */
     font-family: 'Outfit', sans-serif;
 }

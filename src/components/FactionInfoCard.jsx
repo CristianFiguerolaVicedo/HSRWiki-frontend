@@ -5,14 +5,14 @@ const FactionInfoCard = ({faction}) => {
 
     return (
         <div
-            className="bg-gradient-to-br from-[#3a506b] to-[#1c2541] text-white border border-[#4a5568] rounded-lg p-4 shadow-lg hover:cursor-pointer transition-all duration-[300ms] hover:border-blue-300"
+            className="bg-[#0C2C55] text-white rounded-lg p-4 shadow-lg hover:cursor-pointer"
             onClick={() => navigate(`/factions/${faction.id}`)}
         >
             <div className="flex justify-center mb-3">
                 <img 
                     src={`../../assets/${faction.name}.jpg`}
                     alt={faction.name} 
-                    className="h-50"
+                    className="h-50 rounded-lg"
                 />
             </div>
 

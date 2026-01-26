@@ -19,7 +19,6 @@ const Sidebar = () => {
                 <aside
                     className={`
                             fixed lg:sticky lg:top-0 left-0 z-40 h-screen
-                            border-r border-gray-800
                             transition-transform duration-300 ease-in-out
                             ${
                             sidebarOpen
@@ -29,7 +28,7 @@ const Sidebar = () => {
                             w-64
                             flex flex-col`}
                 >
-                <div className="p-6 border-b border-gray-800">
+                <div className="p-6">
                     <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-900 rounded-lg flex items-center justify-center">
                         <Gamepad2 size={24} />
@@ -47,7 +46,7 @@ const Sidebar = () => {
                     <div className="space-y-1">
                         <button
                             onClick={() => navigate("/")}
-                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-700 border border-blue-500/20 text-white hover:cursor-pointer hover:bg-gray-800"
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border bg-[#ACBAC4] text-[#30364F] hover:cursor-pointer hover:bg-[#30364F] hover:text-[#ACBAC4] hover:border-[#ACBAC4]"
                         >
                             <Users size={20} />
                             <span className="font-medium">Characters</span>
@@ -55,7 +54,7 @@ const Sidebar = () => {
 
                         <button
                             onClick={() => navigate("/lightcones")}
-                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-700 border border-blue-500/20 text-white hover:cursor-pointer hover:bg-gray-800"
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border bg-[#ACBAC4] text-[#30364F] hover:cursor-pointer hover:bg-[#30364F] hover:text-[#ACBAC4] hover:border-[#ACBAC4]"
                         >
                             <Swords size={20} />
                             <span className="font-medium">Light Cones</span>
@@ -63,28 +62,28 @@ const Sidebar = () => {
 
                         <button
                             onClick={() => navigate("/relics")}
-                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-700 border border-blue-500/20 text-white hover:cursor-pointer hover:bg-gray-800"
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border bg-[#ACBAC4] text-[#30364F] hover:cursor-pointer hover:bg-[#30364F] hover:text-[#ACBAC4] hover:border-[#ACBAC4]"
                         >
                             <GalleryVertical size={20} />
                             <span className="font-medium">Relics</span>
                         </button>
                         <button
                             onClick={() => navigate("/planets")}
-                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-700 border border-blue-500/20 text-white hover:cursor-pointer hover:bg-gray-800"
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border bg-[#ACBAC4] text-[#30364F] hover:cursor-pointer hover:bg-[#30364F] hover:text-[#ACBAC4] hover:border-[#ACBAC4]"
                         >
                             <Orbit size={20}/>
                             <span className="font-medium">Planets</span>
                         </button>
                         <button
                             onClick={() => navigate("/factions")}
-                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-700 border border-blue-500/20 text-white hover:cursor-pointer hover:bg-gray-800"
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border bg-[#ACBAC4] text-[#30364F] hover:cursor-pointer hover:bg-[#30364F] hover:text-[#ACBAC4] hover:border-[#ACBAC4]"
                         >
                             <Component size={20}/>
                             <span className="font-medium">Factions</span>
                         </button>
                     </div>
 
-                    <div className="my-6 border-t border-gray-800"></div>
+                    <div className="my-6"></div>
                 </nav>
                 </aside>
 

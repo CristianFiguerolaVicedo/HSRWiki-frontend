@@ -31,7 +31,7 @@ const CharFilters = ({onFilterChange, initialFilters}) => {
         elements: initialFilters.elements || [],
         paths: initialFilters.paths || [],
         rarities: initialFilters.rarities || [],
-        showFilters: true,
+        showFilters: false,
     });
 
     useEffect(() => {

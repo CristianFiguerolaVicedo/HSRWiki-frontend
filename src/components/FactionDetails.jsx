@@ -60,10 +60,15 @@ const FactionDetails = () => {
                     {faction.name}
                 </h1>
 
-                <div className="border border-gray-800">
-                    <h2 className="text-xl font-bold mb-4">
-                        Playable characters from this faction
-                    </h2>
+                <h1>
+                    {faction.info.map(p => <p className="my-2">{p}</p>)}
+                </h1>
+
+                <h2 className="text-xl font-bold mb-4 border-b border-t border-gray-400 mt-4 py-2">
+                    Playable characters from this faction
+                </h2>
+                
+                <div className="border border-gray-800 rounded-lg">
                     <div className="grid grid-cols-4 gap-6">
                         {factionCharacters.map((char) => (
                             <div key={char.id} className="text-center">

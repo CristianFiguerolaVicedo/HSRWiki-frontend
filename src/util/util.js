@@ -1,3 +1,5 @@
+import { Info } from "lucide-react"
+
 export const PLANETS_DATA = [
     {
         id: "1",
@@ -50,36 +52,177 @@ export const FACTIONS = [
     {
         id: "1",
         name: "Astral Express",
-        characters: ["Trailblazer", "Dan Heng", "March 7th", "Himeko", "Welt", "Sunday", "Black Swan", "TrailblazerDestruction#F", "TrailblazerDestruction#M", "TrailblazerPreservance#F", "TrailblazerPreservance#M", "TrailblazerHarmony#F", "TrailblazerHarmony#M", "TrailblazerRemembrance#F", "TrailblazerRemembrance#M"]
+        characters: ["Trailblazer", "Dan Heng", "March 7th", "Himeko", "Welt", "Sunday", "Black Swan", "TrailblazerDestruction#F", "TrailblazerDestruction#M", "TrailblazerPreservance#F", "TrailblazerPreservance#M", "TrailblazerHarmony#F", "TrailblazerHarmony#M", "TrailblazerRemembrance#F", "TrailblazerRemembrance#M"],
+        info: [
+            "While the full extent of previous crews are unknown, there were particular members at varying points in the crew's time that stood out amongst others. The majority of these members were navigators and either retired or passed away, appointing another as their successor.",
+
+            "When Oakley boarded the train as a passenger, the former navigator and passengers disappeared due to an anomaly when it passed Frati, resulting in Oakley serving as an interim navigator at the conductor's behest, finding the missing passengers and bringing in new ones before she left when enough had boarded.",
+
+            "At one point, the crew consisted of Mikhail, Tiernan, and Razalina. When they visited Penacony and saw the destruction wrought by the Stellaron, they decided to disembark and remain on the planet in order to help it recover.",
+
+            "Long after the Nameless abandoned the Astral Express due to the star rail's deterioration at the hands of Stellarons, a young Himeko came across the train. After several years, she managed to repair it and began her journey across the universe.",
+
+            "Along the way, she encountered and rescued Welt and his blond companion, Void Archives, who eventually left the crew. Pom-Pom also appeared on the Astral Express at some point, although none of them know exactly when — not even whether they appeared before or after Welt joined.",
+
+            "After Dan Heng was exiled from the Xianzhou Luofu, he attempted to escape from Blade by constantly traveling between different starships. However, Blade pursued him without fail and consistently destroyed vessels he stowed away on. One day, after Dan Heng coincidentally saved a ship which the Astral Express was traveling alongside, Himeko went to thank him and invited him aboard the Express.",
+
+            "Some time after, while traveling across the galaxy, the Astral Express crew encountered a large chunk of Six-Phased Ice containing a girl. After reeling in and thawing the ice, they found that the girl within had complete amnesia. She took on the name March 7th, after the day she was discovered, and joined them.",
+
+            "During the events of Honkai: Star Rail, Kafka leaves the Trailblazer on Herta Space Station to be discovered by the Astral Express crew. After fighting alongside March, Dan Heng, and Himeko, they eventually choose to join the crew.",
+
+            "The crew's first stop would then be Jarilo-VI, where the Trailblazer, March, and Dan Heng explore the planet. After learning of the planet's Stellaron crisis, they resolve it and seal the Stellaron before continuing their travels.",
+
+            "Later, the crew would head to the Luofu after being informed of another Stellaron crisis aboard the ship by Kafka. The crew resolves the crisis and are gifted an abacus by Jing Yuan to call the Luofu in times of need.",
+
+            "The crew's next stop is Penacony, where they are dragged into a plot exposing the remnants of the Order and help seal the Stellaron causing havoc on the planet.",
+
+            "Sometime after the Penacony incident, Black Swan proposes a solution to the Express' fuel issues by laying track to Amphoreus. Soon after, Sunday joins as a passenger, and the crew is commissioned to escort Tingyun—now Fugue—back to the Luofu.",
+
+            "Upon arriving near Amphoreus, the crew splits up to investigate the unknown world. March becomes ill, while Dan Heng and the Trailblazer descend to the planet in a detached car that is destroyed during an attack.",
+
+            "March later awakens as Evernight, attempting to destroy Amphoreus to prevent the rise of the Lord Ravager Irontomb. Through confrontation and understanding, Evernight abandons her plan and goes dormant.",
+
+            "Back aboard the Astral Express, preparations are made to confront Irontomb, with potential support from the Xianzhou Alliance. Amphoreus vanishes from the Matrix of Prescience Ultima, suggesting Nous' calculations are drawing closer."
+        ]
     },
     {
         id: "2",
         name: "Stellaron Hunters",
-        characters: ["Kafka", "Blade", "Firefly", "Silver Wolf"]
+        characters: ["Kafka", "Blade", "Firefly", "Silver Wolf"],
+        info: [
+            "The Stellaron Hunters are a band of powerful individuals united under Elio, with the promise that each of them will fulfill their desires by following his script. They are said to work against the Interastral Peace Corporation. Due to Elio's ability to see possibilities, the group is often privy to information that would normally be impossible to obtain, such as the specific times when events will occur, or seemingly impossible butterfly effects.",
+
+            "With this information, the group plans to set up the exact series of events required to prevent the Theory of Four Apocalypses. This process heavily hinges on the Trailblazer, as Elio has foreseen that they will be the one to cause the Finality, and ultimately be the one who will save the universe. Elio has been slowly preparing the Trailblazer to face Nanook, and has chosen them, along with Firefly, to be the last remaining survivors of Nihility.",
+
+            "The group is often seen with a black cat, whom the Trailblazer assumed to be Elio, but is later explained to be a fragment of Terminus. According to Constance, Elio has a \"special existence,\" and only the Stellaron Hunters are aware of his true identity.",
+
+            "Despite the Stellarons simply being a front for the group's real intentions, in the past, their efforts would often revolve around specific Stellarons. This changed upon the arrival of the Trailblazer."
+        ]
     },
     {
         id: "3",
         name: "Xianzhou Alliance",
-        characters: ["Bailu", "Dan Heng - Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Jingliu", "Lingsha", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yanqing", "Yukong", "Yunli"]
+        characters: ["Bailu", "Dan Heng - Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Jingliu", "Lingsha", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yanqing", "Yukong", "Yunli"],
+        info: [
+            "Luofu",
+            "The Luofu is arguably the most well known Xianzhou flagship in the Alliance to the cosmos, excelling in diplomacy and commerce. People arrived at the Luofu to seek medical treatment, study, and trade, with throngs of visitors filling the docks. Residents often take pride in their hospitality and etiquette. They tend to refer to outworlders as \"honorable guest from afar\" or \"visiting traveler.\" Though warfare has receded, the Luofu has not relaxed its watch against the Denizens despite the perceived laid-back disposition of its residents.",
+
+            "Yaoqing",
+            "Out of the six flagships, the Xianzhou Yaoqing is known for its military prowess and has long been standing at the forefront of the most intense combat missions. Foxians make up the majority of the Yaoqing and are its dominant culture. Still, the Yaoqing maintains its own cultural aspects such as foxian gents on the streets telling the stories of the Cloud Knight martyrs. Pacify Play is a traditional theater performance of the Yaoqing Foxians. The foxians of the Yaoqing are known for their adventuring flying families.",
+
+            "Zhuming",
+            "The Zhuming has been known for its exquisite craftsmanship and alchemy techniques since it first set sail during the Primeval Imperium era. Regardless, the fire of innovation and knowledge burning in the hearts of the craftsmen on board has never been extinguished. The Zhuming is less conservative when it comes to heliobi compared to the Luofu. If a heliobus on the Zhuming is encountered that was capable and had no harmful intentions, it would definitely not be sealed up. According to Qingzu, Zhuming residents love to play with fire, and it is said the Xianzhou Zhuming will continue to ally with fire, journey with fire, and share its destiny with that of the fire.",
+
+            "Fanghu",
+            "The Fanghu is an autonomous dominion of the Vidyadhara, and thusly has different customs, culture, and social structures from other Xianzhou ships. Vidyadhara roaming around the Miniature Myriads and Pearlkeepers meditating are common sights on the Fanghu. The sound of belligerent dragon chants echoes through space from time to time.",
+
+            "Foreign Relations",
+            "Luofu",
+            "The Luofu travels between densely populated interstellar regions, trading and conducting cultural exchange between different worlds, signing agreements with the Interastral Peace Corporation, and helping many worlds ravaged by the Denizens of Abundance to rebuild their ecosystem. Numerous guilds under the Sky-Faring Commission's administration conduct trade and bring in business for the Luofu. Starskiff Haven, the official entrance of Luofu and its largest port, is also governed by the Sky-Faring Commission. Currently, there are seven trade guilds affiliated with the Luofu Sky-Faring Commission.",
+
+            "The starskiffs of the Cloud Knights would head to planets that went out of contact to seek information, while the Ten-Lords Commission remains on guard for any Elixir Seekers pursuing everlasting life.",
+
+            "Through the Luofu, the Xianzhou Alliance is on good terms with the Astral Express crew. Prior to their departure, Jing Yuan gave the Trailblazer a Jade Abacus of Allying Oath which would allow them to call upon the Luofu in an instant if they needed it. Additionally, they are the only ship that has started negotiations with the Claretwheel Temple.",
+
+            "Yaoqing",
+            "No unnecessary extra procedures are needed to visit the Xianzhou Yaoqing. As long as you are a Xianzhou Alliance citizen or a holder of the Xianzhou Alliance Travel Pass or Resident Permit, you are allowed to visit the Yaoqing.",
+
+            "Despite earning a high reputation and respect within the Alliance due to their frequent reports of military victories, the Xianzhou Yaoqing is also the center of a heated debate due to its long-standing cooperation with the Interastral Peace Corporation in exchange for technology and combat supplies.",
+
+            "Gradually, the Yaoqing's younger generations began to enjoy the immersia produced by the IPC's Entertainment Division. Once they started wearing IPC clothing lines, it became hard to distinguish locals from IPC employees. This has led to suspicions on whether the Yaoqing remains the vanguard of The Hunt, or has quietly become a warship of the Preservation.",
+
+            "Zhuming",
+            "The Xianzhou Zhuming has become the holy land of artisanship renowned throughout the stars. Countless outworlders arrive to study its skills, returning home with vast amounts of knowledge. Its production engineering technology rivals that of Planet Screwllum and Pier Point.",
+
+            "Fanghu",
+            "According to regional policy, both a Xianzhou Alliance Travel Pass and a Fanghu Travel Pass are required to enter the Fanghu, and must be applied for two-to-three months in advance. Additional certificates of conduct are required depending on origin.",
+
+            "Entertainment",
+            "Four forms of entertainment are present across several Xianzhou ships: classical storytelling, Immersia, Celestial Jade, and Pathfinder.",
+
+            "Immersia is a form of Xianzhou entertainment similar to video games and films, functioning as full-sensory virtual reality. It is a foxian art form utilizing pheromones, magic, and advanced artifex technology to create controllable illusions.",
+
+            "Pacify Play is a traditional opera theater performance of the Yaoqing Foxians, known for its super-realistic stage combat and expressive makeup. Foxian drum chanting is a younger folk art focused on rhythmic singing and heroic themes.",
+
+            "Zhuming flower-drum opera is traditionally sung by two singers to evoke the eerie sensation of heliobi possession. \"Wedding Wine\" is its most famous performance.",
+
+            "Vidyadhara elegies are mournful folk songs accompanied only by castanets, focusing on tragedy, lost love, and pyrrhic victories, often leaving listeners with a bittersweet impression.",
+
+            "Architecture",
+            "Luofu architecture features a monochrome base with red, teal, and gray accents. Row-stepped gables, tiled eaves, levitating high-rises, and ornate carvings convey a gentle elegance.",
+
+            "As the Yaoqing increased cooperation with the IPC, much of its traditional architecture was replaced with sleek, monolithic IPC structures.",
+
+            "The Radiant Zenith on the Zhuming is a massive starskiff platform carved from moonstone, designed as a proud display of craftsmanship.",
+
+            "Fyxestroll Garden is a centuries-old garden delve crafted by Foxians, while the Vidyadhara use delve enchantment in places such as Scalegorge Waterscape and The Shackling Prison.",
+
+            "Fashion",
+            "Each Xianzhou ship has its own fashion identity. Zhuming residents favor lighter clothing, while the Yaoqing retains distinct styles despite IPC influence.",
+
+            "On the Luofu, mass-produced clothing is considered outdated. A true mark of a Xianzhou native is choosing the right garment, not the most expensive one."
+        ]
     },
     {
         id: "4",
         name: "Chrysos Heirs",
-        characters: ["Tribbie", "Cerydra", "Evernight", "Permansor Terrae", "Hysilens", "Hyacine", "Phainon", "Anaxa", "Aglaea", "Mydei", "Castorice", "Cipher", "Cyrene"]
+        characters: ["Tribbie", "Cerydra", "Evernight", "Permansor Terrae", "Hysilens", "Hyacine", "Phainon", "Anaxa", "Aglaea", "Mydei", "Castorice", "Cipher", "Cyrene"],
+        info: [
+            "While there are only twelve Coreflames, there exist more than twelve Chrysos Heirs \"not mentioned in the prophecy.\" A Chrysos Heir that conquers a Coreflame's Trial will inherit its respective Titan's divinity and become a demigod; however, only a chosen few possess the capacity to assume divinity.",
+
+            "It is later revealed that the Titans and Chrysos Heirs are actually electrical signals created from the basis of the \"twelve factors,\" conjugate constructs mirroring the Aeons and Pathstriders. The twelve factors, a core variable created by Lygus and inserted into The Amphoreus Experiment, are simplified models of life's Primum Mobile. By having Chrysos Heirs inherit the Titans' Coreflames, the electrical signals iterated and improved through rivalry and inheritance.",
+
+            "Additionally, the golden blood of the Chrysos Heirs is the product of the first experimental phase of The Amphoreus Experiment. During the 50,121st cycle, due to the destructive choice of inorganic lifeform Chaoz666, the Scepter δ-me13, later referred to as Irontomb, was selected to become a Lord Ravager by Nanook. All entities linked to the twelve factors began to manifest Nanook's golden blood, with traits associated with Destruction within their extrapolation circuits. As a result, the experiment successfully entered its projected trajectory."
+        ]
     },
     {
         id: "5",
         name: "Galaxy Rangers",
-        characters: ["Rappa", "Boothill"]
+        characters: ["Rappa", "Boothill"],
+        info: [
+            "While members of the Galaxy Rangers hail from different worlds and have all kinds of personalities and traits, each of them is highly skilled, despises evil, and follows Lan and the Path of The Hunt.",
+
+            "They carry a balance scale with them at all times and believe justice in the universe needs to be achieved through individual deeds. They are always accompanied by song and the sound of horns. They pursue justice for those they encounter along the way and shower them with wine and songs.",
+
+            "According to Aventurine, the Rangers \"come and go like shadows,\" and there is little communication between them. Boothill does not think the Galaxy Rangers can even be considered an \"organization,\" as they all follow their own path along The Hunt with their own resolute sense of righteousness and do not share so-called universal values.",
+
+            "The Galaxy Rangers do not need a form of shared faith. What brings them together is a shared bottom line: never bully the weak, never kill the innocent. These oaths are not beliefs, but the fundamental line one must never cross as a person. As Galaxy Rangers, they abide by this common principle and strictly adhere to it.",
+
+            "The Galaxy Rangers possess relics in the form of a bullet that appear meaningless to anyone other than a Galaxy Ranger and can only fulfill their purpose when returned to their rightful owner. This bullet is a burial artifact, worthy only of a hero who has served the Galaxy Rangers with honor. When fired like a flare, it signals the fall of a hero, and in the direction its light falls, Galaxy Rangers will come from all corners of the cosmos, driven by a shared purpose, without questioning the cause or counting the cost."
+        ]
     },
     {
         id: "6",
         name: "Genius Society",
-        characters: ["Herta", "The Herta", "Ruan Mei", "Screwllum", "Dr. Ratio"]
+        characters: ["Herta", "The Herta", "Ruan Mei", "Screwllum", "Dr. Ratio"],
+        info: [
+            "The Genius Society is a gathering of geniuses across the cosmos who have drawn the attention of Nous the Erudition, founded by its first member, Zandar One Kuwabara. Many misinterpret the invitation as mere approval. Those who are able to understand the Aeon's intentions are given a key to the halls of the Nous Temple. Those who pass through its gates seek guidance from Nous and leave behind their legacy, never to return.",
+
+            "Beyond their intellect, members of the society are also known for how much they differ from one another in background, ideals, and goals. Most geniuses are lone wolves—often asocial and unwilling to communicate—while only a few, such as Aiden, Elias Salas, and Herta, are willing to share their findings and use their talents to advance the cosmos, preferring to indulge in research for enjoyment.",
+
+            "Some members are even lunatics, such as Rubert I, who dedicated itself to eradicating all organic life forms in the universe, or Polka Kakamond, who is known for killing fellow members that approach the borders of the Circle of Knowledge. Despite the lack of structure within the organization, it \"has its own rules,\" one of which is that the Genius Society does not interfere with one another’s research topics.",
+
+            "Due to tampering by the History Fictionologists and the preference for solitude among most of its members, the history of the organization remains largely shrouded in mystery."
+        ]
     },
     {
         id: "7",
         name: "Ten Stonehearts",
-        characters: ["Topaz & Numby", "Jade", "Aventurine"]
+        characters: ["Topaz & Numby", "Jade", "Aventurine"],
+        info: [
+            "Officially known as the Non-Performing Asset Liquidation Specialists, the Ten Stonehearts are led by the Emanator of Preservation, Diamond. Its members’ origins are varied, and their responsibilities and personalities differ. While they may be likened to groups such as the Astral Express or the Stellaron Hunters, both Jade and Opal have stated that the group is united only by a shared need to obtain what they desire, filling an inner void through that pursuit.",
+
+            "Diamond personally selected each member to join him and promised to share his power equally among them. This power helps satisfy their individual needs and ultimately serves Qlipoth in preparation for the inevitable war among the Aeons. The group has a somewhat notorious reputation within the corporation, though many consider Topaz the least controversial member, likely due to her disdain for rigid business etiquette and her genuine desire to help others.",
+
+            "Under Diamond’s leadership, the Ten Stonehearts are allowed to operate independently when it comes to matters of the team’s survival.",
+
+            "Each member is given a name corresponding to their Cornerstone and is generally referred to by that name rather than their original one. Cornerstones are sacred stones that seal the authority of an Emanator of Preservation within them. By using their Cornerstone, a Stoneheart can draw upon this shared authority and be granted immense power.",
+
+            "It is said that a Stoneheart must cut their Cornerstone with their own will to allow its brilliance to radiate. Even a shattered Cornerstone can still confer an extraordinary amount of power.",
+
+            "The Ten Stonehearts generally value their Cornerstones more than their own lives, and each Cornerstone grants unique abilities. Aventurine’s stone transforms him, allows him to levitate, and summons massive poker chips from the sky. Jade’s stone allowed her to perceive all desires flowing through dreams when it was sent into Penacony.",
+
+            "Compared to Aventurine, the Topaz Stone’s ability is less visually apparent, though Topaz has stated that she would have used her Cornerstone in Belobog had Bronya not intervened in time."
+        ]
     }
 ]

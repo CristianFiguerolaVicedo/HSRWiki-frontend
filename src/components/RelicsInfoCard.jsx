@@ -7,7 +7,7 @@ const RelicsInfoCard = ({relicSet}) => {
 
     return (
         <div
-            className="bg-gradient-to-br from-[#3a506b] to-[#1c2541] text-white border border-[#4a5568] rounded-lg p-4 shadow-lg hover:cursor-pointer transition-all duration-[300ms] hover:border-blue-600"
+            className="bg-gradient-to-br from-[#3a506b] to-[#1c2541] text-white border border-[#4a5568] rounded-lg p-4 shadow-lg hover:cursor-pointer transition-all duration-[300ms] hover:border-blue-300"
             onClick={() => navigate(`/relics/${relicName}`)}
         >
             <div className="flex justify-center mb-3">

@@ -21,7 +21,7 @@ const LightconeFilters = ({onFilterChange, initialFilters}) => {
     const [filters, setFilters] = useState({
         paths: initialFilters.paths || [],
         rarities: initialFilters.rarities || [],
-        showFilters: true,
+        showFilters: false,
     });
 
     useEffect(() => {

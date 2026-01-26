@@ -2,6 +2,6 @@
 @import "tailwindcss";
 
 body {
-    background-color: #061E29;
+    background-image: url("/assets/bg.jpg");
     font-family: 'Outfit', sans-serif;
 }

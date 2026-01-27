@@ -67,7 +67,7 @@ const LightconeFilters = ({onFilterChange, initialFilters}) => {
                 onClick={toggleFilters}
             >
                 <div className="flex items-center gap-3">
-                    <h2 className="text-xl font-bold text-white">
+                    <h2 className="text-xl font-bold text-[#E1D9BC]">
                         Filters
                     </h2>
                     {getActiveFilterCount() > 0 && (

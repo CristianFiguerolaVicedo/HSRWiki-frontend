@@ -11,6 +11,7 @@ import Planets from './pages/Planets'
 import PlanetDetails from './components/PlanetDetails'
 import Factions from './pages/Factions'
 import FactionDetails from './components/FactionDetails'
+import Items from './pages/Items'
 
 const App = () => {
 
@@ -29,6 +30,7 @@ const App = () => {
           <Route path='/planets/:id' element={<PlanetDetails />}/>
           <Route path='/factions' element={<Factions />}/>
           <Route path='/factions/:id' element={<FactionDetails />}/>
+          <Route path='/items' element={<Items />}/>
         </Routes>
       </BrowserRouter>
       <div className="floating-gif">

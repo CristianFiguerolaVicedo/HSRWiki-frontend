@@ -1,4 +1,4 @@
-import { Component, GalleryVertical, Gamepad2, Menu, Orbit, Shirt, Swords, Users, X } from "lucide-react";
+import { Backpack, Component, GalleryVertical, Gamepad2, Menu, Orbit, Shirt, Swords, Users, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -80,6 +80,13 @@ const Sidebar = () => {
                         >
                             <Component size={20}/>
                             <span className="font-medium">Factions</span>
+                        </button>
+                        <button
+                            onClick={() => navigate("/items")}
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border bg-[#E1D9BC] text-[#30364F] hover:cursor-pointer hover:bg-[#30364F] hover:text-[#E1D9BC] hover:border-[#E1D9BC]"
+                        >
+                            <Backpack size={20} />
+                            <span className="font-medium">Items</span>
                         </button>
                     </div>
 

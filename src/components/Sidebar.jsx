@@ -1,4 +1,4 @@
-import { Component, GalleryVertical, Gamepad2, Menu, Orbit, Swords, Users, X } from "lucide-react";
+import { Component, GalleryVertical, Gamepad2, Menu, Orbit, Shirt, Swords, Users, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -64,7 +64,7 @@ const Sidebar = () => {
                             onClick={() => navigate("/relics")}
                             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border bg-[#E1D9BC] text-[#30364F] hover:cursor-pointer hover:bg-[#30364F] hover:text-[#E1D9BC] hover:border-[#E1D9BC]"
                         >
-                            <GalleryVertical size={20} />
+                            <Shirt size={20} />
                             <span className="font-medium">Relics</span>
                         </button>
                         <button

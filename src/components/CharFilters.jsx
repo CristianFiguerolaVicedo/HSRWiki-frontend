@@ -80,14 +80,14 @@ const CharFilters = ({onFilterChange, initialFilters}) => {
     };
 
     return (
-        <div className="w-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 mb-6">
+        <div className="w-full bg-[#30364F] rounded-xl border border-gray-700 mb-6">
             <div onClick={toggleFilters} className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-800/50 transition-colors rounded-t-xl">
                 <div className="flex items-center gap-3">
-                    <h2 className="text-xl font-bold text-white">
+                    <h2 className="text-xl font-bold text-[#E1D9BC]">
                         Filters
                     </h2>
                     {getActiveFilterCount() > 0 && (
-                        <span className="px-2 py-1 bg-blue-500 text-white text-xs rounded-full">
+                        <span className="px-2 py-1 bg-[#E1D9BC] text-[#30364F] text-xs rounded-full">
                             {getActiveFilterCount()} active
                         </span>
                     )}
@@ -114,16 +114,17 @@ const CharFilters = ({onFilterChange, initialFilters}) => {
                 <div className="p-4 border-t border-gray-700 space-y-6">
                     <div>
                         <h3 className="text-lg font-semibold text-amber-300 mb-3 flex items-center gap-2">
-                            <span className="text-amber-400">
-                                <Star className="text-amber-400 fill-amber-400"/>
-                            </span> Rarity
+                            <span className="text-[#E1D9BC]">
+                                <Star className="text-[#E1D9BC] fill-[#E1D9BC]"/>
+                            </span> 
+                            <p className="text-[#E1D9BC]">Rarity</p>
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             {RARITIES.map((rarity) => (
                                 <button
-                                key={rarity.id}
-                                onClick={() => handleRarityChange(rarity.value)}
-                                    className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${filters.rarities.includes(rarity.value) ? 'bg-amber-500/20 border border-amber-500/50 text-amber-300' : 'bg-gray-700/50 border border-gray-600 text-gray-300 hover:bg-gray-600'}`}
+                                    key={rarity.id}
+                                    onClick={() => handleRarityChange(rarity.value)}
+                                    className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${filters.rarities.includes(rarity.value) ? 'bg-amber-500/20 border border-amber-500/50 text-amber-300' : 'bg-gray-700/50 border border-gray-600 text-gray-300 hover:bg-[#30364F] hover:border-[#E1D9BC] hover:cursor-pointer'}`}
                                 >
                                     {filters.rarities.includes(rarity.value) && (
                                         <Check size={16} className="text-amber-400"/>
@@ -137,15 +138,16 @@ const CharFilters = ({onFilterChange, initialFilters}) => {
                     <div>
                         <h3 className="text-lg font-semibold text-blue-300 mb-3 flex items-center gap-2">
                             <span className="text-blue-400">
-                                <Zap className="text-blue-400"/>
-                            </span> Element
+                                <Zap className="text-[#E1D9BC]"/>
+                            </span> 
+                            <p className="text-[#E1D9BC]">Element</p>
                         </h3>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                             {ELEMENTS.map((element) => (
                                 <button
-                                key={element.id}
-                                onClick={() => handleElementChange(element.name)}
-                                    className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${filters.elements.includes(element.name) ? 'bg-blue-500/20 border border-blue-500/50 text-blue-300' : 'bg-gray-700/50 border border-gray-600 text-gray-300 hover:bg-gray-600'}`}
+                                    key={element.id}
+                                    onClick={() => handleElementChange(element.name)}
+                                    className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${filters.elements.includes(element.name) ? 'bg-[#E1D9BC]/20 border border-[#30364F]/50 text-[#E1D9BC]' : 'bg-[#E1D9BC] border border-[#30364F] text-[#30364F] hover:bg-[#30364F] hover:text-[#E1D9BC] hover:border-[#E1D9BC] hover:cursor-pointer'}`}
                                 >
                                     {filters.rarities.includes(element.name) && (
                                         <Check size={16} className="text-blue-400"/>
@@ -159,15 +161,16 @@ const CharFilters = ({onFilterChange, initialFilters}) => {
                     <div>
                         <h3 className="text-lg font-semibold text-purple-300 mb-3 flex items-center gap-2">
                             <span className="text-purple-400">
-                                <Route className="text-purple-400"/>
-                            </span> Path
+                                <Route className="text-[#E1D9BC]"/>
+                            </span> 
+                            <p className="text-[#E1D9BC]">Path</p>
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             {PATHS.map((path) => (
                                 <button
                                 key={path.id}
                                 onClick={() => handlePathChange(path.name)}
-                                    className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${filters.paths.includes(path.name) ? 'bg-purple-500/20 border border-purple-500/50 text-purple-300' : 'bg-gray-700/50 border border-gray-600 text-gray-300 hover:bg-gray-600'}`}
+                                    className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${filters.paths.includes(path.name) ? 'bg-[#E1D9BC]/20 border border-[#30364F]/50 text-[#E1D9BC]' : 'bg-[#E1D9BC] border border-[#30364F] text-[#30364F] hover:bg-[#30364F] hover:text-[#E1D9BC] hover:border-[#E1D9BC] hover:cursor-pointer'}`}
                                 >
                                     {filters.rarities.includes(path.name) && (
                                         <Check size={16} className="text-purple-400"/>

@@ -129,7 +129,7 @@ const CharList = () => {
                   <select
                     value={sortBy}
                     onChange={handleSortChange}
-                    className="bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="bg-[#30364F] border border-[#E1D9BC] text-[#E1D9BC] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="name">Name (A-Z)</option>
                     <option value="rarity">Rarity (High to Low)</option>

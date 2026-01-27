@@ -1,12 +1,20 @@
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const ItemInfoCard = ({ item }) => {
     const navigate = useNavigate();
+    const [imageError, setImageError] = useState(false);
+
+    const itemName = item?.name || "Unknown Item";
+    const itemRarity = item?.rarity || 1;
+    const itemType = item?.type || 'Unknown';
+    const itemSubType = item?.subType || '';
+    const itemIcon = item?.icon || '';
+    const itemId = item?.id || '';
 
     const getBackgroundColor = () => {
-        if (!item.rarity) return "bg-gray-800";
-        switch(item.rarity) {
+        switch(itemRarity) {
             case 5: return "bg-gradient-to-br from-amber-900/30 to-amber-700/10";
             case 4: return "bg-gradient-to-br from-purple-900/30 to-purple-700/10";
             case 3: return "bg-gradient-to-br from-blue-900/30 to-blue-700/10";
@@ -17,8 +25,7 @@ const ItemInfoCard = ({ item }) => {
     };
 
     const getRarityColor = () => {
-        if (!item.rarity) return "text-gray-300";
-        switch(item.rarity) {
+        switch(itemRarity) {
             case 5: return "text-amber-400";
             case 4: return "text-purple-400";
             case 3: return "text-blue-400";
@@ -29,8 +36,7 @@ const ItemInfoCard = ({ item }) => {
     };
 
     const getBorderColor = () => {
-        if (!item.rarity) return "border-gray-700";
-        switch(item.rarity) {
+        switch(itemRarity) {
             case 5: return "border-amber-600/50";
             case 4: return "border-purple-600/50";
             case 3: return "border-blue-600/50";
@@ -40,13 +46,21 @@ const ItemInfoCard = ({ item }) => {
         }
     };
 
+    const handleClick = () => {
+        if (itemId) {
+            navigate(`/items/${itemId}`);
+        } else if (itemName && itemName !== "Unknown Item") {
+            navigate(`/items/${encodeURIComponent(itemName)}`);
+        }
+    };
+
     return (
         <div 
             className={`relative rounded-lg p-4 border-2 ${getBorderColor()} ${getBackgroundColor()} hover:scale-[1.02] transition-transform duration-300 cursor-pointer group`}
-            onClick={() => navigate(`/items/${item.id}`)}
+            onClick={handleClick}
         >
             <div className="absolute top-3 right-3 flex">
-                {Array.from({ length: item.rarity || 1 }).map((_, index) => (
+                {Array.from({ length: itemRarity }).map((_, index) => (
                     <Star 
                         key={index} 
                         className={`${getRarityColor()} fill-current`} 
@@ -57,19 +71,12 @@ const ItemInfoCard = ({ item }) => {
 
             <div className="flex justify-center mb-3">
                 <div className="relative w-20 h-20">
-                    {item.icon ? (
+                    {itemIcon && !imageError ? (
                         <img 
-                            src={item.icon} 
-                            alt={item.name}
+                            src={itemIcon} 
+                            alt={itemName}
                             className="w-full h-full object-contain"
-                            onError={(e) => {
-                                e.target.style.display = 'none';
-                                e.target.parentElement.innerHTML = `
-                                    <div class="w-full h-full flex items-center justify-center bg-gray-700 rounded-lg">
-                                        <span class="text-gray-400 text-sm">No Image</span>
-                                    </div>
-                                `;
-                            }}
+                            onError={() => setImageError(true)}
                         />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gray-700 rounded-lg">
@@ -80,16 +87,13 @@ const ItemInfoCard = ({ item }) => {
             </div>
 
             <h3 className="text-center font-semibold text-white mb-2 line-clamp-2 min-h-[3rem]">
-                {item.name}
+                {itemName}
             </h3>
 
             <div className="text-center">
-                <span className="text-xs px-2 py-1 bg-gray-700/50 text-gray-300 rounded-full">
-                    {item.type || 'Unknown'}
-                </span>
-                {item.subType && item.subType !== item.type && (
+                {itemSubType && itemSubType !== itemType && (
                     <span className="text-xs px-2 py-1 bg-gray-700/30 text-gray-400 rounded-full ml-1">
-                        {item.subType}
+                        {itemSubType}
                     </span>
                 )}
             </div>

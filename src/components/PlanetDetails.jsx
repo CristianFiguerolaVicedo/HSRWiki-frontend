@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PLANETS_DATA } from "../util/util";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
@@ -10,6 +10,7 @@ const PlanetDetails = () => {
     const planet = PLANETS_DATA.find((p) => p.id === id);
     const [characters, setCharacters] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const navigate = useNavigate();
 
     const IMAGES_CARROUSEL = {
         "Herta Space Station": [
@@ -132,6 +133,13 @@ const PlanetDetails = () => {
     return (
         <div className=" text-white p-4 md:p-8">
             <div className="max-w-4xl mx-auto">
+                <button
+                    onClick={() => navigate("/planets")}
+                    className="flex items-center gap-2 text-[#E1D9BC] hover:cursor-pointer mb-8"
+                >
+                    <ArrowLeft size={20} />
+                    Back to planets
+                </button>
                 <h1 className="text-3xl font-bold mb-4 border-b border-gray-400 pb-3">
                     {planet.name}
                 </h1>

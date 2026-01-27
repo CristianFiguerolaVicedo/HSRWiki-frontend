@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
+import { ArrowLeft, Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getLightConeByName } from "../services/lightConeService";
@@ -309,9 +309,16 @@ const CharDetails = () => {
     };
 
     return (
-        <div className=" text-white p-4 md:p-8">
+        <div className="text-white p-4 md:p-8">
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
+                    <button
+                        onClick={() => navigate("/")}
+                        className="flex items-center gap-2 text-[#E1D9BC] hover:cursor-pointer mb-8"
+                    >
+                        <ArrowLeft size={20} />
+                        Back to characters
+                    </button>
                     <div className="relative">
                         <img 
                             src={`${char.icon}`} 

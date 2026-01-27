@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FACTIONS } from "../util/util";
 import axios from "axios";
+import { ArrowLeft } from "lucide-react";
 
 const FactionDetails = () => {
     const {id} = useParams();
     const [loading, setLoading] = useState(false);
     const faction = FACTIONS.find((f) => f.id === id);
     const [characters, setCharacters] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchChars = async () => {
@@ -56,6 +58,13 @@ const FactionDetails = () => {
     return (
         <div className="text-white p-4 md:p-8 rounded-xl">
             <div className="max-w-4xl mx-auto">
+                <button
+                    onClick={() => navigate("/factions")}
+                    className="flex items-center gap-2 text-[#E1D9BC] hover:cursor-pointer mb-8"
+                >
+                    <ArrowLeft size={20} />
+                    Back to factions
+                </button>
                 <h1 className="text-3xl font-bold mb-4 border-b border-gray-400 pb-3">
                     {faction.name}
                 </h1>
@@ -81,7 +90,6 @@ const FactionDetails = () => {
                             </div>
                         ))}
                     </div>
-
                 </div>
             </div>
         </div>

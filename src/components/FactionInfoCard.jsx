@@ -5,7 +5,7 @@ const FactionInfoCard = ({faction}) => {
 
     return (
         <div
-            className="bg-[#30364F] text-[#E1D9BC] rounded-lg p-4 shadow-lg hover:cursor-pointer"
+            className="bg-[#30364F] text-[#E1D9BC] rounded-lg p-4 shadow-lg hover:cursor-pointer relative hover:scale-[1.02] transition-transform duration-300"
             onClick={() => navigate(`/factions/${faction.id}`)}
         >
             <div className="flex justify-center mb-3">
@@ -19,6 +19,10 @@ const FactionInfoCard = ({faction}) => {
             <h3 className="text-center font-bold text-lg mb-2 truncate">
                 {faction.name}
             </h3>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-end justify-center p-4">
+                <span className="text-white text-sm font-medium">View Details</span>
+            </div>
         </div>
     )
 }

@@ -1,21 +1,21 @@
+import { Check, Filter, Star } from "lucide-react";
 import { useState } from "react";
-import { Filter } from "lucide-react";
+
+const RARITIES = [
+    {id: "5star", value: 5, label: <Star className="text-amber-400 fill-amber-400"/>},
+    {id: "4star", value: 4, label: <Star className="text-purple-400 fill-purple-400"/>},
+    {id: "3star", value: 3, label: <Star className="text-blue-400 fill-blue-400"/>},
+    {id: "2star", value: 2, label: <Star className="text-green-400 fill-green-400"/>},
+    {id: "1star", value: 1, label: <Star className="text-gray-400 fill-gray-400"/>}
+];
 
 const ItemFilters = ({ onFilterChange, initialFilters, availableTypes, availableSubTypes }) => {
-    const [filters, setFilters] = useState(initialFilters);
-    const [showFilters, setShowFilters] = useState(false);
-
-    const rarities = [5, 4, 3, 2, 1];
-
-    const handleRarityChange = (rarity) => {
-        const newRarities = filters.rarities.includes(rarity)
-            ? filters.rarities.filter(r => r !== rarity)
-            : [...filters.rarities, rarity];
-        
-        const newFilters = { ...filters, rarities: newRarities };
-        setFilters(newFilters);
-        onFilterChange(newFilters);
-    };
+    const [filters, setFilters] = useState({
+        types: initialFilters.types || [],
+        subTypes: initialFilters.subTypes || [],
+        rarities: initialFilters.rarities || [],
+        showFilters: initialFilters.showFilters || false,
+    });
 
     const handleTypeChange = (type) => {
         const newTypes = filters.types.includes(type)
@@ -37,133 +37,234 @@ const ItemFilters = ({ onFilterChange, initialFilters, availableTypes, available
         onFilterChange(newFilters);
     };
 
-    const clearAllFilters = () => {
-        const newFilters = { rarities: [], types: [], subTypes: [] };
+    const handleRarityChange = (rarity) => {
+        const newRarities = filters.rarities.includes(rarity)
+            ? filters.rarities.filter(r => r !== rarity)
+            : [...filters.rarities, rarity];
+        
+        const newFilters = { ...filters, rarities: newRarities };
         setFilters(newFilters);
         onFilterChange(newFilters);
     };
 
-    const getRarityColor = (rarity) => {
+    const toggleFilters = () => {
+        setFilters(prev => ({...prev, showFilters: !prev.showFilters}));
+    };
+
+    const clearAllFilters = () => {
+        const newFilters = {
+            types: [],
+            subTypes: [],
+            rarities: [],
+            showFilters: filters.showFilters
+        };
+        setFilters(newFilters);
+        onFilterChange(newFilters);
+    };
+
+    const getActiveFilterCount = () => {
+        return filters.types.length + filters.subTypes.length + filters.rarities.length;
+    };
+
+    const getRarityLabel = (rarity) => {
         switch(rarity) {
-            case 5: return "text-amber-400 border-amber-400";
-            case 4: return "text-purple-400 border-purple-400";
-            case 3: return "text-blue-400 border-blue-400";
-            case 2: return "text-green-400 border-green-400";
-            case 1: return "text-gray-400 border-gray-400";
-            default: return "text-gray-400 border-gray-400";
+            case 5: return <Star className="text-amber-400 fill-amber-400" />;
+            case 4: return <Star className="text-purple-400 fill-purple-400" />;
+            case 3: return <Star className="text-blue-400 fill-blue-400" />;
+            case 2: return <Star className="text-green-400 fill-green-400" />;
+            case 1: return <Star className="text-gray-400 fill-gray-400" />;
+            default: return <Star className="text-gray-400" />;
         }
     };
 
+    const getRarityTextColor = (rarity) => {
+        switch(rarity) {
+            case 5: return "text-amber-400";
+            case 4: return "text-purple-400";
+            case 3: return "text-blue-400";
+            case 2: return "text-green-400";
+            case 1: return "text-gray-400";
+            default: return "text-gray-400";
+        }
+    };
+
+    const getTypeColor = (isActive) => {
+        return isActive 
+            ? 'bg-[#E1D9BC]/20 border border-[#30364F]/50 text-[#E1D9BC]' 
+            : 'bg-[#E1D9BC] border border-[#30364F] text-[#30364F] hover:bg-[#30364F] hover:text-[#E1D9BC] hover:border-[#E1D9BC] hover:cursor-pointer';
+    };
+
     return (
-        <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
-            <div className="flex items-center justify-between mb-4">
+        <div className="w-full bg-[#30364F] rounded-xl border border-gray-700 mb-6">
+            <div 
+                className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-800/50 transition-colors rounded-t-xl"
+                onClick={toggleFilters}
+            >
                 <div className="flex items-center gap-3">
-                    <Filter className="text-blue-400" size={24} />
-                    <h3 className="text-xl font-bold text-white">Filters</h3>
+                    <h2 className="text-xl font-bold text-[#E1D9BC]">
+                        Filters
+                    </h2>
+                    {getActiveFilterCount() > 0 && (
+                        <span className="px-2 py-1 bg-[#E1D9BC] text-[#30364F] text-xs rounded-full">
+                            {getActiveFilterCount()} active
+                        </span>
+                    )}
                 </div>
-                <button
-                    onClick={() => setShowFilters(!showFilters)}
-                    className="px-4 py-2 bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors"
-                >
-                    {showFilters ? "Hide Filters" : "Show Filters"}
-                </button>
+                <div className="flex items-center gap-2">
+                    {getActiveFilterCount() > 0 && (
+                        <button 
+                            className="px-3 py-1 text-sm text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors"
+                            onClick={(e) => {e.stopPropagation(); clearAllFilters();}}
+                        >
+                            Clear All
+                        </button>
+                    )}
+                    <svg
+                        className={`w-5 h-5 text-gray-400 transition-transform ${filters.showFilters ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
             </div>
 
-            {showFilters && (
-                <>
-                    <div className="mb-6">
-                        <h4 className="text-lg font-semibold mb-3 text-gray-300">Rarity</h4>
+            {filters.showFilters && (
+                <div className="p-4 border-t border-gray-700 space-y-6">
+                    <div>
+                        <h3 className="text-lg font-semibold text-amber-300 mb-3 flex items-center gap-2">
+                            <span className="text-[#E1D9BC]">
+                                <Star className="text-[#E1D9BC] fill-[#E1D9BC]"/>
+                            </span> 
+                            <p className="text-[#E1D9BC]">Rarity</p>
+                        </h3>
                         <div className="flex flex-wrap gap-2">
-                            {rarities.map(rarity => (
+                            {RARITIES.map((rarity) => (
                                 <button
-                                    key={rarity}
-                                    onClick={() => handleRarityChange(rarity)}
-                                    className={`px-4 py-2 rounded-lg border-2 transition-all ${
-                                        filters.rarities.includes(rarity)
-                                            ? `${getRarityColor(rarity)} bg-gray-700`
-                                            : "border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300"
-                                    }`}
+                                    key={rarity.id}
+                                    onClick={() => handleRarityChange(rarity.value)}
+                                    className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${filters.rarities.includes(rarity.value) ? 'bg-amber-500/20 border border-amber-500/50 text-amber-300' : 'bg-gray-700/50 border border-gray-600 text-gray-300 hover:bg-[#30364F] hover:border-[#E1D9BC] hover:cursor-pointer'}`}
                                 >
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-bold">{rarity}★</span>
-                                        <span className="text-sm">
-                                            {filters.rarities.includes(rarity) ? "✓" : ""}
-                                        </span>
-                                    </div>
+                                    {filters.rarities.includes(rarity.value) && (
+                                        <Check size={16} className="text-amber-400"/>
+                                    )}
+                                    {rarity.label}
                                 </button>
                             ))}
                         </div>
                     </div>
 
-                    {availableTypes.length > 0 && (
-                        <div className="mb-6">
-                            <h4 className="text-lg font-semibold mb-3 text-gray-300">Type</h4>
+                    {availableTypes && availableTypes.length > 0 && (
+                        <div>
+                            <h3 className="text-lg font-semibold text-blue-300 mb-3 flex items-center gap-2">
+                                <span className="text-blue-400">
+                                    <Filter className="text-[#E1D9BC]"/>
+                                </span> 
+                                <p className="text-[#E1D9BC]">Type</p>
+                            </h3>
                             <div className="flex flex-wrap gap-2">
-                                {availableTypes.map(type => (
+                                {availableTypes.map((type) => (
                                     <button
-                                        key={type}
+                                        key={`type-${type}`}
                                         onClick={() => handleTypeChange(type)}
-                                        className={`px-4 py-2 rounded-lg border-2 transition-all ${
-                                            filters.types.includes(type)
-                                                ? "border-blue-500 text-blue-400 bg-gray-700"
-                                                : "border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300"
-                                        }`}
+                                        className={`px-4 py-2 rounded-lg transition-all duration-200 ${getTypeColor(filters.types.includes(type))}`}
                                     >
-                                        <div className="flex items-center gap-2">
-                                            <span>{type}</span>
-                                            <span className="text-sm">
-                                                {filters.types.includes(type) ? "✓" : ""}
-                                            </span>
-                                        </div>
+                                        {filters.types.includes(type) && (
+                                            <Check size={16} className="inline mr-2 text-blue-400"/>
+                                        )}
+                                        {type}
                                     </button>
                                 ))}
                             </div>
                         </div>
                     )}
-
-                    {availableSubTypes.length > 0 && (
-                        <div className="mb-6">
-                            <h4 className="text-lg font-semibold mb-3 text-gray-300">Sub-Type</h4>
+                    
+                    {availableSubTypes && availableSubTypes.length > 0 && (
+                        <div>
+                            <h3 className="text-lg font-semibold text-green-300 mb-3 flex items-center gap-2">
+                                <span className="text-green-400">
+                                    <Filter className="text-[#E1D9BC]"/>
+                                </span> 
+                                <p className="text-[#E1D9BC]">Sub-Type</p>
+                            </h3>
                             <div className="flex flex-wrap gap-2">
-                                {availableSubTypes.map(subType => (
+                                {availableSubTypes.map((subType) => (
                                     <button
-                                        key={subType}
+                                        key={`subtype-${subType}`}
                                         onClick={() => handleSubTypeChange(subType)}
-                                        className={`px-4 py-2 rounded-lg border-2 transition-all ${
-                                            filters.subTypes.includes(subType)
-                                                ? "border-green-500 text-green-400 bg-gray-700"
-                                                : "border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300"
-                                        }`}
+                                        className={`px-4 py-2 rounded-lg transition-all duration-200 ${getTypeColor(filters.subTypes.includes(subType))}`}
                                     >
-                                        <div className="flex items-center gap-2">
-                                            <span>{subType}</span>
-                                            <span className="text-sm">
-                                                {filters.subTypes.includes(subType) ? "✓" : ""}
-                                            </span>
-                                        </div>
+                                        {filters.subTypes.includes(subType) && (
+                                            <Check size={16} className="inline mr-2 text-green-400"/>
+                                        )}
+                                        {subType}
                                     </button>
                                 ))}
                             </div>
                         </div>
                     )}
 
-                    {(filters.rarities.length > 0 || filters.types.length > 0 || filters.subTypes.length > 0) && (
-                        <div className="mt-6 pt-4 border-t border-gray-700">
-                            <div className="flex items-center justify-between">
-                                <div className="text-gray-400">
-                                    Active filters:{" "}
-                                    {filters.rarities.length + filters.types.length + filters.subTypes.length}
-                                </div>
-                                <button
+                    {getActiveFilterCount() > 0 && (
+                        <div className="pt-4 border-t border-gray-700">
+                            <div className="flex items-center justify-between mb-2">
+                                <span className="text-gray-400 text-sm">
+                                    Active filters:
+                                </span>
+                                <button className="text-sm text-red-400 hover:text-red-300 transition-colors"
                                     onClick={clearAllFilters}
-                                    className="px-4 py-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition-colors"
                                 >
                                     Clear All
                                 </button>
                             </div>
+                            <div className="flex flex-wrap gap-2">
+                                {filters.rarities.map((rarity) => (
+                                    <span key={`rarity-${rarity}`} className={`px-3 py-1 ${getRarityTextColor(rarity)}/20 ${getRarityTextColor(rarity)} rounded-full text-sm flex items-center gap-1`}>
+                                        {getRarityLabel(rarity)}
+                                        <span className="ml-1">{rarity}★</span>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleRarityChange(rarity);
+                                            }}
+                                            className="ml-1 hover:opacity-70"
+                                        >
+                                            X
+                                        </button>
+                                    </span>
+                                ))}
+                                {filters.types.map((type) => (
+                                    <span key={`type-${type}`} className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm flex items-center gap-1">
+                                        Type: {type}
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleTypeChange(type);
+                                            }}
+                                            className="ml-1 hover:text-blue-200"
+                                        >
+                                            X
+                                        </button>
+                                    </span>
+                                ))}
+                                {filters.subTypes.map((subType) => (
+                                    <span key={`subtype-${subType}`} className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm flex items-center gap-1">
+                                        Sub: {subType}
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleSubTypeChange(subType);
+                                            }}
+                                            className="ml-1 hover:text-green-200"
+                                        >
+                                            X
+                                        </button>
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                     )}
-                </>
+                </div>
             )}
         </div>
     );

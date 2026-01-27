@@ -1,7 +1,7 @@
 import axios from "axios";
-import { Heart, Shield, Star, Swords } from "lucide-react";
+import { ArrowLeft, Heart, Shield, Star, Swords } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PATH_ICONS = {
     ABUNDANCE: '/assets/Icon_Abundance.webp', 
@@ -18,6 +18,7 @@ const LightconeDetails = () => {
     const {id} = useParams();
     const [lightcone, setLightcone] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchLightconeById = async () => {
@@ -138,6 +139,13 @@ const LightconeDetails = () => {
 
     return (
         <div className=" text-white p-4 md:p-8">
+            <button
+                onClick={() => navigate("/lightcones")}
+                className="flex items-center gap-2 text-[#E1D9BC] hover:cursor-pointer mb-8"
+            >
+                <ArrowLeft size={20} />
+                Back to lightcones
+            </button>
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
                     <div className="relative">

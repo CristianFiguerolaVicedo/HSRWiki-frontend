@@ -1,11 +1,13 @@
 import axios from "axios";
+import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const RelicsDetails = () => {
     const {name} = useParams();
     const [relic, setRelic] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchRelicSetByName = async () => {
@@ -46,6 +48,13 @@ const RelicsDetails = () => {
 
     return (
         <div className=" text-white p-4 md:p-8">
+            <button
+                onClick={() => navigate("/relics")}
+                className="flex items-center gap-2 text-[#E1D9BC] hover:cursor-pointer mb-8"
+            >
+                <ArrowLeft size={20} />
+                Back to relics and planars
+            </button>
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
                     <div className="relative">

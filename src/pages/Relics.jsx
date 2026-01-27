@@ -154,13 +154,13 @@ const Relics = () => {
                             <div className="mt-8 pt-6 border-t border-gray-800">
                                 <div className="flex flex-wrap justify-center gap-6 text-center text-gray-400">
                                     <div>
-                                        <div className="text-2xl font-bold text-white">
+                                        <div className="text-2xl font-bold text-[#30364F]">
                                             {relics.length}
                                         </div>
                                         <div className="text-sm text-[#30364F]">Total Relic Sets</div>
                                     </div>
                                     <div>
-                                        <div className="text-2xl font-bold text-white">
+                                        <div className="text-2xl font-bold text-[#30364F]">
                                             {planars.length}
                                         </div>
                                         <div className="text-sm text-[#30364F]">Total Planar Sets</div>

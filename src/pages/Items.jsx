@@ -335,11 +335,11 @@ const Items = () => {
                                 {Object.keys(stats.rarityCounts).map(rarity => (
                                     <div key={rarity}>
                                         <div className={`text-2xl font-bold ${
-                                            rarity === '5' ? 'text-amber-300' :
+                                            rarity === '5' ? 'text-amber-400' :
                                             rarity === '4' ? 'text-purple-500' :
                                             rarity === '3' ? 'text-blue-500' :
                                             rarity === '2' ? 'text-green-500' :
-                                            'text-gray-300'
+                                            'text-gray-500'
                                         }`}>
                                             {stats.rarityCounts[rarity]}
                                         </div>

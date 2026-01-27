@@ -179,7 +179,7 @@ const Lightcones = () => {
                   <div className="text-sm text-[#30364F]">Total Lightcones</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-amber-300">
+                  <div className="text-2xl font-bold text-amber-400">
                     {sortedLightcones.filter((lc) => lc.rarity === 5).length}
                   </div>
                   <div className="text-sm text-[#30364F]">5★ Light Cones</div>

@@ -47,7 +47,7 @@ const RelicsDetails = () => {
     }
 
     return (
-        <div className=" text-white p-4 md:p-8">
+        <div className="text-white p-4 md:p-8">
             <button
                 onClick={() => navigate("/relics")}
                 className="flex items-center gap-2 text-[#E1D9BC] hover:cursor-pointer mb-8"
@@ -56,16 +56,6 @@ const RelicsDetails = () => {
                 Back to relics and planars
             </button>
             <div className="flex flex-col md:flex-row gap-8 mb-8">
-                <div className="flex flex-col items-center md:items-start">
-                    <div className="relative">
-                        <img 
-                            src={`${relic.pieces.Head.icon}`}
-                            alt={relic.name} 
-                            className="w-100 h-110 rounded-xl shadow-lg"
-                        />
-                    </div>
-                </div>
-
                 <div className="flex-1 bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                     <h2 className="text-2xl font-bold mb-6 text-[#E1D9BC]">Set Effects</h2>
                     <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">

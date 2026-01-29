@@ -37,34 +37,39 @@ The colors are not to bright to be appealing to the sight and the info is dispos
     - Traces
     - Eidolons
     - Builds 
+
  
 - [Lightcones](#lightcones)
   - [Lightcone List](#lightcone-list)
   - [Lightcone Filters](#lightcone-filters)
   - [Lightcone Details](#lightcone-details)
+
     
 - [Relics and planars](#relics-and-planars)
   - [Relics and planars List](#relics-and-planars-list)
   - [Relics and planars Details](#relics-and-planars-details)
 
+
 -  [Planets](#planets)
-  - [Planets List](#planets-list)
-  - [Planet Details](#planet-details)
+    - [Planets List](#planets-list)
+    - [Planet Details](#planet-details)
   
 - [Factions](#factions)
   - [Factions List](#factions-list)
   - [Faction Details](#faction-details)
+
 
 - [Items](#items)
   - [Items List](#items-list)
   - [Items Filter](#items-filter)
   - [Item Details](#item-details)
 
+
 - [Tier List](#tier-list)
  
 ## Characters
 
-In this sectino we will see the different parts of the character part.
+In this section we will see the different parts of the character part.
 
 The details, the list and the way to filter the characters.
 

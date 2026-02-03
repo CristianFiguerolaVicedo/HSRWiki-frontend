@@ -309,7 +309,7 @@ const CharDetails = () => {
     };
 
     return (
-        <div className="text-white p-4 md:p-8">
+        <div className="text-white p-4 md:p-8 bg-gray-800/30 backdrop-blur-sm rounded-xl">
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
                     <button
@@ -323,7 +323,7 @@ const CharDetails = () => {
                         <img 
                             src={`${char.icon}`} 
                             alt={char.name} 
-                            className="w-75 h-100 rounded-xl shadow-lg"
+                            className="w-75 h-100 rounded-xl"
                         />
                     </div>
                     <div className="mt-6 text-center md:text-left">

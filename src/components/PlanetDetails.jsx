@@ -131,7 +131,7 @@ const PlanetDetails = () => {
     }
 
     return (
-        <div className=" text-white p-4 md:p-8">
+        <div className=" text-white p-4 md:p-8 bg-gray-800/30 backdrop-blur-sm rounded-xl">
             <div className="max-w-4xl mx-auto">
                 <button
                     onClick={() => navigate("/planets")}

@@ -7,14 +7,14 @@ const TierList = () => {
     const [tierGroups, setTierGroups] = useState({});
 
     const tierColors = {
-        'T0': 'red-600',
-        'T0.5': 'red-400',
-        'T1': 'orange-400',
-        'T1.5': 'orange-300',
-        'T2': 'orange-200',
-        'T3': 'lime-200',
-        'T4': 'lime-400',
-        'T5': 'cyan-300'
+        'T0': 'bg-red-600',
+        'T0.5': 'bg-red-400',
+        'T1': 'bg-orange-400',
+        'T1.5': 'bg-orange-300',
+        'T2': 'bg-orange-200',
+        'T3': 'bg-lime-200',
+        'T4': 'bg-lime-400',
+        'T5': 'bg-cyan-300'
     };
 
     const groupByTier = (chars) => {
@@ -91,7 +91,7 @@ const TierList = () => {
                                     <tbody>
                                         {Object.entries(tierGroups).map(([tier, chars]) => (
                                             <tr key={tier}>
-                                                <td className={`bg-${tierColors[tier]} text-white font-bold rounded-xl px-3 py-2`}>
+                                                <td className={`${tierColors[tier]} text-white font-bold rounded-xl px-3 py-2`}>
                                                     {tier}
                                                 </td>
 

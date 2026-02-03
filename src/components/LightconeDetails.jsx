@@ -138,7 +138,7 @@ const LightconeDetails = () => {
     const maxStats = calculateMaxStats();
 
     return (
-        <div className=" text-white p-4 md:p-8">
+        <div className=" text-white p-4 md:p-8 bg-gray-800/30 backdrop-blur-sm rounded-xl">
             <button
                 onClick={() => navigate("/lightcones")}
                 className="flex items-center gap-2 text-[#E1D9BC] hover:cursor-pointer mb-8"

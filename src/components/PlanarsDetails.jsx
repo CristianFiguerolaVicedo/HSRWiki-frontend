@@ -55,16 +55,6 @@ const PlanarsDetails = () => {
                 Back to relics and planars
             </button>
             <div className="flex flex-col md:flex-row gap-8 mb-8">
-                <div className="flex flex-col items-center md:items-start">
-                    <div className="relative">
-                        <img 
-                            src={`${planar.pieces["Planar Sphere"].icon.replace(/ /g, "%20")}`}
-                            alt={planar.name} 
-                            className="w-100 h-110 rounded-xl shadow-lg"
-                        />
-                    </div>
-                </div>
-
                 <div className="flex-1 bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
                     <h2 className="text-2xl font-bold mb-6 text-[#E1D9BC]">Set Effects</h2>
                     <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700">

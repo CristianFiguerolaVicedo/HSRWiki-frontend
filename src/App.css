@@ -1,75 +1,47 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
 .floating-gif {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 24px;
+  right: 24px;
   z-index: 9999;
-  pointer-events: none;
+  pointer-events: auto;
+  filter: drop-shadow(0 0 16px rgba(79, 195, 247, 0.15));
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.floating-gif:hover {
+  filter: drop-shadow(0 0 32px rgba(79, 195, 247, 0.35));
+  transform: scale(1.08);
 }
 
 .gif-image {
-  width: 120px;
+  width: 100px;
   height: auto;
-  opacity: 0.8;
+  opacity: 0.7;
   transition: opacity 0.3s ease;
 }
 
 .gif-image:hover {
   opacity: 1;
-  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .floating-gif {
+    animation: float 4s ease-in-out infinite;
+  }
+}
+
+@media (max-width: 640px) {
+  .floating-gif {
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .gif-image {
+    width: 64px;
+  }
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.floating-gif {
-  animation: float 3s ease-in-out infinite;
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }

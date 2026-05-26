@@ -1,99 +1,72 @@
-import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FACTIONS } from "../util/util";
-import axios from "axios";
+import { useCharacters } from "../hooks/useCharacters";
 import { ArrowLeft } from "lucide-react";
 
 const FactionDetails = () => {
     const {id} = useParams();
-    const [loading, setLoading] = useState(false);
+    const { characters } = useCharacters();
     const faction = FACTIONS.find((f) => f.id === id);
-    const [characters, setCharacters] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchChars = async () => {
-            setLoading(true);
-
-            try {
-                const response = await axios.get(
-                    "http://localhost:8080/api/characters"
-                );
-                if (response.status === 200) {
-                    const sortedChars = [...response.data].sort((a, b) =>
-                        a.name.localeCompare(b.name)
-                    );
-                    setCharacters(sortedChars);
-                }
-            } catch (error) {
-                console.error("Something went wrong", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchChars();
-    }, []);
-
     const factionCharacters = characters.filter((char) =>
-        faction.characters.includes(char.name)
+        faction?.characters?.includes(char.name)
     );
-
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="text-white text-xl">Loading Faction...</div>
-            </div>
-        )
-    }
 
     if (!faction) {
         return (
             <div className="flex justify-center items-center h-64">
-                <div className="text-white text-xl">Faction not found</div>
+                <div className="text-text-primary text-xl">Faction not found</div>
             </div>
         )
     }
 
     return (
-        <div className="text-white p-4 md:p-8 bg-gray-800/30 backdrop-blur-sm rounded-xl">
-            <div className="max-w-4xl mx-auto">
-                <button
-                    onClick={() => navigate("/factions")}
-                    className="flex items-center gap-2 text-[#E1D9BC] hover:cursor-pointer mb-8"
-                >
-                    <ArrowLeft size={20} />
-                    Back to factions
-                </button>
-                <h1 className="text-3xl font-bold mb-4 border-b border-gray-400 pb-3">
-                    {faction.name}
-                </h1>
+        <div className="text-text-primary min-h-screen">
+            <div className="flex">
+                <Sidebar />
+                <main className="flex-1 p-4 md:p-8">
+                    <div className="max-w-4xl mx-auto">
+                        <button
+                            onClick={() => navigate("/factions")}
+                            className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer"
+                        >
+                            <ArrowLeft size={20} />
+                            Back to factions
+                        </button>
+                        <h1 className="text-3xl font-bold mb-4 border-b border-border pb-3 text-text-primary">
+                            {faction.name}
+                        </h1>
 
-                <h1>
-                    {faction.info.map(p => <p className="my-2">{p}</p>)}
-                </h1>
+                        <div className="space-y-2">
+                            {faction.info.map((p, i) => <p key={i} className="text-text-secondary leading-relaxed">{p}</p>)}
+                        </div>
 
-                <h2 className="text-xl font-bold mb-4 border-b border-t border-gray-400 mt-4 py-2">
-                    Playable characters from this faction
-                </h2>
-                
-                <div>
-                    <div className="grid grid-cols-4 gap-6">
-                        {factionCharacters.map((char) => (
-                            <div key={char.id} className="text-center">
-                            <img
-                                src={char.miniIcon}
-                                alt={char.name}
-                                className="w-40 h-40 object-cover rounded-lg mx-auto"
-                            />
-                            <p className="mt-2">{char.name.replace('Trailblazer', 'TB').replace('#M', '♂').replace('#F', '♀')}</p>
-                            </div>
-                        ))}
+                        <h2 className="text-xl font-bold mb-4 border-b border-t border-border mt-8 py-3 text-text-primary">
+                            Playable characters from this faction
+                        </h2>
+
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                            {factionCharacters.map((char) => (
+                                <div key={char.id} className="text-center group cursor-pointer" onClick={() => navigate(`/char/${char.id}`)}>
+                                    <img
+                                        src={char.miniIcon}
+                                        alt={char.name}
+                                        className="w-full max-w-[160px] mx-auto rounded-lg transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-accent-cyan/10"
+                                    />
+                                    <p className="mt-2 text-text-primary text-sm font-medium">
+                                        {char.name.replace('Trailblazer', 'TB').replace('#M', '♂').replace('#F', '♀')}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                </main>
             </div>
         </div>
     )
 }
+
+import Sidebar from "./Sidebar";
 
 export default FactionDetails;

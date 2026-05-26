@@ -1,14 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { PLANETS_DATA } from "../util/util";
-import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import axios from "axios";
+import { useState } from "react";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { useCharacters } from "../hooks/useCharacters";
+import Sidebar from "./Sidebar";
 
 const PlanetDetails = () => {
-    const [loading, setLoading] = useState(false);
     const {id} = useParams();
+    const { characters } = useCharacters();
     const planet = PLANETS_DATA.find((p) => p.id === id);
-    const [characters, setCharacters] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const navigate = useNavigate();
 
@@ -53,6 +53,19 @@ const PlanetDetails = () => {
             "/assets/penacony10.png",
             "/assets/penacony11.png",
         ],
+        "Planarcadia": [
+            "/assets/planarcadia1.png",
+            "/assets/planarcadia2.png",
+            "/assets/planarcadia3.png",
+            "/assets/planarcadia4.png",
+            "/assets/planarcadia5.png",
+            "/assets/planarcadia6.png",
+            "/assets/planarcadia7.png",
+            "/assets/planarcadia8.png",
+            "/assets/planarcadia9.png",
+            "/assets/planarcadia10.png",
+            "/assets/planarcadia11.png",
+        ],
         "Amphoreus": [
             "/assets/amph1.png",
             "/assets/amph2.png",
@@ -74,7 +87,7 @@ const PlanetDetails = () => {
         ]
     };
 
-    const planetImages = IMAGES_CARROUSEL[planet.name] || [];
+    const planetImages = IMAGES_CARROUSEL[planet?.name] || [];
 
     const handlePrev = () => {
         setCurrentImageIndex((prev) =>
@@ -88,114 +101,105 @@ const PlanetDetails = () => {
         );
     };
 
-    useEffect(() => {
-        const fetchChars = async () => {
-            try {
-                const response = await axios.get(
-                    "http://localhost:8080/api/characters"
-                );
-                if (response.status === 200) {
-                    const sortedChars = [...response.data].sort((a, b) =>
-                        a.name.localeCompare(b.name)
-                    );
-                    setCharacters(sortedChars);
-                }
-            } catch (error) {
-                console.error("Something went wrong", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchChars();
-    }, []);
-
     const planetCharacters = characters.filter((char) => 
-        planet.characters.includes(char.name)
+        planet?.characters?.includes(char.name)
     );
-
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <div className="text-white text-xl">Loading Planet</div>
-            </div>
-        );
-    }
 
     if (!planet) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="text-white text-xl">Planet not found</div>
+                <div className="text-text-primary text-xl">Planet not found</div>
             </div>
         )
     }
 
     return (
-        <div className=" text-white p-4 md:p-8 bg-gray-800/30 backdrop-blur-sm rounded-xl">
-            <div className="max-w-4xl mx-auto">
-                <button
-                    onClick={() => navigate("/planets")}
-                    className="flex items-center gap-2 text-[#E1D9BC] hover:cursor-pointer mb-8"
-                >
-                    <ArrowLeft size={20} />
-                    Back to planets
-                </button>
-                <h1 className="text-3xl font-bold mb-4 border-b border-gray-400 pb-3">
-                    {planet.name}
-                </h1>
-
-                {planetImages.length > 0 && (
-                    <div className="relative mb-6">
-                        <img 
-                            src={planetImages[currentImageIndex]} 
-                            alt={`${planet.name} ${currentImageIndex + 1}`} 
-                            className="w-full max-h-96 object-cover rounded-lg"
-                        />
-
+        <div className="text-text-primary min-h-screen">
+            <div className="flex">
+                <Sidebar />
+                <main className="flex-1 p-4 md:p-8">
+                    <div className="max-w-4xl mx-auto">
                         <button
-                            onClick={handlePrev}
-                            className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-50/40 text-white p-2 rounded-full hover:cursor-pointer transition-all duration-[300ms] hover:scale-[1.1]"
+                            onClick={() => navigate("/planets")}
+                            className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer"
                         >
-                            <ChevronLeft />
+                            <ArrowLeft size={20} />
+                            Back to planets
                         </button>
+                        <h1 className="text-3xl font-bold mb-4 border-b border-border pb-3 text-text-primary">
+                            {planet.name}
+                        </h1>
 
-                        <button
-                            onClick={handleNext}
-                            className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-50/40 text-white p-2 rounded-full hover:cursor-pointer transition-all duration-[300ms] hover:scale-[1.1]"
-                        >
-                            <ChevronRight />
-                        </button>
-                    </div>
-                )}
+                        {planetImages.length > 0 && (
+                            <div className="relative mb-6 rounded-xl overflow-hidden border border-border">
+                                <img 
+                                    src={planetImages[currentImageIndex]} 
+                                    alt={`${planet.name} ${currentImageIndex + 1}`} 
+                                    className="w-full max-h-96 object-cover"
+                                />
 
-                <p className="text-gray-300 leading-relaxed mb-3">
-                    {planet.description1}
-                </p>
-                <p className="text-gray-300 leading-relaxed mb-3">
-                    {planet.description2}
-                </p>
-                <p className="text-gray-300 leading-relaxed mb-3">
-                    {planet.description3}
-                </p>
-                <p className="text-gray-300 leading-relaxed">
-                    {planet.description4}
-                </p>
+                                <button
+                                    onClick={handlePrev}
+                                    className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-bg-sidebar/60 backdrop-blur-sm text-text-primary p-2 rounded-full cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-accent-cyan/20 border border-border"
+                                >
+                                    <ChevronLeft />
+                                </button>
 
-                <h1 className="text-3xl font-bold mb-4 border-b border-t border-gray-400 p-2 mt-4">
-                    Characters related to the planet
-                </h1>
-                <div className="grid grid-cols-4 gap-6">
-                    {planetCharacters.map((char) => (
-                        <div key={char.id} className="text-center">
-                            <img 
-                                src={char.miniIcon} 
-                                alt={char.name}
-                                className="w-40 h-40 objecto-cover rounded-lg mx-auto"
-                            />
-                            <p className="mt-2">{char.name}</p>
+                                <button
+                                    onClick={handleNext}
+                                    className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-bg-sidebar/60 backdrop-blur-sm text-text-primary p-2 rounded-full cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-accent-cyan/20 border border-border"
+                                >
+                                    <ChevronRight />
+                                </button>
+
+                                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                                    {planetImages.map((_, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => setCurrentImageIndex(i)}
+                                            className={`w-2 h-2 rounded-full transition-all ${
+                                                i === currentImageIndex 
+                                                    ? 'bg-accent-cyan w-4' 
+                                                    : 'bg-text-muted/50 hover:bg-text-secondary'
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <p className="text-text-secondary leading-relaxed mb-3">
+                            {planet.description1}
+                        </p>
+                        <p className="text-text-secondary leading-relaxed mb-3">
+                            {planet.description2}
+                        </p>
+                        <p className="text-text-secondary leading-relaxed mb-3">
+                            {planet.description3}
+                        </p>
+                        <p className="text-text-secondary leading-relaxed">
+                            {planet.description4}
+                        </p>
+
+                        <h2 className="text-2xl font-bold mb-4 border-b border-t border-border py-3 mt-8 text-text-primary">
+                            Characters related to the planet
+                        </h2>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                            {planetCharacters.map((char) => (
+                                <div key={char.id} className="text-center group cursor-pointer" onClick={() => navigate(`/char/${char.id}`)}>
+                                    <img 
+                                        src={char.miniIcon} 
+                                        alt={char.name}
+                                        className="w-full max-w-[160px] mx-auto rounded-lg transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-accent-cyan/10"
+                                    />
+                                    <p className="mt-2 text-text-primary text-sm font-medium">
+                                        {char.name.replace('Trailblazer', 'TB').replace('#M', '♂').replace('#F', '♀')}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </div>
+                </main>
             </div>
         </div>
     );

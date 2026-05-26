@@ -38,6 +38,15 @@ export const PLANETS_DATA = [
         characters: ["Aventurine", "Boothill", "Acheron", "Black Swan", "Firefly", "Gallagher", "Misha", "Robin", "Rappa", "Sparkle", "Sunday", "Jade", "The Dahlia"]
     },
     {
+        id: "6",
+        name: "Planarcadia",
+        description1: "Planarcadia, also called Ahatopia, is a vibrant entertainment world bathed in the light of the Phantasmoon, where the Aeon Aha's influence turns everyday life into a cosmic spectacle. Once known as the World in Canvas, this two-dimensional planet evolved into a sprawling metropolis of neon lights, arcades, and academies. It is both Himeko's homeland and the place where the Astral Express first set sail once more, making it a world of nostalgia, chaos, and boundless creativity under the ever-watchful gaze of Elation.",
+        description2: "In the story, Planarcadia becomes the stage for the Phantasmoon Games—a legendary competition where victors can ascend to become an Aeon for a full minute. The Trailblazer arrives amid the escalation of these games, drawn into a web of competing factions, Masked Fools, Mourning Actors, and media moguls all vying for Aha's favor. As the stakes rise and the Path of Elation awakens, the narrative explores the nature of joy, performance, and what it truly means to laugh in the face of cosmic destruction.",
+        description3: "From a gameplay perspective, Planarcadia introduces the Path of Elation alongside vibrant new districts. Duomension City buzzes with arcades and street culture, Graphia Academy offers academic intrigue and hidden sketches, Dovebrook District reveals Himeko's rustic hometown roots, and the World's End Tavern serves as a hub for the Masked Fools. New mechanics include the Cosmicon Collective card game, Wispae hunting, and the Phantasmoon's transformative power that reshapes both story and combat encounters.",
+        description4: "Taken as a whole, Planarcadia stands as Honkai: Star Rail's most self-expressive world—a place where lore, gameplay, and narrative fuse into a celebration of chaos and creativity. Beneath its flashing lights and endless laughter lies a deeper question: in a universe threatened by Destruction, is Elation a coping mechanism, a rebellion, or the most honest answer of all?",
+        characters: ["Sparxie", "Yao Guang", "Ashveil", "Silver Wolf LV.999", "Evanescia"]
+    },
+    {
         id: "5",
         name: "Amphoreus",
         description1: "Amphoreus is a sealed and solemn world shaped by fate, prophecy, and ancient authority—a land that exists apart from the wider cosmos, bound by rigid laws that govern both destiny and choice. Its civilizations are steeped in ritual and myth, where history is not merely recorded but enforced, and the will of higher powers looms constantly over mortal lives. Unlike other worlds shaped by progress or decay, Amphoreus feels timeless, as though it has been caught in an unending moment of judgment.",
@@ -102,7 +111,7 @@ export const FACTIONS = [
     {
         id: "3",
         name: "Xianzhou Alliance",
-        characters: ["Bailu", "Dan Heng - Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Jingliu", "Lingsha", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yanqing", "Yukong", "Yunli"],
+        characters: ["Bailu", "Dan Heng • Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Jingliu", "Lingsha", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yanqing", "Yukong", "Yunli"],
         info: [
             "Luofu",
             "The Luofu is arguably the most well known Xianzhou flagship in the Alliance to the cosmos, excelling in diplomacy and commerce. People arrived at the Luofu to seek medical treatment, study, and trade, with throngs of visitors filling the docks. Residents often take pride in their hospitality and etiquette. They tend to refer to outworlders as \"honorable guest from afar\" or \"visiting traveler.\" Though warfare has receded, the Luofu has not relaxed its watch against the Denizens despite the perceived laid-back disposition of its residents.",

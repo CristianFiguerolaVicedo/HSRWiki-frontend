@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import ErrorBoundary from './components/ErrorBoundary'
+import Layout from './components/Layout'
 
 const CharList = lazy(() => import('./pages/CharList'));
 const CharDetails = lazy(() => import('./components/CharDetails'));
@@ -29,24 +30,26 @@ const App = () => {
     <>
       <BrowserRouter>
         <ErrorBoundary>
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              <Route path='/char/:id' element={<CharDetails />}/>
-              <Route path='/' element={<CharList />}/>
-              <Route path='/lightcones' element={<Lightcones />}/>
-              <Route path='/lightcones/:id' element={<LightconeDetails />}/>
-              <Route path='/relics' element={<Relics />}/>
-              <Route path='/relics/:name' element={<RelicsDetails />}/>
-              <Route path='/planars/:name' element={<PlanarsDetails />}/>
-              <Route path='/planets' element={<Planets />}/>
-              <Route path='/planets/:id' element={<PlanetDetails />}/>
-              <Route path='/factions' element={<Factions />}/>
-              <Route path='/factions/:id' element={<FactionDetails />}/>
-              <Route path='/items' element={<Items />}/>
-              <Route path='/items/:id' element={<ItemDetails />}/>
-              <Route path='/tier-list' element={<TierList />}/>
-            </Routes>
-          </Suspense>
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route path='/char/:id' element={<CharDetails />}/>
+                <Route path='/' element={<CharList />}/>
+                <Route path='/lightcones' element={<Lightcones />}/>
+                <Route path='/lightcones/:id' element={<LightconeDetails />}/>
+                <Route path='/relics' element={<Relics />}/>
+                <Route path='/relics/:name' element={<RelicsDetails />}/>
+                <Route path='/planars/:name' element={<PlanarsDetails />}/>
+                <Route path='/planets' element={<Planets />}/>
+                <Route path='/planets/:id' element={<PlanetDetails />}/>
+                <Route path='/factions' element={<Factions />}/>
+                <Route path='/factions/:id' element={<FactionDetails />}/>
+                <Route path='/items' element={<Items />}/>
+                <Route path='/items/:id' element={<ItemDetails />}/>
+                <Route path='/tier-list' element={<TierList />}/>
+              </Routes>
+            </Suspense>
+          </Layout>
         </ErrorBoundary>
       </BrowserRouter>
       <div className="floating-gif">

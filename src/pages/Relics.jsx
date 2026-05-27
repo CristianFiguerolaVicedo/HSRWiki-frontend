@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { fetchJson } from "../services/apiClient";
 import RelicsInfoCard from "../components/RelicsInfoCard";
 import PlanarsInfoCard from "../components/PlanarsInfoCard";
-import Sidebar from '../components/Sidebar'
 
 const Relics = () => {
   const [relics, setRelics] = useState([]);
@@ -65,65 +64,62 @@ const Relics = () => {
 
   return (
     <div className="text-text-primary rounded-xl">
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-4 md:p-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="mb-8 animate-fade-in">
-              <h1 className="text-4xl font-bold text-text-primary mb-2">Relic and Planar Sets List</h1>
-              <p className="text-text-secondary">
-                Browse through all of the {relics.length} available relic sets and {planars.length} available planar sets.
-              </p>
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gradient mb-2">Relic and Planar Sets List</h1>
+        <p className="text-text-secondary">
+          Browse through all of the {relics.length} available relic sets and {planars.length} available planar sets.
+        </p>
+      </div>
+
+      <div className="mb-6">
+        {relics.length > 0 && (
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-text-primary">Relic Sets ({relics.length})</h2>
+              <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border">
+                Available Relic Sets
+              </span>
             </div>
-
-            <div className="mb-6">
-              {relics.length > 0 && (
-                <div className="animate-fade-in">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold text-text-primary">Relic Sets ({relics.length})</h2>
-                    <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border">
-                      Available Relic Sets
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-                    {relics.map((rel) => (
-                      <RelicsInfoCard key={rel.name} relicSet={rel} />
-                    ))}
-                  </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+              {relics.map((rel, i) => (
+                <div key={rel.name} style={{ "--stagger-index": i }}>
+                  <RelicsInfoCard relicSet={rel} />
                 </div>
-              )}
-
-              {planars.length > 0 && (
-                <div className="animate-fade-in">
-                  <div className="flex items-center justify-between mb-4 border-t border-border mt-6">
-                    <h2 className="text-2xl font-bold text-text-primary mt-6">Planar Sets ({planars.length})</h2>
-                    <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border mt-6">
-                      Available Planar Sets
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-                    {planars.map((pl) => (
-                      <PlanarsInfoCard key={pl.name} planarSet={pl} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div className="mt-8 pt-6 border-t border-border">
-                <div className="flex flex-wrap justify-center gap-6 text-center">
-                  <div>
-                    <div className="text-2xl font-bold text-text-primary">{relics.length}</div>
-                    <div className="text-sm text-text-secondary">Total Relic Sets</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-text-primary">{planars.length}</div>
-                    <div className="text-sm text-text-secondary">Total Planar Sets</div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-        </main>
+        )}
+
+        {planars.length > 0 && (
+          <div>
+            <div className="flex items-center justify-between mb-4 border-t border-border mt-6">
+              <h2 className="text-2xl font-bold text-text-primary mt-6">Planar Sets ({planars.length})</h2>
+              <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border mt-6">
+                Available Planar Sets
+              </span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+              {planars.map((pl, i) => (
+                <div key={pl.name} style={{ "--stagger-index": i }}>
+                  <PlanarsInfoCard planarSet={pl} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-8 pt-6 border-t border-border">
+          <div className="flex flex-wrap justify-center gap-6 text-center">
+            <div>
+              <div className="text-2xl font-bold text-text-primary">{relics.length}</div>
+              <div className="text-sm text-text-secondary">Total Relic Sets</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-text-primary">{planars.length}</div>
+              <div className="text-sm text-text-secondary">Total Planar Sets</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

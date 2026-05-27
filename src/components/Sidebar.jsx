@@ -1,6 +1,5 @@
-import { memo } from "react";
-import { Backpack, ChartNoAxesColumn, Component, Gamepad2, Menu, Orbit, Shirt, Swords, Users, X } from "lucide-react";
-import { useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { Backpack, ChartNoAxesColumn, Component, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const NAV_ITEMS = [
@@ -15,13 +14,39 @@ const NAV_ITEMS = [
 
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    try { return localStorage.getItem("sidebar-collapsed") === "true"; } catch { return false; }
+  });
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isActive = (path) => {
+  const toggleCollapse = useCallback(() => {
+    setCollapsed((prev) => {
+      const next = !prev;
+      try { localStorage.setItem("sidebar-collapsed", next); } catch {}
+      return next;
+    });
+  }, []);
+
+  const isActive = useCallback((path) => {
     if (path === "/") return location.pathname === "/";
     return location.pathname.startsWith(path);
-  };
+  }, [location.pathname]);
+
+  const filteredNavItems = useMemo(() => {
+    if (!searchQuery) return NAV_ITEMS;
+    return NAV_ITEMS.filter((item) =>
+      item.label.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery]);
+
+  const handleNavigate = useCallback((path) => {
+    navigate(path);
+    setSidebarOpen(false);
+  }, [navigate]);
+
+  const sidebarWidth = collapsed ? "w-16" : "w-64";
 
   return (
     <div>
@@ -38,60 +63,93 @@ const Sidebar = () => {
         aria-label="Main navigation"
         className={`
           fixed lg:sticky lg:top-0 left-0 z-40 h-screen
-          transition-transform duration-300 ease-in-out
+          ${sidebarWidth}
+          transition-all duration-300 ease-in-out
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-          w-64 flex flex-col bg-bg-sidebar border-r border-border
+          flex flex-col bg-bg-sidebar border-r border-border overflow-hidden
         `}
       >
-        <div className="p-6 border-b border-border">
+        <div className="flex-shrink-0 p-4 border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-accent-cyan to-accent-purple text-text-primary rounded-lg flex items-center justify-center shadow-lg shadow-accent-cyan/20">
-              <Gamepad2 size={24} />
+            <div className="w-10 h-10 min-w-[40px] bg-gradient-to-br from-accent-cyan to-accent-purple text-text-primary rounded-lg flex items-center justify-center shadow-lg shadow-accent-cyan/20 flex-shrink-0">
+              <Gamepad2 size={20} />
             </div>
-            <div>
-              <h2 className="text-xl font-bold text-text-primary">
-                HSR Wiki
-              </h2>
-              <p className="text-xs text-text-muted">v4.2</p>
-            </div>
+            {!collapsed && (
+              <div className="flex-1 min-w-0">
+                <h2 className="text-xl font-bold text-text-primary truncate">
+                  HSR Wiki
+                </h2>
+                <p className="text-xs text-text-muted">v4.2</p>
+              </div>
+            )}
           </div>
         </div>
 
-        <nav className="flex-1 p-4 overflow-y-auto">
-          <div className="flex flex-col gap-1.5">
-            {NAV_ITEMS.map((navItem) => {
+        {!collapsed && (
+          <div className="flex-shrink-0 px-4 pt-3 pb-2">
+            <div className="relative">
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+              <input
+                type="text"
+                placeholder="Search pages..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-bg-card border border-border text-text-primary text-sm rounded-lg pl-9 pr-3 py-2 placeholder:text-text-muted/60 focus:outline-none focus:ring-1 focus:ring-accent-cyan/50 focus:border-accent-cyan/50 transition-all"
+              />
+            </div>
+          </div>
+        )}
+
+        <nav className="flex-1 overflow-y-auto px-3 py-2 scrollbar-none">
+          <div className="flex flex-col gap-1">
+            {filteredNavItems.map((navItem) => {
               const IconComponent = navItem.Icon;
               const active = isActive(navItem.path);
               return (
                 <button
                   key={navItem.path}
-                  onClick={() => {
-                    navigate(navItem.path);
-                    setSidebarOpen(false);
-                  }}
+                  onClick={() => handleNavigate(navItem.path)}
                   className={`
-                    w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-200
+                    w-full flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all duration-200 relative
                     ${active
-                      ? "bg-accent-cyan/10 border-accent-cyan/50 text-accent-cyan shadow-lg shadow-accent-cyan/5"
-                      : "bg-transparent border-border text-text-secondary hover:bg-bg-elevated hover:border-accent-cyan/30 hover:text-text-primary"
+                      ? "bg-accent-cyan/10 border-accent-cyan/30 text-accent-cyan"
+                      : "bg-transparent border-transparent text-text-secondary hover:bg-bg-elevated hover:text-text-primary"
                     }
                   `}
                   aria-label={`Navigate to ${navItem.label}`}
                   aria-current={active ? "page" : undefined}
                 >
-                  <IconComponent size={20} className={active ? "text-accent-cyan" : ""} />
-                  <span className="font-medium">{navItem.label}</span>
-                  {active && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse-glow" />}
+                  {active && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-accent-cyan rounded-r-full shadow-sm shadow-accent-cyan/50" />
+                  )}
+                  <IconComponent size={20} className="min-w-[20px] flex-shrink-0" />
+                  {!collapsed && (
+                    <>
+                      <span className="font-medium text-sm truncate">{navItem.label}</span>
+                      {active && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse-glow flex-shrink-0" />}
+                    </>
+                  )}
                 </button>
               );
             })}
           </div>
+          {!collapsed && filteredNavItems.length === 0 && (
+            <div className="text-xs text-text-muted text-center py-8">
+              No pages found
+            </div>
+          )}
         </nav>
 
-        <div className="p-4 border-t border-border">
-          <p className="text-xs text-text-muted text-center">
-            Honkai: Star Rail Wiki
-          </p>
+        <div className="flex-shrink-0 p-3 border-t border-border">
+          <button
+            onClick={toggleCollapse}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-all duration-200"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            title={collapsed ? "Expand" : "Collapse"}
+          >
+            <Menu size={16} className="rotate-90" />
+            {!collapsed && <span className="text-xs">Collapse</span>}
+          </button>
         </div>
       </aside>
 
@@ -103,7 +161,7 @@ const Sidebar = () => {
         />
       )}
     </div>
-  )
-}
+  );
+};
 
 export default memo(Sidebar);

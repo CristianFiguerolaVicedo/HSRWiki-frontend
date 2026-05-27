@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import Sidebar from "../components/Sidebar";
 import { useCharacters } from "../hooks/useCharacters";
 
 const TierList = () => {
@@ -37,66 +36,54 @@ const TierList = () => {
 
   if (loading) {
     return (
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-4 md:p-6">
-          <div className="flex justify-center items-center h-64">
-            <div className="text-text-primary text-xl">Loading tier list...</div>
-          </div>
-        </main>
+      <div className="flex justify-center items-center h-64">
+        <div className="text-text-primary text-xl">Loading tier list...</div>
       </div>
     );
   }
 
   return (
     <div className="text-text-primary rounded-xl">
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-4 md:p-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="mb-8 animate-fade-in">
-              <h1 className="text-4xl font-bold text-text-primary mb-2">Tier List</h1>
-              <p className="text-text-secondary">
-                Character rankings for the current meta. T0 is the strongest, T5 is the weakest.
-              </p>
-            </div>
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gradient mb-2">Tier List</h1>
+        <p className="text-text-secondary">
+          Character rankings for the current meta. T0 is the strongest, T5 is the weakest.
+        </p>
+      </div>
 
-            <div className="space-y-3">
-              {Object.entries(tierGroups).map(([tier, chars]) => {
-                const config = tierConfig[tier];
-                return (
+      <div className="space-y-3">
+        {Object.entries(tierGroups).map(([tier, chars]) => {
+          const config = tierConfig[tier];
+          return (
+            <div
+              key={tier}
+              className={`flex flex-col sm:flex-row rounded-xl overflow-hidden border ${config.border} ${config.bg} shadow-lg ${config.glow}`}
+            >
+              <div className={`bg-gradient-to-br ${config.gradient} sm:w-20 flex items-center justify-center py-3 sm:py-0`}>
+                <span className="text-white font-black text-xl tracking-wider drop-shadow-lg">{config.label}</span>
+              </div>
+              <div className="flex-1 p-3 flex flex-wrap gap-2">
+                {chars.length > 0 ? chars.map(char => (
                   <div
-                    key={tier}
-                    className={`flex flex-col sm:flex-row rounded-xl overflow-hidden border ${config.border} ${config.bg} animate-fade-in shadow-lg ${config.glow}`}
+                    key={char.name}
+                    className="group relative flex flex-col items-center"
                   >
-                    <div className={`bg-gradient-to-br ${config.gradient} sm:w-20 flex items-center justify-center py-3 sm:py-0`}>
-                      <span className="text-white font-black text-xl tracking-wider drop-shadow-lg">{config.label}</span>
-                    </div>
-                    <div className="flex-1 p-3 flex flex-wrap gap-2">
-                      {chars.length > 0 ? chars.map(char => (
-                        <div
-                          key={char.name}
-                          className="group relative flex flex-col items-center"
-                        >
-                          <img
-                            src={char.miniIcon}
-                            alt={char.name}
-                            className="h-14 w-14 sm:h-16 sm:w-16 rounded-lg border-2 border-transparent hover:border-accent-gold/50 transition-all duration-200 hover:scale-110 hover:shadow-lg hover:shadow-accent-gold/10"
-                          />
-                          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-[10px] text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-bg-primary/90 px-1.5 py-0.5 rounded">
-                            {char.name.replace('Trailblazer', 'TB').replace('#M', '♂').replace('#F', '♀')}
-                          </span>
-                        </div>
-                      )) : (
-                        <span className="text-text-muted text-sm italic py-2">No characters in this tier</span>
-                      )}
-                    </div>
+                    <img
+                      src={char.miniIcon}
+                      alt={char.name}
+                      className="h-14 w-14 sm:h-16 sm:w-16 rounded-lg border-2 border-transparent hover:border-accent-gold/50 transition-all duration-200 hover:scale-110 hover:shadow-lg hover:shadow-accent-gold/10"
+                    />
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-[10px] text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-bg-primary/90 px-1.5 py-0.5 rounded">
+                      {char.name.replace('Trailblazer', 'TB').replace('#M', '♂').replace('#F', '♀')}
+                    </span>
                   </div>
-                );
-              })}
+                )) : (
+                  <span className="text-text-muted text-sm italic py-2">No characters in this tier</span>
+                )}
+              </div>
             </div>
-          </div>
-        </main>
+          );
+        })}
       </div>
     </div>
   )

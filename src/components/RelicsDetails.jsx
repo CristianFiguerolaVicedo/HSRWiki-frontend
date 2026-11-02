@@ -13,7 +13,7 @@ const RelicsDetails = () => {
         const fetchRelicSetByName = async () => {
             setLoading(true);
             try {
-                const data = await fetchJson(`/relics/${name}`);
+                const data = await fetchJson(`/relics/${encodeURIComponent(name)}`);
                 if (data) {
                     setRelic(data);
                 }

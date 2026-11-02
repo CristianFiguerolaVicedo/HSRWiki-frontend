@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Backpack, ChartNoAxesColumn, Component, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { fetchJson } from "../services/apiClient";
 
 const NAV_ITEMS = [
   { path: "/", label: "Characters", Icon: Users },
@@ -18,6 +19,14 @@ const Sidebar = () => {
     try { return localStorage.getItem("sidebar-collapsed") === "true"; } catch { return false; }
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [gameVersion, setGameVersion] = useState(null);
+
+  // Show the game version the backend data was generated from instead of a hard-coded label
+  useEffect(() => {
+    fetchJson("/version")
+      .then((data) => setGameVersion(data?.gameVersion))
+      .catch(() => setGameVersion(null));
+  }, []);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -79,7 +88,7 @@ const Sidebar = () => {
                 <h2 className="text-xl font-bold text-text-primary truncate">
                   HSR Wiki
                 </h2>
-                <p className="text-xs text-text-muted">v4.2</p>
+                {gameVersion && <p className="text-xs text-text-muted">Game data v{gameVersion}</p>}
               </div>
             )}
           </div>

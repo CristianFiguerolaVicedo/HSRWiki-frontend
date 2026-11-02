@@ -26,7 +26,7 @@ export const PLANETS_DATA = [
         description2: "In the story, the Luofu becomes the Trailblazer’s entry point into a long-running ideological conflict between the Xianzhou Alliance and the followers of the Abundance. What begins as an investigation into a Stellaron crisis unfolds into a complex web of political intrigue, historical grudges, and moral ambiguity. Players confront the consequences of immortality, the curse of the Mara, and the lingering scars left by centuries of warfare, while navigating shifting alliances and hidden truths that challenge the Luofu’s carefully maintained order.",
         description3: "From a gameplay standpoint, the Xianzhou Luofu emphasizes scale and complexity. Its layered districts, bustling marketplaces, sanctums, and industrial docks encourage exploration and vertical navigation. Enemies range from corrupted mara-struck soldiers to Abundance-twisted monstrosities, reinforcing the narrative themes through combat. Quests often intertwine personal stories with ancient history, while puzzles and mechanics reflect the Luofu’s advanced yet tradition-bound society.",
         description4: "Together, the Xianzhou Luofu serves as a pivotal chapter in the Trailblazer’s journey—a place where philosophical conflict, living history, and gameplay systems converge, presenting a world that questions whether eternal life is a blessing, a curse, or something far more dangerous when left unchecked.",
-        characters: ["Bailu", "Blade", "Dan Heng • Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Lingsha", "Jingliu", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yukong", "Yanqing", "Yunli"]
+        characters: ["Bailu", "Blade", "Mortenax Blade", "Dan Heng • Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Lingsha", "Jingliu", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yukong", "Yanqing", "Yunli"]
     },
     {
         id: "4",
@@ -44,7 +44,7 @@ export const PLANETS_DATA = [
         description2: "In the story, Planarcadia becomes the stage for the Phantasmoon Games—a legendary competition where victors can ascend to become an Aeon for a full minute. The Trailblazer arrives amid the escalation of these games, drawn into a web of competing factions, Masked Fools, Mourning Actors, and media moguls all vying for Aha's favor. As the stakes rise and the Path of Elation awakens, the narrative explores the nature of joy, performance, and what it truly means to laugh in the face of cosmic destruction.",
         description3: "From a gameplay perspective, Planarcadia introduces the Path of Elation alongside vibrant new districts. Duomension City buzzes with arcades and street culture, Graphia Academy offers academic intrigue and hidden sketches, Dovebrook District reveals Himeko's rustic hometown roots, and the World's End Tavern serves as a hub for the Masked Fools. New mechanics include the Cosmicon Collective card game, Wispae hunting, and the Phantasmoon's transformative power that reshapes both story and combat encounters.",
         description4: "Taken as a whole, Planarcadia stands as Honkai: Star Rail's most self-expressive world—a place where lore, gameplay, and narrative fuse into a celebration of chaos and creativity. Beneath its flashing lights and endless laughter lies a deeper question: in a universe threatened by Destruction, is Elation a coping mechanism, a rebellion, or the most honest answer of all?",
-        characters: ["Sparxie", "Yao Guang", "Ashveil", "Silver Wolf LV.999", "Evanescia"]
+        characters: ["Sparxie", "Yao Guang", "Ashveil", "Silver Wolf LV.999", "Evanescia", "Pearl", "Himeko • Nova", "TrailblazerElation#F", "TrailblazerElation#M"]
     },
     {
         id: "5",
@@ -61,7 +61,7 @@ export const FACTIONS = [
     {
         id: "1",
         name: "Astral Express",
-        characters: ["Trailblazer", "Dan Heng", "March 7th", "Himeko", "Welt", "Sunday", "Black Swan", "TrailblazerDestruction#F", "TrailblazerDestruction#M", "TrailblazerPreservance#F", "TrailblazerPreservance#M", "TrailblazerHarmony#F", "TrailblazerHarmony#M", "TrailblazerRemembrance#F", "TrailblazerRemembrance#M"],
+        characters: ["Trailblazer", "Dan Heng", "March 7th", "Himeko", "Welt", "Sunday", "Black Swan", "TrailblazerDestruction#F", "TrailblazerDestruction#M", "TrailblazerPreservation#F", "TrailblazerPreservation#M", "TrailblazerHarmony#F", "TrailblazerHarmony#M", "TrailblazerRemembrance#F", "TrailblazerRemembrance#M", "TrailblazerElation#F", "TrailblazerElation#M", "Himeko • Nova", "March 7th (Imaginary)"],
         info: [
             "While the full extent of previous crews are unknown, there were particular members at varying points in the crew's time that stood out amongst others. The majority of these members were navigators and either retired or passed away, appointing another as their successor.",
 
@@ -97,7 +97,7 @@ export const FACTIONS = [
     {
         id: "2",
         name: "Stellaron Hunters",
-        characters: ["Kafka", "Blade", "Firefly", "Silver Wolf"],
+        characters: ["Kafka", "Blade", "Mortenax Blade", "Firefly", "Silver Wolf", "Silver Wolf LV.999"],
         info: [
             "The Stellaron Hunters are a band of powerful individuals united under Elio, with the promise that each of them will fulfill their desires by following his script. They are said to work against the Interastral Peace Corporation. Due to Elio's ability to see possibilities, the group is often privy to information that would normally be impossible to obtain, such as the specific times when events will occur, or seemingly impossible butterfly effects.",
 
@@ -217,7 +217,7 @@ export const FACTIONS = [
     {
         id: "7",
         name: "Ten Stonehearts",
-        characters: ["Topaz & Numby", "Jade", "Aventurine"],
+        characters: ["Topaz & Numby", "Jade", "Aventurine", "Aventurine • Waveflair"],
         info: [
             "Officially known as the Non-Performing Asset Liquidation Specialists, the Ten Stonehearts are led by the Emanator of Preservation, Diamond. Its members’ origins are varied, and their responsibilities and personalities differ. While they may be likened to groups such as the Astral Express or the Stellaron Hunters, both Jade and Opal have stated that the group is united only by a shared need to obtain what they desire, filling an inner void through that pursuit.",
 

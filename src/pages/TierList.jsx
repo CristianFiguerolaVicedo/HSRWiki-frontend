@@ -1,8 +1,10 @@
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCharacters } from "../hooks/useCharacters";
 
 const TierList = () => {
   const { characters, loading } = useCharacters();
+  const navigate = useNavigate();
 
   const tierConfig = {
     'T0': { label: 'T0', gradient: 'from-red-600 to-red-500', bg: 'bg-red-950/30', border: 'border-red-700/40', glow: 'shadow-red-600/20' },
@@ -15,12 +17,13 @@ const TierList = () => {
     'T5': { label: 'T5', gradient: 'from-cyan-500 to-sky-500', bg: 'bg-sky-950/15', border: 'border-sky-500/25', glow: 'shadow-sky-500/10' }
   };
 
+  // Version 4.6 rankings (Game8 overall tier list, October 2026): SS -> T0, S+ -> T0.5, S -> T1, A -> T1.5, B -> T2, C -> T3
   const tiers = useMemo(() => ({
-    'T0': ['Castorice', 'Silver Wolf LV.999', 'Phainon', 'Anaxa', 'Sunday', 'Tribbie', 'Evernight', 'Sparkle', 'Hyacine', 'Yao Guang', 'Huohuo', 'Dan Heng • Permansor Terrae'],
-    'T0.5': ['Evanescia', 'Sparxie', 'Cyrene', 'Firefly', 'Archer', 'The Herta', 'Cerydra', 'Ruan Mei', 'Robin', 'Acheron', 'Saber', 'Mydei', 'Ashveil', 'Feixiao', 'Cipher', 'The Dahlia', 'Kafka', 'Rappa', 'Bronya', 'TrailblazerRemembrance#F', 'TrailblazerRemembrance#M', 'Fugue', 'Hysilens', 'Aventurine', 'Lingsha', 'Black Swan', 'Welt', 'Gallagher', 'Aglaea', 'Seele', 'TrailblazerElation#F', 'TrailblazerElation#M'],
-    'T1': ['Yunli', 'Jade', 'Jingliu', 'Blade', 'Boothill', 'Silver Wolf', 'Tingyun', 'Jing Yuan', 'Topaz & Numby', 'Jiaoqiu', 'Fu Xuan', 'Pela', 'Luocha', 'TrailblazerHarmony#F', 'TrailblazerHarmony#M'],
-    'T1.5': ['Dr. Ratio', 'Dan Heng • Imbibitor Lunae', 'Himeko', 'Argenti', 'Clara', 'March 7th', 'Moze', 'Asta', 'Gepard', 'Bailu', 'Herta', 'Guinaifen', 'Lynx', 'Hanya', 'Xueyi'],
-    'T2': ['Natasha', 'Qingque', 'Serval', 'Hook', 'Yanqing', 'Yukong', 'Misha', 'Luka', 'Sampo', 'Dan Heng', 'Sushang', 'TrailblazerPreservation#F', 'TrailblazerPreservation#M'],
+    'T0': ['Himeko • Nova', 'Silver Wolf LV.999', 'Evanescia', 'Castorice', 'Archer', 'Mortenax Blade', 'Robin • Summeretto', 'Sunday', 'Tribbie', 'Evernight', 'Rin Tohsaka', 'Sparkle', 'Hyacine', 'Yao Guang', 'Huohuo', 'Dan Heng • Permansor Terrae', 'Aventurine • Waveflair', 'Pearl', 'Ashveil'],
+    'T0.5': ['Sparxie', 'Cyrene', 'Phainon', 'Firefly', 'Anaxa', 'The Herta', 'Cerydra', 'Ruan Mei', 'Robin', 'Acheron', 'Saber', 'Gilgamesh', 'Mydei', 'Cipher', 'The Dahlia', 'Kafka', 'Bronya', 'TrailblazerRemembrance#F', 'TrailblazerRemembrance#M', 'Fugue', 'Hysilens', 'Aventurine', 'Lingsha', 'Black Swan', 'Welt', 'Gallagher', 'Aglaea', 'Seele', 'TrailblazerElation#F', 'TrailblazerElation#M'],
+    'T1': ['Yunli', 'Jade', 'Jingliu', 'Blade', 'Boothill', 'Silver Wolf', 'Tingyun', 'Jing Yuan', 'Topaz & Numby', 'Jiaoqiu', 'Fu Xuan', 'Pela', 'Luocha', 'Feixiao', 'TrailblazerHarmony#F', 'TrailblazerHarmony#M', 'Rappa'],
+    'T1.5': ['Dr. Ratio', 'Dan Heng • Imbibitor Lunae', 'Himeko', 'Argenti', 'Clara', 'March 7th (Imaginary)', 'Moze', 'Asta', 'Gepard', 'Bailu', 'Herta', 'Guinaifen', 'Lynx', 'Hanya', 'Xueyi'],
+    'T2': ['Natasha', 'Qingque', 'March 7th', 'TrailblazerPreservation#F', 'TrailblazerPreservation#M', 'Serval', 'Hook', 'Yanqing', 'Yukong', 'Misha', 'Luka', 'Sampo', 'Dan Heng', 'Sushang'],
     'T3': ['TrailblazerDestruction#F', 'TrailblazerDestruction#M', 'Arlan'],
     'T4': [],
     'T5': []
@@ -29,7 +32,9 @@ const TierList = () => {
   const tierGroups = useMemo(() => {
     const grouped = {};
     for (const tier in tiers) {
-      grouped[tier] = characters.filter(char => tiers[tier].includes(char.name));
+      grouped[tier] = tiers[tier]
+        .map(name => characters.find(char => char.name === name))
+        .filter(Boolean);
     }
     return grouped;
   }, [characters, tiers]);
@@ -47,7 +52,7 @@ const TierList = () => {
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gradient mb-2">Tier List</h1>
         <p className="text-text-secondary">
-          Character rankings for the current meta. T0 is the strongest, T5 is the weakest.
+          Character rankings for version 4.6. T0 is the strongest, T5 is the weakest.
         </p>
       </div>
 
@@ -64,9 +69,11 @@ const TierList = () => {
               </div>
               <div className="flex-1 p-3 flex flex-wrap gap-2">
                 {chars.length > 0 ? chars.map(char => (
-                  <div
+                  <button
                     key={char.name}
-                    className="group relative flex flex-col items-center"
+                    onClick={() => navigate(`/char/${char.id}`)}
+                    title={char.name}
+                    className="group relative flex flex-col items-center cursor-pointer"
                   >
                     <img
                       src={char.miniIcon}
@@ -76,7 +83,7 @@ const TierList = () => {
                     <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-[10px] text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-bg-primary/90 px-1.5 py-0.5 rounded">
                       {char.name.replace('Trailblazer', 'TB').replace('#M', '♂').replace('#F', '♀')}
                     </span>
-                  </div>
+                  </button>
                 )) : (
                   <span className="text-text-muted text-sm italic py-2">No characters in this tier</span>
                 )}

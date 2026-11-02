@@ -11,7 +11,7 @@ export const getRelicSetByName = async (setName) => {
 
 export const getPlanarSetByName = async (setName) => {
     try {
-        const response = await apiClient.get(`/planars/${encodeURIComponent(setName)}`);
+        const response = await apiClient.get(`/relics/${encodeURIComponent(setName)}`);
         return response.data;
     } catch (error) {
         return null;

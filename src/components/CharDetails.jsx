@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchJson } from "../services/apiClient";
 import { getLightConeByName } from "../services/lightConeService";
 import { getRelicSetByName } from "../services/relicService";
+import { useCharacters } from "../hooks/useCharacters";
 import SkeletonLoader from "./SkeletonLoader";
 
 const ELEMENT_ICONS = {
@@ -28,6 +29,37 @@ const PATH_ICONS = {
     ELATION: '/assets/Icon_Elation.png',
 }
 
+const normalize = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+// Build files name team members loosely ("Trailblazer (Harmony)", "Permansor Terrae", "Topaz"),
+// so match them to real characters to be able to link them.
+const resolveMember = (name, characters) => {
+    const trailblazer = name.match(/^Trailblazer \((\w+)\)$/);
+    if (trailblazer) {
+        return characters.find((c) => c.name === `Trailblazer${trailblazer[1]}#F`) || null;
+    }
+    const key = normalize(name);
+    const exact = characters.find((c) => normalize(c.name) === key);
+    if (exact) return exact;
+    const partial = characters.filter((c) => normalize(c.name).includes(key));
+    return partial.length === 1 ? partial[0] : null;
+};
+
+const SKILL_LABELS = {
+    basic: "Basic ATK", skill: "Skill", ult: "Ultimate", talent: "Talent",
+    memo_skill: "Memosprite Skill", memo_talent: "Memosprite Talent", elation_skill: "Elation Skill",
+};
+
+const levelUpSkills = (eidolon) => {
+    const skills = eidolon.level_up_skills || eidolon.levelUpSkills;
+    return skills && Object.keys(skills).length > 0 ? skills : null;
+};
+
+const statAt = (stat, level) => stat.base + stat.step * (level - 1);
+
+// Ascension phases: [first level, last level]
+const ASCENSION_RANGES = [[1, 20], [20, 30], [30, 40], [40, 50], [50, 60], [60, 70], [70, 80]];
+
 const CharDetails = () => {
     const {id} = useParams();
     const [char, setChar] = useState(null);
@@ -38,8 +70,10 @@ const CharDetails = () => {
     const [relicSetData, setRelicSetData] = useState({});
     const [planarSetData, setPlanarSetData] = useState({});
     const [buildDataLoaded, setBuildDataLoaded] = useState(false);
+    const [kit, setKit] = useState("base");
 
     const navigate = useNavigate();
+    const { characters: allCharacters } = useCharacters();
 
     const fetchRelicData = async (sets) => {
         const allSetMap = {};
@@ -103,6 +137,7 @@ const CharDetails = () => {
         const fetchCharById = async () => {
             setLoading(true);
             setBuildDataLoaded(false);
+            setKit("base");
             try {
                 const charData = await fetchJson(`/characters/${id}`);
                 if (charData) {
@@ -232,14 +267,16 @@ const CharDetails = () => {
     const calculateMaxStats = () => {
         if (!char.ascension || char.ascension.length === 0) return null;
 
-        const baseStats = char.ascension[0];
+        // Each ascension phase has its own base/step: stat(level) = base + step * (level - 1).
+        // Level 80 belongs to the last phase, so using phase 0 left out every ascension bonus.
+        const lastPhase = char.ascension[char.ascension.length - 1];
         const level80Stats = {
-            hp: baseStats.hp.base + (baseStats.hp.step * 79),
-            atk: baseStats.atk.base + (baseStats.atk.step * 79),
-            def: baseStats.def.base + (baseStats.def.step * 79),
-            spd: baseStats.spd.base,
-            critRate: baseStats.critRate.base,
-            critDmg: baseStats.critDmg.base,
+            hp: statAt(lastPhase.hp, 80),
+            atk: statAt(lastPhase.atk, 80),
+            def: statAt(lastPhase.def, 80),
+            spd: lastPhase.spd.base,
+            critRate: lastPhase.critRate.base,
+            critDmg: lastPhase.critDmg.base,
         };
 
         return level80Stats;
@@ -247,9 +284,59 @@ const CharDetails = () => {
 
     const maxStats = calculateMaxStats();
 
+    const hasEnhancedKit = Boolean(char.enhanced?.skills);
+    const activeSkills = kit === "enhanced" && hasEnhancedKit ? char.enhanced.skills : char.skills;
+    const activeTraces = kit === "enhanced" && char.enhanced?.traces ? char.enhanced.traces : char.traces;
+
+    const MAIN_SKILLS = [
+        { key: "basic", label: "Basic Attack", letter: "A" },
+        { key: "skill", label: "Skill", letter: "S" },
+        { key: "ult", label: "Ultimate", letter: "U" },
+        { key: "talent", label: "Talent", letter: "T" },
+    ];
+
+    const renderKitSelector = () => hasEnhancedKit && (
+        <div className="flex flex-wrap items-center gap-3 mb-6 p-3 bg-bg-card/60 rounded-lg border border-accent-gold/30">
+            <span className="text-sm text-text-secondary">This character received an enhanced kit.</span>
+            <div className="flex gap-2">
+                {[["base", "Original"], ["enhanced", "Enhanced"]].map(([value, label]) => (
+                    <button
+                        key={value}
+                        onClick={() => setKit(value)}
+                        className={`px-3 py-1 rounded-full text-sm transition-colors ${kit === value ? "bg-accent-gold text-bg-primary font-semibold" : "bg-bg-elevated text-text-primary/80 hover:text-text-primary hover:cursor-pointer"}`}
+                    >
+                        {label}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+
+    const renderSkillCard = (skillData, label, letter, key) => (
+        <div key={key} className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-border">
+            <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-accent-red/10 rounded-lg flex items-center justify-center border border-accent-red/20">
+                    <span className="text-accent-gold text-xl">{letter}</span>
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-text-primary">{label}</h3>
+                    {skillData.maxLevel > 1 && (
+                        <div className="flex items-center gap-2 mt-1">
+                            <span className="text-accent-gold text-sm font-semibold px-2 py-0.5 bg-bg-elevated rounded-full">
+                                Max Level: {skillData.maxLevel}
+                            </span>
+                        </div>
+                    )}
+                </div>
+            </div>
+            <h4 className="text-lg font-semibold mb-2">{skillData.name}</h4>
+            {renderSkillValues(skillData)}
+        </div>
+    );
+
     const renderSkillValues = (skillData) => {
-        if (!skillData.params || skillData.params.length === 0) {
-            return <p className="text-text-secondary">No skill data available</p>;
+        if (!skillData.params || skillData.params.length === 0 || skillData.params[0].length === 0) {
+            return <p className="text-text-primary/80 text-sm whitespace-pre-line">{skillData.desc || "No skill data available"}</p>;
         }
 
         const level1Values = skillData.params[0] || [];
@@ -258,7 +345,7 @@ const CharDetails = () => {
             <div className="mt-4">
                 <div className="mb-6 p-4 bg-bg-card/40 rounded-lg border border-border">
                     <h5 className="text-sm font-semibold text-accent-gold mb-2">Skill Effect:</h5>
-                    <div className="text-text-primary/80 text-sm space-y-2">
+                    <div className="text-text-primary/80 text-sm space-y-2 whitespace-pre-line">
                         {(() => {
                             let desc = skillData.desc;
                             let parts = [];
@@ -276,7 +363,7 @@ const CharDetails = () => {
                                 const placeholderIndex = parseInt(match[1]);
                                 const value = level1Values[placeholderIndex] || "N/A";
                                 parts.push(
-                                    <span key={`value-${paramIndex}`} className="text-text-primary font-bold mx-1">
+                                    <span key={`value-${paramIndex}`} className="text-accent-gold font-bold mx-1">
                                         {value}
                                     </span>
                                 );
@@ -369,7 +456,7 @@ const CharDetails = () => {
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Heart/></span> HP
                                     </div>
-                                    <div className="text-xs text-text-secondary">+{char.ascension[0].hp.step}/lvl</div>
+                                    <div className="text-xs text-text-secondary">+{char.ascension[0].hp.step.toFixed(2)}/lvl</div>
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
@@ -387,7 +474,7 @@ const CharDetails = () => {
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Swords/></span> ATK
                                     </div>
-                                    <div className="text-xs text-text-secondary">+{char.ascension[0].atk.step}/lvl</div>
+                                    <div className="text-xs text-text-secondary">+{char.ascension[0].atk.step.toFixed(2)}/lvl</div>
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
@@ -405,7 +492,7 @@ const CharDetails = () => {
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Shield/></span> DEF
                                     </div>
-                                    <div className="text-xs text-text-secondary">+{char.ascension[0].def.step}/lvl</div>
+                                    <div className="text-xs text-text-secondary">+{char.ascension[0].def.step.toFixed(2)}/lvl</div>
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
@@ -483,79 +570,20 @@ const CharDetails = () => {
                 </nav>
             </div>
             <div className="mt-6">
-                {activeTab === "skills" && char.skills && (
+                {activeTab === "skills" && activeSkills && (
                     <div className="space-y-6">
-                        <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-border">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="w-10 h-10 bg-accent-red/10 rounded-lg flex items-center justify-center border border-accent-red/20">
-                                    <span className="text-accent-gold text-xl">A</span>
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-text-primary">Basic Attack</h3>
-                                    <div className="flex items-center gap-2 mt-1">
-                                        <span className="text-accent-gold text-sm font-semibold px-2 py-0.5 bg-bg-elevated rounded-full">
-                                            Max Level: {char.skills.basic.maxLevel}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <h4 className="text-lg font-semibold mb-2">{char.skills.basic.name}</h4>
-                            {renderSkillValues(char.skills.basic)}
-                        </div>
-
-                        <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-border">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="w-10 h-10 bg-accent-red/10 rounded-lg flex items-center justify-center border border-accent-red/20">
-                                    <span className="text-accent-gold text-xl">S</span>
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-text-primary">Skill</h3>
-                                    <div className="flex items-center gap-2 mt-1">
-                                        <span className="text-accent-gold text-sm font-semibold px-2 py-0.5 bg-bg-elevated rounded-full">
-                                            Max Level: {char.skills.skill.maxLevel}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <h4 className="text-lg font-semibold mb-2">{char.skills.skill.name}</h4>
-                            {renderSkillValues(char.skills.skill)}
-                        </div>
-
-                        <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-border">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="w-10 h-10 bg-accent-red/10 rounded-lg flex items-center justify-center border border-accent-red/20">
-                                    <span className="text-accent-gold text-xl">U</span>
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-text-primary">Ultimate</h3>
-                                    <div className="flex items-center gap-2 mt-1">
-                                        <span className="text-accent-gold text-sm font-semibold px-2 py-0.5 bg-bg-elevated rounded-full">
-                                            Max Level: {char.skills.ult.maxLevel}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <h4 className="text-lg font-semibold mb-2">{char.skills.ult.name}</h4>
-                            {renderSkillValues(char.skills.ult)}
-                        </div>
-
-                        <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-border">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="w-10 h-10 bg-accent-red/10 rounded-lg flex items-center justify-center border border-accent-red/20">
-                                    <span className="text-accent-gold text-xl">T</span>
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-text-primary">Talent</h3>
-                                    <div className="flex items-center gap-2 mt-1">
-                                        <span className="text-accent-gold text-sm font-semibold px-2 py-0.5 bg-bg-elevated rounded-full">
-                                            Max Level: {char.skills.talent.maxLevel}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <h4 className="text-lg font-semibold mb-2">{char.skills.talent.name}</h4>
-                            {renderSkillValues(char.skills.talent)}
-                        </div>
+                        {renderKitSelector()}
+                        {MAIN_SKILLS.filter(({ key }) => activeSkills[key]).map(({ key, label, letter }) =>
+                            renderSkillCard(activeSkills[key], label, letter, key)
+                        )}
+                        {activeSkills.extra?.length > 0 && (
+                            <>
+                                <h3 className="text-xl font-bold pt-2 text-text-primary border-b border-accent-red/50 pb-2">Additional Skills</h3>
+                                {activeSkills.extra.map((extra, index) =>
+                                    renderSkillCard(extra, extra.type || "Skill", (extra.type || "?").charAt(0), `extra-${index}`)
+                                )}
+                            </>
+                        )}
                     </div>
                 )}
 
@@ -575,12 +603,12 @@ const CharDetails = () => {
                                 <h3 className="text-lg font-semibold mb-3 text-text-primary">{eidolon.name}</h3>
                                 <p className="text-text-primary/80 text-sm mb-4">{eidolon.desc}</p>
                                 
-                                {eidolon.levelUpSkills && Object.keys(eidolon.levelUpSkills).length > 0 && (
+                                {levelUpSkills(eidolon) && (
                                     <div className="mt-4 pt-4 border-t border-border">
                                         <span className="text-green-400 text-sm font-semibold">Level Up: </span>
-                                        {Object.entries(eidolon.levelUpSkills).map(([skill, levels]) => (
+                                        {Object.entries(levelUpSkills(eidolon)).map(([skill, levels]) => (
                                             <span key={skill} className="text-text-primary/80 text-sm ml-2 bg-bg-elevated/50 px-2 py-1 rounded">
-                                                {skill} +{levels}
+                                                {SKILL_LABELS[skill] || skill} +{levels}
                                             </span>
                                         ))}
                                     </div>
@@ -589,9 +617,10 @@ const CharDetails = () => {
                         ))}
                     </div>
                 )}
-                {activeTab === "traces" && char.traces && (
+                {activeTab === "traces" && activeTraces && (
                     <div className="space-y-6">
-                        {char.traces.technique && (
+                        {renderKitSelector()}
+                        {activeTraces.technique && (
                             <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-accent-red/20">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="w-10 h-10 bg-accent-red/10 rounded-lg flex items-center justify-center border border-accent-red/20">
@@ -599,16 +628,16 @@ const CharDetails = () => {
                                     </div>
                                     <h3 className="text-xl font-bold text-text-primary">Technique</h3>
                                 </div>
-                                <h4 className="text-lg font-semibold mb-2 text-text-primary">{char.traces.technique.name}</h4>
-                                <p className="text-text-primary/80 mt-2">{char.traces.technique.desc}</p>
+                                <h4 className="text-lg font-semibold mb-2 text-text-primary">{activeTraces.technique.name}</h4>
+                                <p className="text-text-primary/80 mt-2">{activeTraces.technique.desc}</p>
                             </div>
                         )}
 
-                        {char.traces.abilities && Object.keys(char.traces.abilities).length > 0 && (
+                        {activeTraces.abilities && Object.keys(activeTraces.abilities).length > 0 && (
                             <div>
                                 <h3 className="text-xl font-bold mb-4 text-text-primary border-b border-accent-red/50 pb-2">Abilities</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {Object.entries(char.traces.abilities).map(([key, ability]) => (
+                                    {Object.entries(activeTraces.abilities).map(([key, ability]) => (
                                         <div 
                                             key={key} 
                                             className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-4 border border-border"
@@ -621,11 +650,25 @@ const CharDetails = () => {
                             </div>
                         )}
 
-                        {char.traces.stats && Object.keys(char.traces.stats).length > 0 && (
+                        {activeTraces.extra?.length > 0 && (
+                            <div>
+                                <h3 className="text-xl font-bold mb-4 text-text-primary border-b border-accent-red/50 pb-2">Additional Traces</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {activeTraces.extra.map((trace, index) => (
+                                        <div key={index} className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-4 border border-border">
+                                            <h4 className="text-lg font-semibold text-text-primary mb-2">{trace.name}</h4>
+                                            <p className="text-text-primary/80 text-sm whitespace-pre-line">{trace.desc}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTraces.stats && Object.keys(activeTraces.stats).length > 0 && (
                             <div>
                                 <h3 className="text-xl font-bold mb-4 text-text-primary border-b border-accent-red/50 pb-2">Stat Bonuses</h3>
                                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                                    {Object.entries(char.traces.stats).map(([key, stat]) => (
+                                    {Object.entries(activeTraces.stats).map(([key, stat]) => (
                                         <div 
                                             key={key} 
                                             className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-4 border border-border"
@@ -637,6 +680,12 @@ const CharDetails = () => {
                                 </div>
                             </div>
                         )}
+                    </div>
+                )}
+
+                {activeTab === "builds" && !char.build && (
+                    <div className="bg-bg-card/60 rounded-xl p-8 border border-border text-center text-text-secondary">
+                        No recommended build for {formatCharName(char.name)} yet.
                     </div>
                 )}
 
@@ -935,11 +984,23 @@ const CharDetails = () => {
                                             <div className="mb-3">
                                                 <h5 className="text-text-secondary text-sm font-medium mb-2">Team Members:</h5>
                                                 <div className="flex flex-wrap gap-2">
-                                                    {team.teamMembers.map((member, idx) => (
-                                                        <span key={idx} className="px-3 py-1 bg-bg-elevated/50 text-text-primary/80 rounded-full text-sm">
-                                                            {member}
-                                                        </span>
-                                                    ))}
+                                                    {(team.teamMembers || []).flatMap((member) => member.split(" / ")).map((member, idx) => {
+                                                        const linked = resolveMember(member, allCharacters);
+                                                        return linked ? (
+                                                            <button
+                                                                key={idx}
+                                                                onClick={() => navigate(`/char/${linked.id}`)}
+                                                                className="flex items-center gap-2 pl-1 pr-3 py-1 bg-bg-elevated/50 text-text-primary/80 rounded-full text-sm hover:text-text-primary hover:bg-bg-elevated hover:cursor-pointer transition-colors"
+                                                            >
+                                                                <img src={linked.miniIcon} alt="" className="w-6 h-6 rounded-full" />
+                                                                {member}
+                                                            </button>
+                                                        ) : (
+                                                            <span key={idx} className="px-3 py-1 bg-bg-elevated/50 text-text-primary/80 rounded-full text-sm">
+                                                                {member}
+                                                            </span>
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                         </div>
@@ -1019,35 +1080,26 @@ const CharDetails = () => {
                                         </thead>
                                         <tbody>
                                             {char.ascension.map((asc, index) => {
-                                                let levelRange;
-                                                switch(index) {
-                                                    case 0: levelRange = "1-20"; break;
-                                                    case 1: levelRange = "20-40"; break;
-                                                    case 2: levelRange = "40-50"; break;
-                                                    case 3: levelRange = "50-60"; break;
-                                                    case 4: levelRange = "60-70"; break;
-                                                    case 5: levelRange = "70-80"; break;
-                                                    case 6: levelRange = "80"; break;
-                                                    default: levelRange = `${index * 10 + 1}-${index * 10 + 10}`;
-                                                }
-                                                
+                                                const [fromLevel, toLevel] = ASCENSION_RANGES[index] || [index * 10 + 1, index * 10 + 10];
+                                                const levelRange = `${fromLevel}-${toLevel}`;
+
                                                 return (
                                                     <tr key={index} className="border-b border-border hover:bg-bg-elevated/50 transition-colors">
                                                         <td className="py-3 px-2 font-medium">
                                                             <div className="font-semibold text-left">Level {levelRange}</div>
-                                                            <div className="text-xs text-text-secondary text-left">Ascension {index + 1}</div>
+                                                            <div className="text-xs text-text-secondary text-left">{index === 0 ? "Not ascended" : `Ascension ${index}`}</div>
                                                         </td>
                                                         <td className="py-3 px-2">
-                                                            <div className="font-mono text-left">{asc.hp.base.toFixed(0)}</div>
-                                                            <div className="text-xs text-text-secondary text-left">+{asc.hp.step}/lvl</div>
+                                                            <div className="font-mono text-left">{statAt(asc.hp, fromLevel).toFixed(0)} → {statAt(asc.hp, toLevel).toFixed(0)}</div>
+                                                            <div className="text-xs text-text-secondary text-left">+{asc.hp.step.toFixed(2)}/lvl</div>
                                                         </td>
                                                         <td className="py-3 px-2">
-                                                            <div className="font-mono text-left">{asc.atk.base.toFixed(0)}</div>
-                                                            <div className="text-xs text-text-secondary text-left">+{asc.atk.step}/lvl</div>
+                                                            <div className="font-mono text-left">{statAt(asc.atk, fromLevel).toFixed(0)} → {statAt(asc.atk, toLevel).toFixed(0)}</div>
+                                                            <div className="text-xs text-text-secondary text-left">+{asc.atk.step.toFixed(2)}/lvl</div>
                                                         </td>
                                                         <td className="py-3 px-2">
-                                                            <div className="font-mono text-left">{asc.def.base.toFixed(0)}</div>
-                                                            <div className="text-xs text-text-secondary text-left">+{asc.def.step}/lvl</div>
+                                                            <div className="font-mono text-left">{statAt(asc.def, fromLevel).toFixed(0)} → {statAt(asc.def, toLevel).toFixed(0)}</div>
+                                                            <div className="text-xs text-text-secondary text-left">+{asc.def.step.toFixed(2)}/lvl</div>
                                                         </td>
                                                         <td className="py-3 px-2">
                                                             <div className="font-mono text-left">{asc.spd.base.toFixed(0)}</div>
@@ -1068,7 +1120,7 @@ const CharDetails = () => {
                                     </table>
                                 </div>
                                 <div className="mt-4 text-sm text-text-secondary">
-                                    <p>Note: Base stats shown are at the start of each level range. Stats increase by the shown amount with each character level.</p>
+                                    <p>Note: Values show the stat at the first and last level of each range. Stats increase by the shown amount with each character level.</p>
                                 </div>
                             </div>
                         )}

@@ -13,7 +13,7 @@ const PlanarsDetails = () => {
         const fetchPlanarSetByName = async () => {
             setLoading(true);
             try {
-                const data = await fetchJson(`/planars/${name}`);
+                const data = await fetchJson(`/relics/${encodeURIComponent(name)}`);
                 if (data) {
                     setPlanar(data);
                 }

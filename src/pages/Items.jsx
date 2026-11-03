@@ -4,6 +4,9 @@ import ItemInfoCard from "../components/ItemInfoCard";
 import ItemFilters from "../components/ItemFilters";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
+// The API sends a readable "category" (e.g. "Trace Material"); older data only had sub_type
+const categoryOf = (item) => item.category || item.sub_type;
+
 const Items = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +36,7 @@ const Items = () => {
 
   const availableSubTypes = useMemo(() => {
     const subTypes = new Set();
-    items.forEach(item => { if (item.subType) subTypes.add(item.subType); });
+    items.forEach(item => { const c = categoryOf(item); if (c) subTypes.add(c); });
     return Array.from(subTypes).sort();
   }, [items]);
 
@@ -41,7 +44,7 @@ const Items = () => {
     return items.filter((item) => {
       if (filters.rarities.length > 0 && !filters.rarities.includes(item.rarity)) return false;
       if (filters.types.length > 0 && !filters.types.includes(item.type)) return false;
-      if (filters.subTypes.length > 0 && !filters.subTypes.includes(item.subType)) return false;
+      if (filters.subTypes.length > 0 && !filters.subTypes.includes(categoryOf(item))) return false;
       return true;
     });
   }, [items, filters]);
@@ -54,7 +57,7 @@ const Items = () => {
       case "type":
         return itemsArray.sort((a, b) => {
           const typeCompare = (a.type || '').localeCompare(b.type || '');
-          if (typeCompare === 0) return (a.subType || '').localeCompare(b.subType || '');
+          if (typeCompare === 0) return (categoryOf(a) || '').localeCompare(categoryOf(b) || '');
           return typeCompare;
         });
       case "name":
@@ -67,7 +70,7 @@ const Items = () => {
     const groups = {};
     sortedItems.forEach(item => {
       const type = item.type || 'Other';
-      const subType = item.sub_type || 'No Subtype';
+      const subType = categoryOf(item) || 'Other';
       if (!groups[type]) {
         groups[type] = { name: type, expanded: expandedTypes[type] || false, subGroups: {} };
       }

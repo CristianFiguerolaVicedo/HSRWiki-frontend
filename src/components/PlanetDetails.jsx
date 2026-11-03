@@ -62,8 +62,9 @@ const PlanetDetails = () => {
             "/assets/planarcadia7.png",
             "/assets/planarcadia8.png",
             "/assets/planarcadia9.png",
-            "/assets/planarcadia10.png",
-            "/assets/planarcadia11.png",
+        ],
+        "Astral Express": [
+            "/assets/Astral Express.jpg",
         ],
         "Amphoreus": [
             "/assets/amph1.png",

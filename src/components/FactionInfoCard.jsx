@@ -1,7 +1,32 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCharacters } from "../hooks/useCharacters";
+
+// Factions added later have no artwork in /assets, so their card shows the members' icons instead
+const MemberMosaic = ({ names }) => {
+  const { characters } = useCharacters();
+  const members = names
+    .map((name) => characters.find((c) => c.name === name))
+    .filter(Boolean)
+    .slice(0, 6);
+
+  return (
+    <div className="h-48 w-full bg-bg-card flex flex-wrap items-center justify-center gap-2 p-4">
+      {members.map((member) => (
+        <img
+          key={member.id}
+          src={member.miniIcon}
+          alt=""
+          className="w-14 h-14 rounded-full border-2 border-border object-cover"
+        />
+      ))}
+    </div>
+  );
+};
 
 const FactionInfoCard = ({faction}) => {
   const navigate = useNavigate();
+  const [imageFailed, setImageFailed] = useState(false);
 
   return (
     <div
@@ -13,11 +38,16 @@ const FactionInfoCard = ({faction}) => {
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/factions/${faction.id}`); } }}
     >
       <div className="relative">
-        <img
-          src={`../../assets/${faction.name}.jpg`}
-          alt={faction.name}
-          className="h-48 w-full object-cover"
-        />
+        {imageFailed ? (
+          <MemberMosaic names={faction.characters || []} />
+        ) : (
+          <img
+            src={`/assets/${faction.name}.jpg`}
+            alt={faction.name}
+            className="h-48 w-full object-cover"
+            onError={() => setImageFailed(true)}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/40 to-transparent" />
       </div>
 

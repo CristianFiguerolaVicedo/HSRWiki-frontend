@@ -8,7 +8,7 @@ export const PLANETS_DATA = [
         description2: "In the story, the station is the Trailblazer's first destination, where their journey begins amid chaos. A sudden invasion disrupts the station's carefully controlled environment, turning research zones into combat areas and forcing staff and visitors to flee or fight. Through this crisis, players are introduced to the core mysteries of the universe, including Stellarons and Aeons, while meeting key characters who will shape the path of the Trailblaze.",
         description3: "From a gameplay perspective, Herta Space Station serves as an introductory world that teaches exploration, turn-based combat, puzzles, and resource management. Its distinct zones—such as the Master Control Zone and Storage Areas—are filled with enemies, treasure, and interactive mechanics. The station also houses the Simulated Universe, a virtual system where players test their strength against increasingly difficult challenges, blending Herta’s lore-driven research with repeatable endgame gameplay.",
         description4: "Together, the station functions as a narrative starting point, a tutorial space, and a living piece of lore—an unstable sanctuary of knowledge where curiosity, danger, and the vast scale of the cosmos first collide.",
-        characters: ["Asta", "Arlan", "Herta", "The Herta", "Ruan Mei"]
+        characters: ["Asta", "Arlan", "Herta", "The Herta", "Ruan Mei", "Kafka"]
     },
     {
         id: "2",
@@ -17,7 +17,7 @@ export const PLANETS_DATA = [
         description2: "In the story, Jarilo-VI becomes the Trailblazer’s first major planetary conflict. What begins as an attempt to help quickly evolves into a struggle against political control, social inequality, and distorted ideals of preservation. Players uncover the truth behind Belobog’s ruling structure, the legacy of past Guardians, and the heavy cost of choosing “survival at any price.” The planet’s narrative centers on human resilience, sacrifice, and the danger of clinging to false hope in the face of extinction.",
         description3: "From a gameplay perspective, Jarilo-VI expands on exploration and combat through its stark contrast of environments. The orderly streets of Belobog, the industrial decay of the Underworld, and the frozen wilderness beyond the city walls each introduce new enemies, mechanics, and puzzles. Side quests emphasize civilian struggles and personal stories, grounding the planetary crisis in everyday lives. Boss encounters and story dungeons reflect the planet’s themes, reinforcing the tension between protection and oppression.",
         description4: "As a whole, Jarilo-VI stands as a fully realized world where lore, gameplay, and narrative converge—a bleak yet deeply human chapter of the Trailblazer’s journey, proving that even in a world buried under ice, the will to fight for the future still burns.",
-        characters: ["Bronya", "Gepard", "Serval", "Hook", "Luka", "Pela", "Sampo", "Clara", "Lynx", "Natasha", "Seele"]
+        characters: ["Bronya", "Gepard", "Serval", "Hook", "Luka", "Pela", "Sampo", "Clara", "Lynx", "Natasha", "Seele", "Silver Wolf", "Topaz & Numby"]
     },
     {
         id: "3",
@@ -26,7 +26,7 @@ export const PLANETS_DATA = [
         description2: "In the story, the Luofu becomes the Trailblazer’s entry point into a long-running ideological conflict between the Xianzhou Alliance and the followers of the Abundance. What begins as an investigation into a Stellaron crisis unfolds into a complex web of political intrigue, historical grudges, and moral ambiguity. Players confront the consequences of immortality, the curse of the Mara, and the lingering scars left by centuries of warfare, while navigating shifting alliances and hidden truths that challenge the Luofu’s carefully maintained order.",
         description3: "From a gameplay standpoint, the Xianzhou Luofu emphasizes scale and complexity. Its layered districts, bustling marketplaces, sanctums, and industrial docks encourage exploration and vertical navigation. Enemies range from corrupted mara-struck soldiers to Abundance-twisted monstrosities, reinforcing the narrative themes through combat. Quests often intertwine personal stories with ancient history, while puzzles and mechanics reflect the Luofu’s advanced yet tradition-bound society.",
         description4: "Together, the Xianzhou Luofu serves as a pivotal chapter in the Trailblazer’s journey—a place where philosophical conflict, living history, and gameplay systems converge, presenting a world that questions whether eternal life is a blessing, a curse, or something far more dangerous when left unchecked.",
-        characters: ["Bailu", "Blade", "Mortenax Blade", "Dan Heng • Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Lingsha", "Jingliu", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yukong", "Yanqing", "Yunli"]
+        characters: ["Bailu", "Blade", "Mortenax Blade", "Dan Heng • Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Lingsha", "Jingliu", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yukong", "Yanqing", "Yunli", "March 7th (Imaginary)"]
     },
     {
         id: "4",
@@ -35,16 +35,16 @@ export const PLANETS_DATA = [
         description2: "In the story, Penacony marks a dramatic shift in tone and scale for the Trailblazer’s journey. What begins as an invitation to a grand celebration quickly unravels into a mystery filled with deception, fractured identities, and hidden conflicts between factions. As players move between the waking world and the dream realm, they uncover Penacony’s buried past, the true cost of maintaining harmony, and the dangers of losing oneself within a perfect illusion. The narrative challenges the idea of escapism, forcing characters—and players—to confront uncomfortable truths masked by beauty and spectacle.",
         description3: "From a gameplay perspective, Penacony leans heavily into experimental mechanics and environmental storytelling. Its dreamscapes defy normal logic, featuring shifting layouts, surreal visuals, and puzzles that play with perspective and reality. Combat encounters often mirror the instability of the setting, while quests emphasize psychological themes, symbolism, and choice. Exploration rewards attention to detail, as subtle changes in the environment hint at deeper layers beneath the dream.",
         description4: "As a whole, Penacony stands as one of Honkai: Star Rail’s most ambitious settings—a world where lore, gameplay, and narrative fully intertwine, blurring the boundary between dream and truth, and asking whether a flawless dream is worth the price of awakening.",
-        characters: ["Aventurine", "Boothill", "Acheron", "Black Swan", "Firefly", "Gallagher", "Misha", "Robin", "Rappa", "Sparkle", "Sunday", "Jade", "The Dahlia"]
+        characters: ["Aventurine", "Boothill", "Acheron", "Black Swan", "Firefly", "Gallagher", "Misha", "Robin", "Rappa", "Sparkle", "Sunday", "Jade", "The Dahlia", "Dr. Ratio"]
     },
     {
         id: "6",
         name: "Planarcadia",
         description1: "Planarcadia, also called Ahatopia, is a vibrant entertainment world bathed in the light of the Phantasmoon, where the Aeon Aha's influence turns everyday life into a cosmic spectacle. Once known as the World in Canvas, this two-dimensional planet evolved into a sprawling metropolis of neon lights, arcades, and academies. It is both Himeko's homeland and the place where the Astral Express first set sail once more, making it a world of nostalgia, chaos, and boundless creativity under the ever-watchful gaze of Elation.",
         description2: "In the story, Planarcadia becomes the stage for the Phantasmoon Games—a legendary competition where victors can ascend to become an Aeon for a full minute. The Trailblazer arrives amid the escalation of these games, drawn into a web of competing factions, Masked Fools, Mourning Actors, and media moguls all vying for Aha's favor. As the stakes rise and the Path of Elation awakens, the narrative explores the nature of joy, performance, and what it truly means to laugh in the face of cosmic destruction.",
-        description3: "From a gameplay perspective, Planarcadia introduces the Path of Elation alongside vibrant new districts. Duomension City buzzes with arcades and street culture, Graphia Academy offers academic intrigue and hidden sketches, Dovebrook District reveals Himeko's rustic hometown roots, and the World's End Tavern serves as a hub for the Masked Fools. New mechanics include the Cosmicon Collective card game, Wispae hunting, and the Phantasmoon's transformative power that reshapes both story and combat encounters.",
+        description3: "From a gameplay perspective, Planarcadia introduces the Path of Elation alongside vibrant new districts. Duomension City buzzes with arcades and street culture, Graphia Academy offers academic intrigue and hidden sketches, Dovebrook District reveals Himeko's rustic hometown roots, and the World's End Tavern serves as a hub for the Masked Fools. New mechanics include the Cosmicon Collective card game, Wispae hunting, and the Phantasmoon's transformative power that reshapes both story and combat encounters. Later updates kept expanding the map: Pearluxe Tower and Lookout Cloud Station (4.1), seaside Seafeld City and its TV Tower (4.2), and Astropolis (4.5), whose Life Sciences Institute, the source of the city's imaginae, became the stage of version 4.6.",
         description4: "Taken as a whole, Planarcadia stands as Honkai: Star Rail's most self-expressive world—a place where lore, gameplay, and narrative fuse into a celebration of chaos and creativity. Beneath its flashing lights and endless laughter lies a deeper question: in a universe threatened by Destruction, is Elation a coping mechanism, a rebellion, or the most honest answer of all?",
-        characters: ["Sparxie", "Yao Guang", "Ashveil", "Silver Wolf LV.999", "Evanescia", "Pearl", "Himeko • Nova", "TrailblazerElation#F", "TrailblazerElation#M"]
+        characters: ["Sparxie", "Yao Guang", "Ashveil", "Silver Wolf LV.999", "Evanescia", "Pearl", "Himeko • Nova", "Robin • Summeretto", "Aventurine • Waveflair", "TrailblazerElation#F", "TrailblazerElation#M"]
     },
     {
         id: "5",
@@ -54,6 +54,15 @@ export const PLANETS_DATA = [
         description3: "From a gameplay perspective, Amphoreus emphasizes deliberate pacing, trials, and symbolic encounters. Exploration often feels ceremonial, with environments designed to evoke reverence and tension rather than comfort. Enemies and bosses reflect the world’s themes of judgment and authority, while quests frequently place the player in morally weighted situations rather than simple right-or-wrong choices. Mechanics and encounters reinforce the sense that every action carries consequence, mirroring the world’s fixation on destiny.",
         description4: "Taken as a whole, Amphoreus stands as a philosophical chapter in the Trailblazer’s journey—a world where lore, gameplay, and story converge to question the nature of fate itself, and whether the path laid before you is something to follow… or something to defy.",
         characters: ["Aglaea", "Anaxa", "Castorice", "Cerydra", "Cipher", "Cyrene", "Evernight", "Dan Heng • Permansor Terrae", "Hyacine", "Hysilens", "Mydei", "Phainon", "Tribbie"]
+    },
+    {
+        id: "7",
+        name: "Astral Express",
+        description1: "The Astral Express is not a planet but a home on rails: a train that travels the Star Rail between worlds, following the Path of Trailblaze once walked by Akivili, the Aeon who laid the rails across the cosmos. Its carriages hold a parlor car, sleeping quarters, an archive and a workshop, all looked after by the conductor Pom-Pom.",
+        description2: "In the story it is the Trailblazer's base and the thread that ties every journey together. Himeko repaired it and became its navigator, Welt joined as a veteran of other worlds, Dan Heng keeps its archives and March 7th was found frozen in ice along the way. Each stop, from Jarilo-VI to Planarcadia, begins and ends aboard the Express.",
+        description3: "From a gameplay perspective, the Express is the hub between worlds: it is where you pick your next destination, read the crew's messages and reflections, revisit old companions and unlock new parts of the train as the Trailblaze advances.",
+        description4: "Taken as a whole, the Astral Express is the heart of Honkai: Star Rail, a moving home whose crew keeps changing while its purpose stays the same: to keep going wherever the rails lead.",
+        characters: ["Himeko", "Welt", "Dan Heng", "March 7th", "TrailblazerDestruction#F", "TrailblazerDestruction#M", "TrailblazerPreservation#F", "TrailblazerPreservation#M", "TrailblazerHarmony#F", "TrailblazerHarmony#M", "TrailblazerRemembrance#F", "TrailblazerRemembrance#M", "TrailblazerElation#F", "TrailblazerElation#M"]
     }
 ]
 
@@ -111,7 +120,7 @@ export const FACTIONS = [
     {
         id: "3",
         name: "Xianzhou Alliance",
-        characters: ["Bailu", "Dan Heng • Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Jingliu", "Lingsha", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yanqing", "Yukong", "Yunli"],
+        characters: ["Bailu", "Dan Heng • Imbibitor Lunae", "Feixiao", "Fu Xuan", "Fugue", "Guinaifen", "Hanya", "Huohuo", "Jiaoqiu", "Jing Yuan", "Jingliu", "Lingsha", "Luocha", "Moze", "Qingque", "Sushang", "Tingyun", "Xueyi", "Yanqing", "Yukong", "Yunli", "Yao Guang"],
         info: [
             "Luofu",
             "The Luofu is arguably the most well known Xianzhou flagship in the Alliance to the cosmos, excelling in diplomacy and commerce. People arrived at the Luofu to seek medical treatment, study, and trade, with throngs of visitors filling the docks. Residents often take pride in their hospitality and etiquette. They tend to refer to outworlders as \"honorable guest from afar\" or \"visiting traveler.\" Though warfare has receded, the Luofu has not relaxed its watch against the Denizens despite the perceived laid-back disposition of its residents.",
@@ -187,7 +196,7 @@ export const FACTIONS = [
     {
         id: "5",
         name: "Galaxy Rangers",
-        characters: ["Rappa", "Boothill"],
+        characters: ["Rappa", "Boothill", "Ashveil"],
         info: [
             "While members of the Galaxy Rangers hail from different worlds and have all kinds of personalities and traits, each of them is highly skilled, despises evil, and follows Lan and the Path of The Hunt.",
 
@@ -197,7 +206,9 @@ export const FACTIONS = [
 
             "The Galaxy Rangers do not need a form of shared faith. What brings them together is a shared bottom line: never bully the weak, never kill the innocent. These oaths are not beliefs, but the fundamental line one must never cross as a person. As Galaxy Rangers, they abide by this common principle and strictly adhere to it.",
 
-            "The Galaxy Rangers possess relics in the form of a bullet that appear meaningless to anyone other than a Galaxy Ranger and can only fulfill their purpose when returned to their rightful owner. This bullet is a burial artifact, worthy only of a hero who has served the Galaxy Rangers with honor. When fired like a flare, it signals the fall of a hero, and in the direction its light falls, Galaxy Rangers will come from all corners of the cosmos, driven by a shared purpose, without questioning the cause or counting the cost."
+            "The Galaxy Rangers possess relics in the form of a bullet that appear meaningless to anyone other than a Galaxy Ranger and can only fulfill their purpose when returned to their rightful owner. This bullet is a burial artifact, worthy only of a hero who has served the Galaxy Rangers with honor. When fired like a flare, it signals the fall of a hero, and in the direction its light falls, Galaxy Rangers will come from all corners of the cosmos, driven by a shared purpose, without questioning the cause or counting the cost.",
+
+            "On Planarcadia, the detective Ashveil of the Ashen Detective Agency turned out to be La Mancha, the retired leader of the Galaxy Rangers whom the Xianzhou Yuque had been searching for. Acheron also introduced herself as a Galaxy Ranger on Penacony, but that later proved to be a cover."
         ]
     },
     {
@@ -232,6 +243,96 @@ export const FACTIONS = [
             "The Ten Stonehearts generally value their Cornerstones more than their own lives, and each Cornerstone grants unique abilities. Aventurine’s stone transforms him, allows him to levitate, and summons massive poker chips from the sky. Jade’s stone allowed her to perceive all desires flowing through dreams when it was sent into Penacony.",
 
             "Compared to Aventurine, the Topaz Stone’s ability is less visually apparent, though Topaz has stated that she would have used her Cornerstone in Belobog had Bronya not intervened in time."
+        ]
+    },
+    {
+        id: "8",
+        name: "Interastral Peace Corporation",
+        characters: ["Topaz & Numby", "Jade", "Aventurine", "Aventurine • Waveflair", "Pearl"],
+        info: [
+            "The Interastral Peace Corporation (IPC) is the largest commercial power in the known universe. It was founded by followers of Qlipoth, the Aeon of Preservation, and sees trade, contracts and infrastructure as the walls that keep civilization standing.",
+
+            "Its departments range from the Marketing Development Department to the Technology Department. The Strategic Investment Department is home to the Ten Stonehearts, the specialists who recover the company's most difficult assets, such as Topaz, Jade and Aventurine.",
+
+            "On Planarcadia, Pearl serves as the world's CEO. During version 4.6 she and the Trailblazer uncovered a plan by Madam Yabuli, head of the IPC's Technology Department, to weaponize the husk deep inside Astropolis, a scheme that threatened everyone in Planarcadia."
+        ]
+    },
+    {
+        id: "9",
+        name: "Masked Fools",
+        characters: ["Sparkle", "Sparxie", "Sampo"],
+        info: [
+            "The Masked Fools are a loose band of performers devoted to Aha, the Aeon of Elation. They believe the ultimate truth of the universe is a joke, and that the deepest meaning of existence lies in laughter.",
+
+            "To chase that laughter they stir up chaos wherever they go, ignore warnings and welcome anyone who might make the game more interesting. Behind the masks, a Fool can be anyone: Sampo plays a smooth-talking merchant on Jarilo-VI, while Sparkle played her tricks on Penacony.",
+
+            "On Planarcadia their base is the \"World's End\" Tavern. There Sparkle met Sparxie, a streamer who is fundamentally the same being split into two personalities by the power of Elation. Each claims to be the original, and the game has never said which one is right."
+        ]
+    },
+    {
+        id: "10",
+        name: "Wildfire",
+        characters: ["Natasha", "Seele", "Luka", "Sampo"],
+        info: [
+            "Wildfire is a peacekeeping group in the Underworld beneath Belobog on Jarilo-VI. When Supreme Guardian Cocolia sealed off the Underworld, Wildfire took over the role the Silvermane Guards had left behind, protecting its people from monsters and the anomalies caused by the Stellaron.",
+
+            "It is led by Natasha, the Underworld's doctor, together with Oleg. Seele is its fiercest fighter, Luka its boxer, and Sampo a contractor who works with whoever pays best.",
+
+            "Their goal was always to lift the lockdown and reunite the Underworld with the city above, which they finally achieved with the help of the Astral Express crew."
+        ]
+    },
+    {
+        id: "11",
+        name: "Silvermane Guards",
+        characters: ["Bronya", "Gepard", "Pela"],
+        info: [
+            "The Silvermane Guards are Belobog's army, sworn to defend the last city on Jarilo-VI against the Fragmentum and the endless winter. They answer to the Supreme Guardian.",
+
+            "Bronya, heir to Supreme Guardian Cocolia, leads them in the field. Gepard of the Landau family is the steadfast captain of the guard, and Pela is its sharp-minded intelligence officer.",
+
+            "After the truth about Cocolia and the Stellaron came out, the Guards helped reopen the Underworld and work alongside Wildfire to rebuild Belobog together."
+        ]
+    },
+    {
+        id: "12",
+        name: "The Family",
+        characters: ["Sunday", "Robin", "Robin • Summeretto", "Gallagher"],
+        info: [
+            "The Family is the ruling body of Penacony, a vast association of peoples who follow Xipe, the Aeon of Harmony. It is split into five clans that handle politics, the economy, security, entertainment and construction of the Dreamscape.",
+
+            "Sunday was head of the Oak clan, which sets the Family's direction, and his sister Robin is a Halovian singer whose voice is famous across the stars. Gallagher, the Reverie Hotel's bartender, also carries out jobs for the Hound clan, the Family's security force.",
+
+            "Behind Penacony's endless festival lay the Family's plans for a perfect, eternal dream, a conflict the Trailblazer witnessed first-hand."
+        ]
+    },
+    {
+        id: "13",
+        name: "Garden of Recollection",
+        characters: ["Black Swan"],
+        info: [
+            "The Garden of Recollection is the faction of the Memokeepers, servants of Fuli, the Aeon of Remembrance. They collect memories from every corner of the cosmos and preserve them, so that what has happened is never truly lost.",
+
+            "Black Swan is a Memokeeper who drifts between worlds following the traces of memory, and who can read the past of anyone she touches. Her search for memories brought her to Penacony, and later aboard the Astral Express."
+        ]
+    },
+    {
+        id: "14",
+        name: "Knights of Beauty",
+        characters: ["Argenti"],
+        info: [
+            "The Knights of Beauty are wandering knights devoted to Idrila, the Aeon of Beauty, even though Idrila is said to have vanished long ago. Each knight travels alone, protecting the weak and spreading the praise of Beauty.",
+
+            "Argenti is one of the most devoted among them: courteous, theatrical and always ready to fight in the name of beauty, he roams the stars looking for any trace of his Aeon."
+        ]
+    },
+    {
+        id: "15",
+        name: "Holy Grail War (Fate/stay night)",
+        characters: ["Saber", "Archer", "Rin Tohsaka", "Gilgamesh"],
+        info: [
+            "These characters come from the crossover between Honkai: Star Rail and Fate/stay night [Unlimited Blade Works]. In their world, mages known as Masters summon heroic spirits called Servants to fight in the Holy Grail War.",
+
+            "Saber and Archer joined in version 3.4. Rin Tohsaka, Archer's Master, and Gilgamesh, the King of Heroes, followed in the second part of the collaboration in version 4.4."
         ]
     }
 ]

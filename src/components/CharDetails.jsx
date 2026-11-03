@@ -702,7 +702,7 @@ const CharDetails = () => {
                                         
                                         return (
                                             <div key={index} className="bg-bg-card/60 rounded-lg p-4 border border-border hover:border-[#E8C547]/30 transition-colors duration-[300ms]">
-                                                <div onClick={() => navigate(`/lightcones/${lcId}`)} className="flex gap-3 hover:cursor-pointer">
+                                                <div onClick={() => lcId && navigate(`/lightcones/${lcId}`)} className="flex gap-3 hover:cursor-pointer">
                                                     {coneImage && (
                                                         <div className="relative flex-shrink-0">
                                                             <img 
@@ -772,7 +772,12 @@ const CharDetails = () => {
                                             const pieceCount = pieceIcons.length;
                                             
                                             return (
-                                                <div key={index} className="bg-bg-card/60 rounded-lg p-4 hover:bg-bg-elevated/60 transition-colors">
+                                                <div
+                                                    key={index}
+                                                    onClick={() => setData && navigate(`/${isPlanarSet(setData) ? "planars" : "relics"}/${encodeURIComponent(set.name)}`)}
+                                                    role={setData ? "link" : undefined}
+                                                    className={`bg-bg-card/60 rounded-lg p-4 hover:bg-bg-elevated/60 transition-colors ${setData ? "hover:cursor-pointer" : ""}`}
+                                                >
                                                     <div className="flex gap-4 items-start">
                                                         {setIcon && (
                                                             <div className="relative flex-shrink-0">
@@ -852,7 +857,12 @@ const CharDetails = () => {
                                             const pieceCount = pieceIcons.length;
                                             
                                             return (
-                                                <div key={index} className="bg-bg-card/60 rounded-lg p-4 hover:bg-bg-elevated/60 transition-colors">
+                                                <div
+                                                    key={index}
+                                                    onClick={() => setData && navigate(`/${isPlanarSet(setData) ? "planars" : "relics"}/${encodeURIComponent(set.name)}`)}
+                                                    role={setData ? "link" : undefined}
+                                                    className={`bg-bg-card/60 rounded-lg p-4 hover:bg-bg-elevated/60 transition-colors ${setData ? "hover:cursor-pointer" : ""}`}
+                                                >
                                                     <div className="flex gap-4 items-start">
                                                         {setIcon && (
                                                             <div className="relative flex-shrink-0">

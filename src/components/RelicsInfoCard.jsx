@@ -8,11 +8,11 @@ const RelicsInfoCard = ({relicSet}) => {
   return (
     <div
       className="group hsr-card p-4 shadow-lg cursor-pointer relative animate-fade-in"
-      onClick={() => navigate(`/relics/${relicName}`)}
+      onClick={() => navigate(`/relics/${encodeURIComponent(relicName)}`)}
       role="button"
       tabIndex={0}
       aria-label={`View ${relicName} details`}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/relics/${relicName}`); } }}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/relics/${encodeURIComponent(relicName)}`); } }}
     >
       <div className="flex justify-center mb-3">
         <img

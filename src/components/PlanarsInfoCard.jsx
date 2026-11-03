@@ -8,11 +8,11 @@ const PlanarsInfoCard = ({planarSet}) => {
   return (
     <div
       className="group hsr-card p-4 shadow-lg cursor-pointer relative animate-fade-in"
-      onClick={() => navigate(`/planars/${planarName}`)}
+      onClick={() => navigate(`/planars/${encodeURIComponent(planarName)}`)}
       role="button"
       tabIndex={0}
       aria-label={`View ${planarName} details`}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/planars/${planarName}`); } }}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/planars/${encodeURIComponent(planarName)}`); } }}
     >
       <div className="flex justify-center mb-3">
         <img

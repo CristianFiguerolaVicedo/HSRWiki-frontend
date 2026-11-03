@@ -3,8 +3,19 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchJson } from "../services/apiClient";
 
+const safeDecode = (value) => {
+    try {
+        return value ? decodeURIComponent(value) : value;
+    } catch {
+        return value;
+    }
+};
+
 const PlanarsDetails = () => {
-    const {name} = useParams();
+    const {name: rawName} = useParams();
+    // The router may hand the name over still percent-encoded (e.g. "%2C" for commas),
+    // so decode it once more; game set names never contain a literal "%".
+    const name = safeDecode(rawName);
     const [planar, setPlanar] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();

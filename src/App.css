@@ -4,12 +4,12 @@
   right: 24px;
   z-index: 9999;
   pointer-events: auto;
-  filter: drop-shadow(0 0 16px rgba(79, 195, 247, 0.15));
+  filter: drop-shadow(0 6px 10px rgba(31, 42, 68, 0.18));
   transition: filter 0.4s ease, transform 0.4s ease;
 }
 
 .floating-gif:hover {
-  filter: drop-shadow(0 0 32px rgba(79, 195, 247, 0.35));
+  filter: drop-shadow(0 10px 16px rgba(31, 42, 68, 0.28));
   transform: scale(1.08);
 }
 

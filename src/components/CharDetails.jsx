@@ -262,6 +262,9 @@ const CharDetails = () => {
     }
 
     const elementIconPath = ELEMENT_ICONS[char.element];
+    const capitalize = (value) => value.charAt(0) + value.slice(1).toLowerCase();
+    const elementLabel = capitalize(char.element);
+    const pathLabel = char.path === "HUNT" ? "The Hunt" : capitalize(char.path);
     const pathIconPath = PATH_ICONS[char.path.toUpperCase()];
 
     const calculateMaxStats = () => {
@@ -296,7 +299,7 @@ const CharDetails = () => {
     ];
 
     const renderKitSelector = () => hasEnhancedKit && (
-        <div className="flex flex-wrap items-center gap-3 mb-6 p-3 bg-bg-card/60 rounded-lg border border-accent-gold/30">
+        <div className="flex flex-wrap items-center gap-3 mb-6 p-3 bg-bg-primary rounded-lg border border-accent-gold/30">
             <span className="text-sm text-text-secondary">This character received an enhanced kit.</span>
             <div className="flex gap-2">
                 {[["base", "Original"], ["enhanced", "Enhanced"]].map(([value, label]) => (
@@ -313,7 +316,7 @@ const CharDetails = () => {
     );
 
     const renderSkillCard = (skillData, label, letter, key) => (
-        <div key={key} className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-border">
+        <div key={key} className="glass-panel p-6 border border-border">
             <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-accent-red/10 rounded-lg flex items-center justify-center border border-accent-red/20">
                     <span className="text-accent-gold text-xl">{letter}</span>
@@ -399,7 +402,7 @@ const CharDetails = () => {
                                 return (
                                     <tr key={paramIndex} className="border-b border-border hover:bg-bg-elevated/50 transition-colors">
                                         <td className="py-3 px-2">
-                                            <div className="font-mono text-lg text-text-primary">
+                                            <div className="tabular-nums text-lg text-text-primary">
                                                 {values.join("/")}
                                             </div>
                                         </td>
@@ -411,47 +414,55 @@ const CharDetails = () => {
                 </div>
                 
                 <div className="mt-4 p-3 bg-bg-primary/50 rounded-lg text-xs text-text-secondary">
-                    <p className="mt-1"><span className="text-green-400">Example:</span> "50/60/70" means 50 at level 1, 60 at level 2, 70 at level 3</p>
+                    <p className="mt-1"><span className="text-emerald-700">Example:</span> "50/60/70" means 50 at level 1, 60 at level 2, 70 at level 3</p>
                 </div>
             </div>
         );
     };
 
     return (
-        <div className="text-text-primary p-4 md:p-8 bg-bg-card/40 backdrop-blur-sm rounded-xl">
+        <div className="text-text-primary">
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
                     <button
                         onClick={() => navigate("/")}
-                        className="flex items-center gap-2 text-text-primary hover:cursor-pointer mb-8"
+                        className="flex items-center gap-2 text-text-secondary hover:text-text-primary hover:cursor-pointer mb-8 font-hand text-2xl"
                     >
                         <ArrowLeft size={20} />
-                        Back to characters
+                        back to everyone
                     </button>
-                    <div className="relative">
-                        <img 
-                            src={`${char.icon}`} 
-                            alt={char.name} 
-                            className="w-75 h-100 rounded-xl"
-                        />
+                    <div
+                        className={`photo-card tape-${char.element.toLowerCase()} w-72`}
+                        style={{ "--tilt": "-1.5deg", "--tape-tilt": "2deg" }}
+                    >
+                        <span className="washi" aria-hidden="true" />
+                        <div className="photo-card__picture">
+                            <img
+                                src={`${char.icon}`}
+                                alt={char.name}
+                                className="w-full aspect-[376/512] object-cover"
+                            />
+                        </div>
+                        <p className="font-hand text-2xl text-text-secondary text-center pt-2 leading-none">
+                            {pathLabel}, {elementLabel}
+                        </p>
                     </div>
-                    <div className="mt-6 text-center md:text-left">
-                        <h1 className="text-4xl font-bold text-text-primary">
+                    <div className="mt-8 text-center md:text-left">
+                        <h1 className="text-5xl font-extrabold tracking-tight text-text-primary">
                             {formatCharName(char.name)}
                         </h1>
-                        <div className="flex items-center justify-center md:justify-start gap-2 mt-3">
+                        <div className="flex items-center justify-center md:justify-start gap-1 mt-3" aria-label={`${char.rarity} stars`}>
                             {Array.from({ length: char.rarity }).map((_, index) => (
                                 <Star key={index} className="text-accent-gold fill-accent-gold" size={20}/>
                             ))}
-                            <span className="text-text-primary/80 ml-2">• {char.rarity}-Star Character</span>
                         </div>
                     </div>
                 </div>
-                <div className="flex-1 bg-bg-card/60 backdrop-blur-sm rounded-xl p-6 border border-border">
-                    <h2 className="text-2xl font-bold mb-6 text-text-primary">Base Stats (Lvl 1)</h2>
+                <div className="flex-1 glass-panel p-6 self-start">
+                    <h2 className="text-2xl font-bold mb-6 text-text-primary">Base stats <span className="font-hand text-2xl font-normal text-text-secondary">level 1 and level 80</span></h2>
                     {char.ascension && char.ascension.length > 0 && (
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border">
                                 <div className="text-text-primary font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Heart/></span> HP
@@ -460,16 +471,16 @@ const CharDetails = () => {
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
-                                        <div className="text-xl font-mono">{char.ascension[0].hp.base.toFixed(0)}</div>
+                                        <div className="text-xl tabular-nums">{char.ascension[0].hp.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-accent-gold">{Math.round(maxStats.hp)}</div>
+                                        <div className="text-2xl tabular-nums text-accent-gold">{Math.round(maxStats.hp)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 80</div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border">
                                 <div className="text-text-primary font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Swords/></span> ATK
@@ -478,16 +489,16 @@ const CharDetails = () => {
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
-                                        <div className="text-xl font-mono">{char.ascension[0].atk.base.toFixed(0)}</div>
+                                        <div className="text-xl tabular-nums">{char.ascension[0].atk.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-accent-gold">{Math.round(maxStats.atk)}</div>
+                                        <div className="text-2xl tabular-nums text-accent-gold">{Math.round(maxStats.atk)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 80</div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border">
                                 <div className="text-text-primary font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Shield/></span> DEF
@@ -496,46 +507,46 @@ const CharDetails = () => {
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
-                                        <div className="text-xl font-mono">{char.ascension[0].def.base.toFixed(0)}</div>
+                                        <div className="text-xl tabular-nums">{char.ascension[0].def.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-accent-gold">{Math.round(maxStats.def)}</div>
+                                        <div className="text-2xl tabular-nums text-accent-gold">{Math.round(maxStats.def)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 80</div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border transition-colors">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border transition-colors">
                                 <div className="text-text-primary font-bold flex items-center gap-2">
                                     <span className="text-lg"><Zap/></span> SPD
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
-                                        <div className="text-xl font-mono">{char.ascension[0].spd.base.toFixed(0)}</div>
+                                        <div className="text-xl tabular-nums">{char.ascension[0].spd.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-accent-gold">{char.ascension[0].spd.base.toFixed(0)}</div>
+                                        <div className="text-2xl tabular-nums text-accent-gold">{char.ascension[0].spd.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 80</div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border transition-colors">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border transition-colors">
                                 <div className="text-text-primary font-bold flex items-center gap-2">
                                     <span className="text-lg"><Target/></span> CRIT Rate
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
-                                        <div className="text-xl font-mono">{(char.ascension[0].critRate.base * 100).toFixed(1)}%</div>
+                                        <div className="text-xl tabular-nums">{(char.ascension[0].critRate.base * 100).toFixed(1)}%</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-accent-gold">{(char.ascension[0].critRate.base * 100).toFixed(1)}%</div>
+                                        <div className="text-2xl tabular-nums text-accent-gold">{(char.ascension[0].critRate.base * 100).toFixed(1)}%</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 80</div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border">
                                 <div className="text-text-primary font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Sparkles/></span> CRIT DMG
@@ -543,11 +554,11 @@ const CharDetails = () => {
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
-                                        <div className="text-xl font-mono">{(char.ascension[0].critDmg.base * 100).toFixed(0)}%</div>
+                                        <div className="text-xl tabular-nums">{(char.ascension[0].critDmg.base * 100).toFixed(0)}%</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-accent-gold">{(char.ascension[0].critDmg.base * 100).toFixed(0)}%</div>
+                                        <div className="text-2xl tabular-nums text-accent-gold">{(char.ascension[0].critDmg.base * 100).toFixed(0)}%</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 80</div>
                                     </div>
                                 </div>
@@ -557,13 +568,21 @@ const CharDetails = () => {
                 </div>
             </div>
             <div className="mb-6">
-                <nav className="flex flex-wrap gap-2">
-                    {["overview", "skills", "eidolons", "traces", "builds"].map((tab) => (
+                <nav className="flex flex-wrap gap-1 border-b-2 border-border-hover" role="tablist">
+                    {["overview", "skills", "eidolons", "traces", "builds"].map((tab, i) => (
                         <button
                             key={tab}
+                            role="tab"
+                            aria-selected={activeTab === tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${activeTab === tab ? "bg-accent-red text-text-primary border border-accent-red shadow-lg shadow-accent-red/20" : "bg-bg-card/60 text-text-primary/80 hover:text-text-primary hover:bg-bg-elevated/60 border border-border hover:cursor-pointer"}`}
+                            className={`relative -mb-[2px] px-5 py-2.5 rounded-t-lg border-2 font-semibold transition-colors duration-150 hover:cursor-pointer
+                                ${activeTab === tab
+                                    ? "bg-bg-card border-border-hover border-b-bg-card text-text-primary"
+                                    : "bg-bg-elevated/70 border-transparent text-text-secondary hover:text-text-primary hover:bg-bg-elevated"}`}
                         >
+                            {activeTab === tab && (
+                                <span className={`absolute inset-x-2 -top-[2px] h-1 rounded-full tab-strip-${i}`} aria-hidden="true" />
+                            )}
                             {tab.charAt(0).toUpperCase() + tab.slice(1)}
                         </button>
                     ))}
@@ -592,7 +611,7 @@ const CharDetails = () => {
                         {char.eidolons.map((eidolon, index) => (
                             <div 
                                 key={index} 
-                                className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-accent-red/50"
+                                className="glass-panel p-6 border border-accent-red/50"
                             >
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="text-text-primary font-bold text-lg bg-accent-red/10 px-3 py-1 rounded-full">
@@ -605,7 +624,7 @@ const CharDetails = () => {
                                 
                                 {levelUpSkills(eidolon) && (
                                     <div className="mt-4 pt-4 border-t border-border">
-                                        <span className="text-green-400 text-sm font-semibold">Level Up: </span>
+                                        <span className="text-emerald-700 text-sm font-semibold">Level Up: </span>
                                         {Object.entries(levelUpSkills(eidolon)).map(([skill, levels]) => (
                                             <span key={skill} className="text-text-primary/80 text-sm ml-2 bg-bg-elevated/50 px-2 py-1 rounded">
                                                 {SKILL_LABELS[skill] || skill} +{levels}
@@ -621,7 +640,7 @@ const CharDetails = () => {
                     <div className="space-y-6">
                         {renderKitSelector()}
                         {activeTraces.technique && (
-                            <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-accent-red/20">
+                            <div className="glass-panel p-6 border border-accent-red/20">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="w-10 h-10 bg-accent-red/10 rounded-lg flex items-center justify-center border border-accent-red/20">
                                         <span className="text-accent-gold text-xl">T</span>
@@ -640,7 +659,7 @@ const CharDetails = () => {
                                     {Object.entries(activeTraces.abilities).map(([key, ability]) => (
                                         <div 
                                             key={key} 
-                                            className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-4 border border-border"
+                                            className="glass-panel p-4 border border-border"
                                         >
                                             <h4 className="text-lg font-semibold text-text-primary mb-2">{ability.name}</h4>
                                             <p className="text-text-primary/80 text-sm">{ability.desc}</p>
@@ -655,7 +674,7 @@ const CharDetails = () => {
                                 <h3 className="text-xl font-bold mb-4 text-text-primary border-b border-accent-red/50 pb-2">Additional Traces</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {activeTraces.extra.map((trace, index) => (
-                                        <div key={index} className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-4 border border-border">
+                                        <div key={index} className="glass-panel p-4 border border-border">
                                             <h4 className="text-lg font-semibold text-text-primary mb-2">{trace.name}</h4>
                                             <p className="text-text-primary/80 text-sm whitespace-pre-line">{trace.desc}</p>
                                         </div>
@@ -671,7 +690,7 @@ const CharDetails = () => {
                                     {Object.entries(activeTraces.stats).map(([key, stat]) => (
                                         <div 
                                             key={key} 
-                                            className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-4 border border-border"
+                                            className="glass-panel p-4 border border-border"
                                         >
                                             <h4 className="font-semibold text-text-primary text-sm mb-2">{stat.name}</h4>
                                             <p className="text-text-primary/80 text-xs">{stat.desc}</p>
@@ -692,7 +711,7 @@ const CharDetails = () => {
                 {activeTab === "builds" && char.build && (
                     <div className="space-y-6">
                         {char.build.lightCones && char.build.lightCones.length > 0 && (
-                            <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-accent-gold/30">
+                            <div className="glass-panel p-6 border border-accent-gold/30">
                                 <h3 className="text-xl font-bold mb-4 text-text-primary">Recommended Light Cones</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {char.build.lightCones.filter(cone => isValidBuildEntry(cone.name)).map((cone, index) => {
@@ -701,7 +720,7 @@ const CharDetails = () => {
                                         const lcId = getLightconeId(cone.name);
                                         
                                         return (
-                                            <div key={index} className="bg-bg-card/60 rounded-lg p-4 border border-border hover:border-[#E8C547]/30 transition-colors duration-[300ms]">
+                                            <div key={index} className="bg-bg-primary rounded-lg p-4 border border-border hover:border-[#E8C547]/30 transition-colors duration-[300ms]">
                                                 <div onClick={() => lcId && navigate(`/lightcones/${lcId}`)} className="flex gap-3 hover:cursor-pointer">
                                                     {coneImage && (
                                                         <div className="relative flex-shrink-0">
@@ -715,7 +734,7 @@ const CharDetails = () => {
                                                                     <img 
                                                                         src={pathIcon} 
                                                                         alt={cone.path}
-                                                                        className="w-4 h-4"
+                                                                        className="w-4 h-4 invert opacity-75"
                                                                         title={`Path: ${lightConeData[cone.name]?.path}`}
                                                                     />
                                                                 </div>
@@ -729,7 +748,7 @@ const CharDetails = () => {
                                                                 {lightConeData[cone.name]?.path && (
                                                                     <div className="flex items-center gap-1 mt-1">
                                                                         <span className="text-xs text-text-secondary">Path:</span>
-                                                                        <span className="text-xs text-blue-200">{lightConeData[cone.name].path}</span>
+                                                                        <span className="text-xs text-sky-800">{lightConeData[cone.name].path}</span>
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -738,7 +757,7 @@ const CharDetails = () => {
                                                                     <Star key={i} className="text-accent-gold fill-accent-gold" size={14}/>
                                                                 ))}
                                                                 {cone.priority === 1 && (
-                                                                    <span className="ml-2 px-2 py-0.5 bg-red-500/20 text-red-300 text-xs rounded-full">
+                                                                    <span className="ml-2 px-2 py-0.5 bg-red-500/20 text-rose-700 text-xs rounded-full">
                                                                         Best
                                                                     </span>
                                                                 )}
@@ -762,7 +781,7 @@ const CharDetails = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {char.build.relicSets && char.build.relicSets.length > 0 && (
-                                <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
+                                <div className="glass-panel p-6 border border-purple-500/30">
                                     <h3 className="text-xl font-bold mb-4 text-text-primary">Relic Sets</h3>
                                     <div className="space-y-4">
                                         {char.build.relicSets.filter(set => isValidBuildEntry(set.name)).map((set, index) => {
@@ -776,7 +795,7 @@ const CharDetails = () => {
                                                     key={index}
                                                     onClick={() => setData && navigate(`/${isPlanarSet(setData) ? "planars" : "relics"}/${encodeURIComponent(set.name)}`)}
                                                     role={setData ? "link" : undefined}
-                                                    className={`bg-bg-card/60 rounded-lg p-4 hover:bg-bg-elevated/60 transition-colors ${setData ? "hover:cursor-pointer" : ""}`}
+                                                    className={`bg-bg-primary rounded-lg p-4 hover:bg-bg-elevated/60 transition-colors ${setData ? "hover:cursor-pointer" : ""}`}
                                                 >
                                                     <div className="flex gap-4 items-start">
                                                         {setIcon && (
@@ -789,7 +808,7 @@ const CharDetails = () => {
                                                                 />
                                                                 {pieceCount > 0 && (
                                                                     <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-bg-primary/80 rounded-full border border-border flex items-center justify-center">
-                                                                        <span className="text-xs font-bold text-purple-300">
+                                                                        <span className="text-xs font-bold text-purple-700">
                                                                             {pieceCount}
                                                                         </span>
                                                                     </div>
@@ -807,7 +826,7 @@ const CharDetails = () => {
                                                                     )}
                                                                 </div>
                                                                 {set.priority === 1 && (
-                                                                    <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
+                                                                    <span className="px-2 py-1 bg-green-500/20 text-emerald-700 text-xs rounded-full">
                                                                         Recommended
                                                                     </span>
                                                                 )}
@@ -821,7 +840,7 @@ const CharDetails = () => {
                                                                             <img 
                                                                                 src={piece.icon} 
                                                                                 alt={piece.name}
-                                                                                className="w-8 h-8 rounded border border-gray-600 hover:border-purple-400 transition-colors"
+                                                                                className="w-8 h-8 rounded border border-border hover:border-purple-400 transition-colors"
                                                                                 title={`${piece.type}: ${piece.name}`}
                                                                             />
                                                                             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-bg-primary text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 border border-border">
@@ -847,7 +866,7 @@ const CharDetails = () => {
                             )}
 
                             {char.build.planarSets && char.build.planarSets.length > 0 && (
-                                <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-blue-500/30">
+                                <div className="glass-panel p-6 border border-blue-500/30">
                                     <h3 className="text-xl font-bold mb-4 text-text-primary">Planar Ornaments</h3>
                                     <div className="space-y-4">
                                         {char.build.planarSets.filter(set => isValidBuildEntry(set.name)).map((set, index) => {
@@ -861,7 +880,7 @@ const CharDetails = () => {
                                                     key={index}
                                                     onClick={() => setData && navigate(`/${isPlanarSet(setData) ? "planars" : "relics"}/${encodeURIComponent(set.name)}`)}
                                                     role={setData ? "link" : undefined}
-                                                    className={`bg-bg-card/60 rounded-lg p-4 hover:bg-bg-elevated/60 transition-colors ${setData ? "hover:cursor-pointer" : ""}`}
+                                                    className={`bg-bg-primary rounded-lg p-4 hover:bg-bg-elevated/60 transition-colors ${setData ? "hover:cursor-pointer" : ""}`}
                                                 >
                                                     <div className="flex gap-4 items-start">
                                                         {setIcon && (
@@ -892,7 +911,7 @@ const CharDetails = () => {
                                                                     )}
                                                                 </div>
                                                                 {set.priority === 1 && (
-                                                                    <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
+                                                                    <span className="px-2 py-1 bg-green-500/20 text-emerald-700 text-xs rounded-full">
                                                                         Recommended
                                                                     </span>
                                                                 )}
@@ -937,7 +956,7 @@ const CharDetails = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {char.build.mainStats && (
-                                <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-green-500/30">
+                                <div className="glass-panel p-6 border border-green-500/30">
                                     <h3 className="text-xl font-bold mb-4 text-text-primary">Main Stats Priority</h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
@@ -961,7 +980,7 @@ const CharDetails = () => {
                             )}
 
                             {char.build.subStats && (
-                                <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-orange-500/30">
+                                <div className="glass-panel p-6 border border-orange-500/30">
                                     <h3 className="text-xl font-bold mb-4 text-text-primary">Sub Stats Priority</h3>
                                     <div className="space-y-2">
                                         {char.build.subStats.priority && char.build.subStats.priority.map((stat, index) => (
@@ -978,14 +997,14 @@ const CharDetails = () => {
                         </div>
 
                         {char.build.teams && char.build.teams.length > 0 && (
-                            <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-pink-500/30">
+                            <div className="glass-panel p-6 border border-pink-500/30">
                                 <h3 className="text-xl font-bold mb-4 text-text-primary">Team Compositions</h3>
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                     {char.build.teams.map((team, index) => (
-                                        <div key={index} className="bg-bg-card/60 rounded-lg p-4 border border-border">
+                                        <div key={index} className="bg-bg-primary rounded-lg p-4 border border-border">
                                             <div className="flex justify-between items-start mb-3">
                                                 <h4 className="text-lg font-semibold text-text-primary">{team.name}</h4>
-                                                <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">
+                                                <span className="px-2 py-1 bg-purple-500/20 text-purple-700 text-xs rounded-full">
                                                     Team {index + 1}
                                                 </span>
                                             </div>
@@ -1023,7 +1042,7 @@ const CharDetails = () => {
 
                 {activeTab === "overview" && (
                     <div className="space-y-6">
-                        <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-border">
+                        <div className="glass-panel p-6 border border-border">
                             <h3 className="text-xl font-bold mb-4 text-text-primary">Character Overview</h3>
                             <div className="flex items-start gap-4">
                                 <div className="flex flex-col items-center gap-2">
@@ -1045,7 +1064,7 @@ const CharDetails = () => {
                                             <img 
                                                 src={pathIconPath} 
                                                 alt={char.path} 
-                                                className="w-8 h-8"
+                                                className="w-8 h-8 invert opacity-75"
                                                 title={`Path: ${char.path}`}
                                             />
                                         )}
@@ -1054,11 +1073,10 @@ const CharDetails = () => {
                                 <div className="flex-1">
                                     <p className="text-text-primary/80">
                                         <span className="font-bold text-accent-gold">{formatCharName(char.name)}</span> is a 
-                                        <span className={`${char.rarity === 5 ? "text-accent-gold" : "text-purple-400"}`}> {char.rarity}-star </span>
-                                        <span className="font-semibold"> {char.element} </span>
-                                        character following the 
-                                        <span className="font-semibold"> {char.path} </span>
-                                        path.
+                                        <span className={`${char.rarity === 5 ? "text-accent-gold" : "text-purple-700"}`}> {char.rarity}-star </span>
+                                        <span className="font-semibold"> {elementLabel} </span>
+                                        character who walks the Path of
+                                        <span className="font-semibold"> {pathLabel}</span>.
                                     </p>
                                     <div className="mt-4 flex items-center gap-2">
                                         <span className="text-text-secondary">Rarity:</span>
@@ -1073,7 +1091,7 @@ const CharDetails = () => {
                         </div>
 
                         {char.ascension && (
-                            <div className="bg-gradient-to-br from-bg-card/80 to-bg-primary/80 backdrop-blur-sm rounded-xl p-6 border border-border">
+                            <div className="glass-panel p-6 border border-border">
                                 <h3 className="text-xl font-bold mb-4 text-text-primary">Ascension Stats by Level Range</h3>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm">
@@ -1100,27 +1118,27 @@ const CharDetails = () => {
                                                             <div className="text-xs text-text-secondary text-left">{index === 0 ? "Not ascended" : `Ascension ${index}`}</div>
                                                         </td>
                                                         <td className="py-3 px-2">
-                                                            <div className="font-mono text-left">{statAt(asc.hp, fromLevel).toFixed(0)} → {statAt(asc.hp, toLevel).toFixed(0)}</div>
+                                                            <div className="tabular-nums text-left">{statAt(asc.hp, fromLevel).toFixed(0)} → {statAt(asc.hp, toLevel).toFixed(0)}</div>
                                                             <div className="text-xs text-text-secondary text-left">+{asc.hp.step.toFixed(2)}/lvl</div>
                                                         </td>
                                                         <td className="py-3 px-2">
-                                                            <div className="font-mono text-left">{statAt(asc.atk, fromLevel).toFixed(0)} → {statAt(asc.atk, toLevel).toFixed(0)}</div>
+                                                            <div className="tabular-nums text-left">{statAt(asc.atk, fromLevel).toFixed(0)} → {statAt(asc.atk, toLevel).toFixed(0)}</div>
                                                             <div className="text-xs text-text-secondary text-left">+{asc.atk.step.toFixed(2)}/lvl</div>
                                                         </td>
                                                         <td className="py-3 px-2">
-                                                            <div className="font-mono text-left">{statAt(asc.def, fromLevel).toFixed(0)} → {statAt(asc.def, toLevel).toFixed(0)}</div>
+                                                            <div className="tabular-nums text-left">{statAt(asc.def, fromLevel).toFixed(0)} → {statAt(asc.def, toLevel).toFixed(0)}</div>
                                                             <div className="text-xs text-text-secondary text-left">+{asc.def.step.toFixed(2)}/lvl</div>
                                                         </td>
                                                         <td className="py-3 px-2">
-                                                            <div className="font-mono text-left">{asc.spd.base.toFixed(0)}</div>
+                                                            <div className="tabular-nums text-left">{asc.spd.base.toFixed(0)}</div>
                                                             <div className="text-xs text-text-secondary text-left">Static</div>
                                                         </td>
                                                         <td className="py-3 px-2">
-                                                            <div className="font-mono text-left">{(asc.critRate.base * 100).toFixed(1)}%</div>
+                                                            <div className="tabular-nums text-left">{(asc.critRate.base * 100).toFixed(1)}%</div>
                                                             <div className="text-xs text-text-secondary text-left">Base</div>
                                                         </td>
                                                         <td className="py-3 px-2">
-                                                            <div className="font-mono text-left">{(asc.critDmg.base * 100).toFixed(0)}%</div>
+                                                            <div className="tabular-nums text-left">{(asc.critDmg.base * 100).toFixed(0)}%</div>
                                                             <div className="text-xs text-text-secondary text-left">Base</div>
                                                         </td>
                                                     </tr>

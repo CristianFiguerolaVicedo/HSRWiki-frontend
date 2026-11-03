@@ -52,8 +52,10 @@ const Lightcones = () => {
   return (
     <div className="text-text-primary rounded-xl">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gradient mb-2">Light Cone List</h1>
-        <p className="text-text-secondary">Browse through all of the {lightcones.length} available light cones.</p>
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-text-primary">Light Cones</h1>
+        <p className="font-hand text-3xl text-accent-red mt-1 -rotate-1 origin-left">
+          memories crystallised into {lightcones.length} cones
+        </p>
       </div>
 
       <div className="mb-6">
@@ -73,7 +75,7 @@ const Lightcones = () => {
             </select>
           </div>
           <div className="text-text-secondary">
-            Showing <span className="text-text-primary font-semibold">{sortedLightcones.length}</span> lightcones
+            Showing <span className="text-text-primary font-semibold">{sortedLightcones.length}</span> light cones
           </div>
         </div>
       </div>
@@ -95,11 +97,8 @@ const Lightcones = () => {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-text-primary">Light Cones ({sortedLightcones.length})</h2>
-            <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border">
-              Available Light Cones
-            </span>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-9 pt-3">
             {sortedLightcones.map((lc, i) => (
               <div key={lc.id} style={{ "--stagger-index": i }}>
                 <LightconeInfoCard lightcone={lc} />
@@ -124,7 +123,7 @@ const Lightcones = () => {
             <div className="text-sm text-text-secondary">4★ Light Cones</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-blue-400">{sortedLightcones.filter((lc) => lc.rarity === 3).length}</div>
+            <div className="text-2xl font-bold text-sky-700">{sortedLightcones.filter((lc) => lc.rarity === 3).length}</div>
             <div className="text-sm text-text-secondary">3★ Light Cones</div>
           </div>
         </div>

@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCharacters } from "../hooks/useCharacters";
+import Postcard from "./Postcard";
 
-// Factions added later have no artwork in /assets, so their card shows the members' icons instead
+// Factions added later have no artwork in /assets, so their postcard shows the members' icons
 const MemberMosaic = ({ names }) => {
   const { characters } = useCharacters();
   const members = names
@@ -11,13 +11,13 @@ const MemberMosaic = ({ names }) => {
     .slice(0, 6);
 
   return (
-    <div className="h-48 w-full bg-bg-card flex flex-wrap items-center justify-center gap-2 p-4">
+    <div className="h-full w-full flex flex-wrap items-center justify-center gap-2 p-4">
       {members.map((member) => (
         <img
           key={member.id}
           src={member.miniIcon}
           alt=""
-          className="w-14 h-14 rounded-full border-2 border-border object-cover"
+          className="w-14 h-14 rounded-full border-2 border-white shadow-sm object-cover"
         />
       ))}
     </div>
@@ -26,41 +26,19 @@ const MemberMosaic = ({ names }) => {
 
 const FactionInfoCard = ({faction}) => {
   const navigate = useNavigate();
-  const [imageFailed, setImageFailed] = useState(false);
+  const { characters } = useCharacters();
+  // count only playable characters that exist in the data (lists also mention NPCs)
+  const count = characters.filter((c) => (faction.characters || []).includes(c.name)).length;
 
   return (
-    <div
-      className="group hsr-card overflow-hidden p-0 cursor-pointer relative animate-fade-in"
+    <Postcard
+      title={faction.name}
+      image={`/assets/${faction.name}.jpg`}
+      note={characters.length ? `${count} playable` : null}
+      seed={Number(faction.id)}
       onClick={() => navigate(`/factions/${faction.id}`)}
-      role="button"
-      tabIndex={0}
-      aria-label={`View ${faction.name} details`}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/factions/${faction.id}`); } }}
-    >
-      <div className="relative">
-        {imageFailed ? (
-          <MemberMosaic names={faction.characters || []} />
-        ) : (
-          <img
-            src={`/assets/${faction.name}.jpg`}
-            alt={faction.name}
-            className="h-48 w-full object-cover"
-            onError={() => setImageFailed(true)}
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/40 to-transparent" />
-      </div>
-
-      <div className="absolute bottom-0 left-0 right-0 p-4">
-        <h3 className="text-center font-bold text-lg text-text-primary drop-shadow-lg">
-          {faction.name}
-        </h3>
-      </div>
-
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-bg-primary/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
-        <span className="text-accent-cyan text-sm font-medium">View Details</span>
-      </div>
-    </div>
+      fallback={<MemberMosaic names={faction.characters || []} />}
+    />
   )
 }
 

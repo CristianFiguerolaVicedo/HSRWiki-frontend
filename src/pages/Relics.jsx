@@ -65,9 +65,9 @@ const Relics = () => {
   return (
     <div className="text-text-primary rounded-xl">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gradient mb-2">Relic and Planar Sets List</h1>
-        <p className="text-text-secondary">
-          Browse through all of the {relics.length} available relic sets and {planars.length} available planar sets.
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-text-primary">Relics</h1>
+        <p className="font-hand text-3xl text-accent-red mt-1 -rotate-1 origin-left">
+          {relics.length} relic sets and {planars.length} planar ornaments, in that order
         </p>
       </div>
 
@@ -75,10 +75,10 @@ const Relics = () => {
         {relics.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-text-primary">Relic Sets ({relics.length})</h2>
-              <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border">
-                Available Relic Sets
-              </span>
+              <h2 className="text-2xl font-bold text-text-primary flex items-baseline gap-3">
+                Relic sets <span className="text-text-muted font-normal">({relics.length})</span>
+                <span className="font-hand text-2xl font-normal text-text-secondary">head, hands, body and feet</span>
+              </h2>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4">
               {relics.map((rel, i) => (
@@ -92,11 +92,11 @@ const Relics = () => {
 
         {planars.length > 0 && (
           <div>
-            <div className="flex items-center justify-between mb-4 border-t border-border mt-6">
-              <h2 className="text-2xl font-bold text-text-primary mt-6">Planar Sets ({planars.length})</h2>
-              <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border mt-6">
-                Available Planar Sets
-              </span>
+            <div className="flex items-center justify-between mb-4 border-t-2 border-dashed border-border-hover mt-10">
+              <h2 className="text-2xl font-bold text-text-primary mt-6 flex items-baseline gap-3">
+                Planar ornaments <span className="text-text-muted font-normal">({planars.length})</span>
+                <span className="font-hand text-2xl font-normal text-text-secondary">a sphere and a rope</span>
+              </h2>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4">
               {planars.map((pl, i) => (

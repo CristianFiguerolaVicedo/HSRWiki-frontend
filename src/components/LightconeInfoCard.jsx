@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { PATH_TAPES, pathLabel } from "../util/paths";
 
 const PATH_ICONS = {
   ABUNDANCE: '/assets/Icon_Abundance.webp',
@@ -14,49 +15,51 @@ const PATH_ICONS = {
   ELATION: '/assets/Icon_Elation.png',
 }
 
+const tiltFor = (id, spread) => ((Math.abs(id) % 7) - 3) * spread;
+
 const LightconeInfoCard = ({lightcone}) => {
-  const pathIconPath = PATH_ICONS[lightcone.path.toUpperCase()];
+  const path = lightcone.path.toUpperCase();
   const navigate = useNavigate();
   const idString = lightcone.id.toString();
 
   return (
     <div
-      className={`group hsr-card p-4 shadow-lg cursor-pointer relative animate-fade-in ${lightcone.rarity === 5 ? 'hsr-card-gold' : 'hsr-card'}`}
+      className={`photo-card ${PATH_TAPES[path] || 'tape-physical'} cursor-pointer`}
+      style={{ "--tilt": `${tiltFor(lightcone.id, 0.6)}deg`, "--tape-tilt": `${tiltFor(lightcone.id + 2, 1.4)}deg` }}
       onClick={() => navigate(`/lightcones/${idString}`)}
       role="button"
       tabIndex={0}
       aria-label={`View ${lightcone.name} details`}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/lightcones/${idString}`); } }}
     >
-      <div className="flex justify-center mb-3">
+      <span className="washi" aria-hidden="true" />
+
+      <div className="photo-card__picture h-44 flex items-center justify-center p-2">
+        {/* "icon" is the 348x408 preview; "image" is the full 902x1260 art used on the detail page */}
         <img
-          src={`${lightcone.image}`}
-          alt={lightcone.name}
-          className="h-40 object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
+          src={lightcone.icon || lightcone.image}
+          alt=""
+          loading="lazy"
+          className="h-full object-contain"
         />
       </div>
 
-      <h3 className="text-center font-bold text-lg mb-2 truncate text-text-primary">
-        {lightcone.name}
-      </h3>
-
-      <div className="flex justify-center mb-3">
-        {Array.from({ length: lightcone.rarity }).map((_, index) => (
-          <Star key={index} className="text-accent-gold fill-accent-gold" size={14}/>
-        ))}
-      </div>
-
-      <div className="flex justify-center items-center gap-4 mb-1">
-        <div className="flex flex-col items-center">
-          {pathIconPath && (
-            <img
-              src={pathIconPath}
-              alt={lightcone.path}
-              className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-all duration-300"
-              title={`Path: ${lightcone.path}`}
-            />
-          )}
-          <span className="text-xs text-text-secondary mt-1">{lightcone.path}</span>
+      <div className="pt-3 px-1">
+        <h3 className="font-semibold text-[1.02rem] leading-tight text-text-primary line-clamp-2 min-h-[2.5rem]">
+          {lightcone.name}
+        </h3>
+        <div className="mt-1.5 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 text-text-secondary min-w-0">
+            {PATH_ICONS[path] && (
+              <img src={PATH_ICONS[path]} alt="" className="w-5 h-5 invert opacity-70 shrink-0" />
+            )}
+            <span className="font-hand text-xl leading-none truncate">{pathLabel(path)}</span>
+          </div>
+          <div className="flex shrink-0" aria-label={`${lightcone.rarity} stars`}>
+            {Array.from({ length: lightcone.rarity }).map((_, index) => (
+              <Star key={index} className="text-accent-gold fill-accent-gold" size={11}/>
+            ))}
+          </div>
         </div>
       </div>
     </div>

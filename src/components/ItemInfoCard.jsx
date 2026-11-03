@@ -2,12 +2,13 @@ import { memo, useState } from "react";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+// Item "stickers": white paper with a rarity-coloured edge (same order as the in-game frames)
 const RARITY_STYLES = {
-  5: { border: "border-accent-gold/50", bg: "bg-gradient-to-br from-accent-gold/[0.08] to-transparent", text: "text-accent-gold" },
-  4: { border: "border-accent-purple/50", bg: "bg-gradient-to-br from-accent-purple/[0.08] to-transparent", text: "text-accent-purple" },
-  3: { border: "border-blue-500/40", bg: "bg-gradient-to-br from-blue-500/[0.06] to-transparent", text: "text-blue-400" },
-  2: { border: "border-green-500/40", bg: "bg-gradient-to-br from-green-500/[0.06] to-transparent", text: "text-green-400" },
-  1: { border: "border-border", bg: "bg-bg-card", text: "text-text-muted" },
+  5: { edge: "border-[#D9A12E]", text: "text-[#B8820F]" },
+  4: { edge: "border-[#9B7FD9]", text: "text-[#6E55BE]" },
+  3: { edge: "border-[#6FA3D6]", text: "text-[#2F6FAE]" },
+  2: { edge: "border-[#7CBF9A]", text: "text-[#2F7D57]" },
+  1: { edge: "border-border-hover", text: "text-text-muted" },
 };
 
 const ItemInfoCard = ({ item }) => {
@@ -16,8 +17,6 @@ const ItemInfoCard = ({ item }) => {
 
   const itemName = item?.name || "Unknown Item";
   const itemRarity = item?.rarity || 1;
-  const itemType = item?.type || 'Unknown';
-  const itemSubType = item?.subType || '';
   const itemIcon = item?.icon || '';
   const itemId = item?.id || '';
   const style = RARITY_STYLES[itemRarity] || RARITY_STYLES[1];
@@ -32,7 +31,7 @@ const ItemInfoCard = ({ item }) => {
 
   return (
     <div
-      className={`group relative rounded-xl p-4 border ${style.border} ${style.bg} transition-all duration-300 cursor-pointer animate-fade-in hover:-translate-y-1 hover:shadow-lg`}
+      className={`group relative bg-bg-card rounded-lg p-4 border border-border border-b-4 ${style.edge} shadow-[0_6px_14px_-12px_rgba(31,42,68,0.45)] transition-transform duration-200 cursor-pointer hover:-translate-y-0.5`}
       onClick={handleClick}
       role="button"
       tabIndex={0}
@@ -60,27 +59,16 @@ const ItemInfoCard = ({ item }) => {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-bg-elevated rounded-lg">
-              <span className="text-text-muted text-sm">No Image</span>
+              <span className="font-hand text-lg text-text-muted">no photo</span>
             </div>
           )}
         </div>
       </div>
 
-      <h3 className="text-center font-semibold text-text-primary mb-2 line-clamp-2 min-h-[3rem] text-sm">
+      <h3 className="text-center font-semibold text-text-primary line-clamp-2 min-h-[2.5rem] text-sm">
         {itemName}
       </h3>
 
-      <div className="text-center">
-        {itemSubType && itemSubType !== itemType && (
-          <span className="text-xs px-2 py-1 bg-bg-elevated text-text-secondary rounded-full">
-            {itemSubType}
-          </span>
-        )}
-      </div>
-
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-bg-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
-        <span className="text-text-primary text-sm font-medium">View Details</span>
-      </div>
     </div>
   );
 };

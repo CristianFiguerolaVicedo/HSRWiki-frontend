@@ -7,6 +7,9 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 // The API sends a readable "category" (e.g. "Trace Material"); older data only had sub_type
 const categoryOf = (item) => item.category || item.sub_type;
 
+// The game's internal item types, as readers would call them
+const TYPE_NAMES = { Material: "Materials", Usable: "Consumables, gifts and cosmetics", Virtual: "Currencies" };
+
 const Items = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -114,8 +117,10 @@ const Items = () => {
   return (
     <div className="text-text-primary rounded-xl">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gradient mb-2">Items List</h1>
-        <p className="text-text-secondary">Browse through all of the {stats.totalItems} available items.</p>
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-text-primary">Items</h1>
+        <p className="font-hand text-3xl text-accent-red mt-1 -rotate-1 origin-left">
+          everything rattling around in the backpack, {stats.totalItems} things
+        </p>
       </div>
 
       <div className="mb-6">
@@ -162,9 +167,6 @@ const Items = () => {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-text-primary">Items ({sortedItems.length})</h2>
-            <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border">
-              Available Items
-            </span>
           </div>
 
           <div className="space-y-6">
@@ -175,7 +177,7 @@ const Items = () => {
                 <div key={type} className="glass-panel overflow-hidden">
                   <button
                     onClick={() => toggleTypeExpansion(type)}
-                    className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-bg-card to-bg-primary hover:from-bg-elevated hover:to-bg-card transition-all"
+                    className="w-full flex items-center justify-between p-4 bg-bg-card hover:bg-bg-elevated transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       {group.expanded ? (
@@ -184,21 +186,20 @@ const Items = () => {
                         <ChevronRight className="text-text-primary" size={20} />
                       )}
                       <div className="text-left">
-                        <h3 className="text-xl font-bold text-text-primary">{group.name}</h3>
-                        <div className="text-sm text-text-secondary">
-                          {subTypes.length} sub-type{subTypes.length !== 1 ? 's' : ''} &bull;{' '}
-                          {sortedItems.filter(item => item.type === type).length} item{sortedItems.filter(item => item.type === type).length !== 1 ? 's' : ''}
+                        <h3 className="text-xl font-bold text-text-primary">{TYPE_NAMES[group.name] || group.name}</h3>
+                        <div className="font-hand text-xl leading-tight text-text-secondary">
+                          {subTypes.length} categor{subTypes.length !== 1 ? 'ies' : 'y'}, {sortedItems.filter(item => item.type === type).length} item{sortedItems.filter(item => item.type === type).length !== 1 ? 's' : ''}
                         </div>
                       </div>
                     </div>
                   </button>
 
                   {group.expanded && (
-                    <div className="p-4 bg-bg-primary/50 space-y-4">
+                    <div className="p-4 bg-bg-primary space-y-4">
                       {subTypes.map(subType => {
                         const subGroup = group.subGroups[subType];
                         return (
-                          <div key={`${type}-${subType}`} className="bg-bg-card/50 rounded-lg overflow-hidden">
+                          <div key={`${type}-${subType}`} className="bg-bg-card border border-border rounded-lg overflow-hidden">
                             <button
                               onClick={() => toggleSubTypeExpansion(type, subType)}
                               className="w-full flex items-center justify-between p-3 hover:bg-bg-elevated/50 transition-all"
@@ -250,8 +251,8 @@ const Items = () => {
               <div className={`text-2xl font-bold ${
                 rarity === '5' ? 'text-accent-gold' :
                 rarity === '4' ? 'text-accent-purple' :
-                rarity === '3' ? 'text-blue-400' :
-                rarity === '2' ? 'text-green-400' :
+                rarity === '3' ? 'text-sky-700' :
+                rarity === '2' ? 'text-emerald-700' :
                 'text-text-muted'
               }`}>{stats.rarityCounts[rarity]}</div>
               <div className="text-sm text-text-secondary">{rarity}★ Items</div>

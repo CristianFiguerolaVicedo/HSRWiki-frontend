@@ -1,6 +1,8 @@
 import { ArrowLeft, Heart, Shield, Star, Swords } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { PATH_TAPES, pathLabel } from "../util/paths";
+
 import { fetchJson } from "../services/apiClient";
 
 const PATH_ICONS = {
@@ -93,7 +95,7 @@ const LightconeDetails = () => {
                                         </td>
                                         {paramArray.map((value, paramIndex) => (
                                             <td key={paramIndex} className="py-3 px-2">
-                                                <div className="font-mono text-text-primary">{value}</div>
+                                                <div className="tabular-nums text-text-primary">{value}</div>
                                             </td>
                                         ))}
                                     </tr>
@@ -125,11 +127,14 @@ const LightconeDetails = () => {
     const calculateMaxStats = () => {
         if (!lightcone.ascension || lightcone.ascension.length === 0) return null;
 
-        const baseStats = lightcone.ascension[0];
+        // Level 80 belongs to the last ascension phase: stat(level) = base + step * (level - 1).
+        // Using phase 0 left out every ascension bonus (e.g. 617 HP instead of 1058).
+        const lastPhase = lightcone.ascension[lightcone.ascension.length - 1];
+        const statAt80 = (stat) => stat.base + stat.step * 79;
         const level80Stats = {
-            hp: baseStats.hp.base + (baseStats.hp.step * 79),
-            atk: baseStats.atk.base + (baseStats.atk.step * 79),
-            def: baseStats.def.base + (baseStats.def.step * 79)
+            hp: statAt80(lastPhase.hp),
+            atk: statAt80(lastPhase.atk),
+            def: statAt80(lastPhase.def)
         };
 
         return level80Stats;
@@ -138,92 +143,100 @@ const LightconeDetails = () => {
     const maxStats = calculateMaxStats();
 
     return (
-        <div className="text-text-primary p-4 md:p-8">
+        <div className="text-text-primary">
             <button
                 onClick={() => navigate("/lightcones")}
-                className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer"
+                className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer font-hand text-2xl"
             >
                 <ArrowLeft size={20} />
-                Back to lightcones
+                back to light cones
             </button>
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex flex-col items-center md:items-start">
-                    <div className="relative">
-                        <img 
-                            src={`${lightcone.image}`} 
-                            alt={lightcone.name}
-                            className="w-75 h-100 rounded-xl shadow-lg" 
-                        />
+                    <div
+                        className={`photo-card ${PATH_TAPES[lightcone.path?.toUpperCase()] || 'tape-physical'} w-72`}
+                        style={{ "--tilt": "1.5deg", "--tape-tilt": "-2deg" }}
+                    >
+                        <span className="washi" aria-hidden="true" />
+                        <div className="photo-card__picture">
+                            <img
+                                src={`${lightcone.image}`}
+                                alt={lightcone.name}
+                                className="w-full aspect-[902/1260] object-cover"
+                            />
+                        </div>
+                        <p className="font-hand text-2xl text-text-secondary text-center pt-2 leading-none">
+                            Path of {pathLabel(lightcone.path?.toUpperCase() || "")}
+                        </p>
                     </div>
 
-                    <div className="mt-6 text-center md:text-left">
-                        <h1 className="text-4xl font-bold text-text-primary">
+                    <div className="mt-8 text-center md:text-left max-w-sm">
+                        <h1 className="text-4xl font-extrabold tracking-tight text-text-primary">
                             {lightcone.name}
                         </h1>
-                        <div className="flex items-center justify-center md:justify-start gap-2 mt-3">
+                        <div className="flex items-center justify-center md:justify-start gap-1 mt-3" aria-label={`${lightcone.rarity} stars`}>
                             {Array.from({ length: lightcone.rarity }).map((_, index) => (
                                 <Star key={index} className="text-accent-gold fill-accent-gold" size={20}/>
                             ))}
-                            <span className="text-text-secondary ml-2">• {lightcone.rarity}-Star Light Cone</span>
                         </div>
                     </div>
                 </div>
                 
-                <div className="flex-1 glass-panel p-6">
-                    <h2 className="text-2xl font-bold mb-6 text-text-primary">Base Stats (Lvl 1)</h2>
+                <div className="flex-1 glass-panel p-6 self-start">
+                    <h2 className="text-2xl font-bold mb-6 text-text-primary">Base stats <span className="font-hand text-2xl font-normal text-text-secondary">level 1 and level 80</span></h2>
                     {lightcone.ascension && lightcone.ascension.length > 0 && (
                         <div className="grid grid-cols-2 grid-rows-1 md:grid-cols-3 md:grid-rows-1 gap-4">
-                            <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border">
                                 <div className="text-text-primary font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Heart/></span> HP
                                     </div>
-                                    <div className="text-xs text-text-secondary">+{lightcone.ascension[0].hp.step}/lvl</div>
+                                    <div className="text-xs text-text-secondary">+{lightcone.ascension[0].hp.step.toFixed(2)}/lvl</div>
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
-                                        <div className="text-xl font-mono">{lightcone.ascension[0].hp.base.toFixed(0)}</div>
+                                        <div className="text-xl tabular-nums">{lightcone.ascension[0].hp.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-accent-gold">{Math.round(maxStats.hp)}</div>
+                                        <div className="text-2xl tabular-nums text-accent-gold">{Math.round(maxStats.hp)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 80</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border">
                                 <div className="text-text-primary font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Swords/></span> ATK
                                     </div>
-                                    <div className="text-xs text-text-secondary">+{lightcone.ascension[0].atk.step}/lvl</div>
+                                    <div className="text-xs text-text-secondary">+{lightcone.ascension[0].atk.step.toFixed(2)}/lvl</div>
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
-                                        <div className="text-xl font-mono">{lightcone.ascension[0].atk.base.toFixed(0)}</div>
+                                        <div className="text-xl tabular-nums">{lightcone.ascension[0].atk.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-accent-gold">{Math.round(maxStats.atk)}</div>
+                                        <div className="text-2xl tabular-nums text-accent-gold">{Math.round(maxStats.atk)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 80</div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border">
                                 <div className="text-text-primary font-bold flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Shield/></span> DEF
                                     </div>
-                                    <div className="text-xs text-text-secondary">+{lightcone.ascension[0].def.step}/lvl</div>
+                                    <div className="text-xs text-text-secondary">+{lightcone.ascension[0].def.step.toFixed(2)}/lvl</div>
                                 </div>
                                 <div className="flex justify-between items-baseline mt-2">
                                     <div>
-                                        <div className="text-xl font-mono">{lightcone.ascension[0].def.base.toFixed(0)}</div>
+                                        <div className="text-xl tabular-nums">{lightcone.ascension[0].def.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-2xl font-mono text-accent-gold">{Math.round(maxStats.def)}</div>
+                                        <div className="text-2xl tabular-nums text-accent-gold">{Math.round(maxStats.def)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 80</div>
                                     </div>
                                 </div>

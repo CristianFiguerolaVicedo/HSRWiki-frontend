@@ -1,28 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Caveat:wght@500;700&display=swap');
 @import "tailwindcss";
 
+/*
+  "Cuaderno del Express": March 7th's photo journal aboard the Astral Express.
+  Pages are dotted notebook paper, characters are instant photos held by washi tape
+  coloured by element, and handwritten notes are kept for small annotations only.
+  The token names are the original ones so every existing component switches theme.
+*/
 @theme {
-  --color-bg-primary: #0A0E1A;
-  --color-bg-secondary: #141B2D;
-  --color-bg-card: #1C2541;
-  --color-bg-elevated: #243056;
-  --color-bg-sidebar: #0D1225;
-  --color-accent-cyan: #4FC3F7;
-  --color-accent-cyan-hover: #29B6F6;
-  --color-accent-cyan-muted: rgba(79, 195, 247, 0.15);
-  --color-accent-gold: #FFD700;
-  --color-accent-gold-hover: #FFC107;
-  --color-accent-gold-muted: rgba(255, 215, 0, 0.15);
-  --color-accent-purple: #7B68EE;
-  --color-accent-purple-muted: rgba(123, 104, 238, 0.15);
-  --color-accent-red: #EF4444;
-  --color-accent-red-muted: rgba(239, 68, 68, 0.15);
-  --color-text-primary: #E8EDF5;
-  --color-text-secondary: #8892B0;
-  --color-text-muted: #5A6390;
-  --color-border: #1E2A4A;
-  --color-border-hover: #2E4070;
-  --color-surface-overlay: rgba(10, 14, 26, 0.8);
+  --font-sans: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-hand: 'Caveat', 'Bricolage Grotesque', cursive;
+
+  /* paper */
+  --color-bg-primary: #FBF7EE;
+  --color-bg-secondary: #F4EEE1;
+  --color-bg-card: #FFFDF8;
+  --color-bg-elevated: #F1EADB;
+  /* notebook cover (Astral Express navy) */
+  --color-bg-sidebar: #1F2A44;
+
+  /* ink + accents */
+  --color-accent-cyan: #2F6FAE;
+  --color-accent-cyan-hover: #255C93;
+  --color-accent-cyan-muted: rgba(47, 111, 174, 0.12);
+  --color-accent-gold: #B8820F;
+  --color-accent-gold-hover: #9C6E0B;
+  --color-accent-gold-muted: rgba(201, 138, 18, 0.14);
+  --color-accent-purple: #6E55BE;
+  --color-accent-purple-muted: rgba(110, 85, 190, 0.12);
+  --color-accent-red: #D24A7C;
+  --color-accent-red-muted: rgba(210, 74, 124, 0.12);
+
+  --color-text-primary: #1F2A44;
+  --color-text-secondary: #535E77;
+  --color-text-muted: #858CA0;
+  --color-border: #E4DAC6;
+  --color-border-hover: #C9BB9C;
+  --color-surface-overlay: rgba(31, 42, 68, 0.45);
+
+  /* washi tape, one per element */
+  --color-tape-fire: #F2995E;
+  --color-tape-ice: #86C8EA;
+  --color-tape-lightning: #B99AEA;
+  --color-tape-wind: #7DD0A8;
+  --color-tape-quantum: #8F8FE4;
+  --color-tape-imaginary: #F3CE5A;
+  --color-tape-physical: #BFC3CC;
 }
 
 html, body {
@@ -31,239 +54,208 @@ html, body {
 }
 
 body {
-  background:
-    linear-gradient(135deg, rgba(10, 14, 26, 0.97), rgba(20, 27, 45, 0.95)),
-    radial-gradient(ellipse at 20% 50%, rgba(79, 195, 247, 0.06), transparent 50%),
-    radial-gradient(ellipse at 80% 50%, rgba(123, 104, 238, 0.04), transparent 50%);
-  background-attachment: fixed;
-  font-family: 'Outfit', sans-serif;
+  /* dotted notebook paper */
+  background-color: var(--color-bg-primary);
+  background-image: radial-gradient(circle, rgba(31, 42, 68, 0.13) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+  font-family: var(--font-sans);
   color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+.font-hand {
+  font-family: var(--font-hand);
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--color-border), var(--color-border-hover));
-  border-radius: 3px;
-  transition: background 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--color-accent-cyan-muted), var(--color-accent-cyan));
-}
-
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-hover); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+::-webkit-scrollbar-corner { background: transparent; }
 
 ::selection {
-  background: var(--color-accent-cyan-muted);
-  color: var(--color-accent-cyan);
+  background: rgba(243, 206, 90, 0.55);
+  color: var(--color-text-primary);
 }
 
 :focus-visible {
   outline: 2px solid var(--color-accent-cyan);
-  outline-offset: 2px;
-  border-radius: 8px;
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* ---------------------------------------------------------------- surfaces */
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(79, 195, 247, 0.15); }
-  50% { box-shadow: 0 0 20px rgba(79, 195, 247, 0.3); }
-}
-
-@keyframes pulse-glow-gold {
-  0%, 100% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.15); }
-  50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes borderGlow {
-  0%, 100% { border-color: var(--color-border); }
-  50% { border-color: var(--color-accent-cyan); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.animate-pulse-glow-gold {
-  animation: pulse-glow-gold 2s ease-in-out infinite;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.hsr-card {
-  position: relative;
-  background: linear-gradient(135deg, var(--color-bg-card), var(--color-bg-elevated));
+/* A sheet of paper laid on the page: flat, inked edge, small lift */
+.glass-panel,
+.glass-panel-deep {
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
-  border-radius: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-}
-
-.hsr-card:hover {
-  border-color: var(--color-accent-cyan);
-  box-shadow: 0 0 24px rgba(79, 195, 247, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3);
-  transform: translateY(-3px);
-}
-
-.hsr-card-gold {
-  position: relative;
-  background: linear-gradient(135deg, var(--color-bg-card), rgba(255, 215, 0, 0.05));
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  border-radius: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-}
-
-.hsr-card-gold:hover {
-  border-color: var(--color-accent-gold);
-  box-shadow: 0 0 24px rgba(255, 215, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3);
-  transform: translateY(-3px);
-}
-
-.glass-panel {
-  background: rgba(28, 37, 65, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-}
-
-.element-border-fire { border-color: #F97316; }
-.element-border-ice { border-color: #60A5FA; }
-.element-border-lightning { border-color: #A855F7; }
-.element-border-wind { border-color: #34D399; }
-.element-border-quantum { border-color: #EC4899; }
-.element-border-imaginary { border-color: #FBBF24; }
-.element-border-physical { border-color: #9CA3AF; }
-
-.rarity-5-glow {
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
-}
-
-.rarity-4-glow {
-  box-shadow: 0 0 12px rgba(123, 104, 238, 0.2);
-}
-
-.hsr-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  background: radial-gradient(ellipse at 50% 0%, rgba(79, 195, 247, 0.08), transparent 70%);
-  pointer-events: none;
-}
-
-.hsr-card:hover::before {
-  opacity: 1;
-}
-
-.hsr-card-gold::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  background: radial-gradient(ellipse at 50% 0%, rgba(255, 215, 0, 0.08), transparent 70%);
-  pointer-events: none;
-}
-
-.hsr-card-gold:hover::before {
-  opacity: 1;
-}
-
-.text-gradient {
-  background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-cyan {
-  background: linear-gradient(135deg, var(--color-accent-cyan), #81D4FA);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-gold {
-  background: linear-gradient(135deg, var(--color-accent-gold), #FFE082);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  border-radius: 10px;
+  box-shadow: 0 1px 0 rgba(31, 42, 68, 0.04), 0 6px 18px -12px rgba(31, 42, 68, 0.25);
 }
 
 .glass-panel-deep {
-  background: rgba(20, 27, 45, 0.7);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--color-border);
-  border-left: 2px solid rgba(79, 195, 247, 0.2);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 20px rgba(79, 195, 247, 0.03);
+  border-left: 3px solid var(--color-accent-cyan);
 }
 
-.stagger-enter {
-  opacity: 0;
-  transform: translateY(16px);
-}
-
-.stagger-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  transition-delay: calc(var(--stagger-index, 0) * 50ms);
-}
-
-.backdrop-shimmer {
+/* Generic card (relics, light cones, factions...) */
+.hsr-card,
+.hsr-card-gold {
   position: relative;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 0 6px 16px -12px rgba(31, 42, 68, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   overflow: hidden;
 }
 
-.backdrop-shimmer::after {
-  content: '';
+.hsr-card-gold {
+  border-color: rgba(201, 138, 18, 0.35);
+}
+
+.hsr-card:hover,
+.hsr-card-gold:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: 0 14px 24px -14px rgba(31, 42, 68, 0.45);
+  transform: translateY(-2px);
+}
+
+/* ---------------------------------------------------------------- the photo card */
+
+/* Instant photo taped into the journal. --tilt is set per card for a hand-placed look. */
+.photo-card {
+  position: relative;
+  background: #FFFFFF;
+  padding: 10px 10px 14px;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(31, 42, 68, 0.12), 0 10px 22px -14px rgba(31, 42, 68, 0.45);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.photo-card:hover,
+.photo-card:focus-visible {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 0 2px 3px rgba(31, 42, 68, 0.12), 0 18px 28px -16px rgba(31, 42, 68, 0.55);
+}
+
+.photo-card__picture {
+  background: var(--photo-tint, #EEF1F6);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Washi tape strip with torn ends */
+.washi {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.03), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 3s ease-in-out infinite;
+  top: -10px;
+  left: 50%;
+  width: 74px;
+  height: 22px;
+  transform: translateX(-50%) rotate(var(--tape-tilt, -3deg));
+  background: var(--tape, var(--color-tape-physical));
+  opacity: 0.85;
+  clip-path: polygon(3% 0, 97% 4%, 100% 30%, 96% 55%, 100% 85%, 95% 100%, 4% 96%, 0 70%, 4% 45%, 0 15%);
+  background-image: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.22) 0 4px, transparent 4px 9px);
   pointer-events: none;
 }
 
+.tape-fire { --tape: var(--color-tape-fire); --photo-tint: #FDEDE2; }
+.tape-ice { --tape: var(--color-tape-ice); --photo-tint: #E8F4FB; }
+.tape-lightning { --tape: var(--color-tape-lightning); --photo-tint: #F1EAFB; }
+.tape-wind { --tape: var(--color-tape-wind); --photo-tint: #E6F6EE; }
+.tape-quantum { --tape: var(--color-tape-quantum); --photo-tint: #ECECFA; }
+.tape-imaginary { --tape: var(--color-tape-imaginary); --photo-tint: #FCF4DA; }
+.tape-physical { --tape: var(--color-tape-physical); --photo-tint: #F0F1F3; }
+
+/* ---------------------------------------------------------------- index page (sidebar) */
+
+/*
+  A ruled notebook page: blue rules every 44px, a red margin line, and a spiral binding
+  down the right edge. Rows (.ruled-row) are exactly one or more rules tall so text sits
+  on the lines.
+*/
+.notebook-page {
+  --rule: 44px;
+  --margin: 52px;
+  background-color: #FFFDF6;
+  background-image:
+    linear-gradient(90deg, transparent calc(var(--margin) - 1px), rgba(214, 80, 102, 0.55) calc(var(--margin) - 1px) calc(var(--margin) + 1px), transparent calc(var(--margin) + 1px)),
+    linear-gradient(180deg, transparent calc(var(--rule) - 1px), rgba(98, 146, 196, 0.32) calc(var(--rule) - 1px));
+  background-size: 100% 100%, 100% var(--rule);
+  box-shadow: 1px 0 0 var(--color-border), 6px 0 18px -10px rgba(31, 42, 68, 0.35);
+}
+
+/* the spiral: punched holes on the page with metal coils looping over the edge */
+.notebook-page::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 0;
+  right: -11px;
+  width: 26px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='22'%3E%3Ccircle cx='8' cy='11' r='3.2' fill='%231F2A44' fill-opacity='.55'/%3E%3Cpath d='M8 11 C 9 2.5, 23 2, 24 8.5 C 24.6 12.5, 21 14.5, 18 14' fill='none' stroke='%239BA4B4' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M8.6 10 C 10 4.5, 20 4, 21.6 8' fill='none' stroke='%23E8ECF2' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 26px 22px;
+  background-repeat: repeat-y;
+  pointer-events: none;
+}
+
+@media (max-width: 1023px) {
+  .notebook-page::after { right: -9px; }
+}
+
+.ruled-row {
+  min-height: var(--rule, 44px);
+  height: var(--rule, 44px);
+}
+
+/* icons sit in the margin, centred left of the red line */
+.margin-cell {
+  flex: 0 0 var(--margin, 52px);
+  width: var(--margin, 52px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 4px;
+}
+
+/* yellow highlighter stroke behind the current page */
+.highlighter {
+  padding: 0 0.3em;
+  margin-left: calc(0.75rem - 0.3em);
+  background-image: linear-gradient(100deg, rgba(255, 220, 72, 0) 0.6%, rgba(255, 220, 72, 0.75) 2.4%, rgba(255, 214, 60, 0.6) 96%, rgba(255, 220, 72, 0) 99%);
+  background-size: 100% 62%;
+  background-position: 0 78%;
+  background-repeat: no-repeat;
+  border-radius: 0.3em 0.5em 0.4em 0.6em;
+}
+
+/* ---------------------------------------------------------------- legacy helpers (kept, restyled) */
+
+.text-gradient,
+.text-gradient-cyan,
+.text-gradient-gold {
+  color: var(--color-text-primary);
+}
+
+.element-border-fire { border-color: var(--color-tape-fire); }
+.element-border-ice { border-color: var(--color-tape-ice); }
+.element-border-lightning { border-color: var(--color-tape-lightning); }
+.element-border-wind { border-color: var(--color-tape-wind); }
+.element-border-quantum { border-color: var(--color-tape-quantum); }
+.element-border-imaginary { border-color: var(--color-tape-imaginary); }
+.element-border-physical { border-color: var(--color-tape-physical); }
+
+.rarity-5-glow,
+.rarity-4-glow {
+  box-shadow: none;
+}
+
 .section-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-border), var(--color-accent-cyan), var(--color-border), transparent);
+  height: 0;
+  border-top: 2px dashed var(--color-border-hover);
   margin: 2rem 0;
 }
 
@@ -274,54 +266,70 @@ body {
   overflow: hidden;
 }
 
-.progress-bar-fill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+.progress-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+.progress-bar-fill.cyan { background: var(--color-accent-cyan); }
+.progress-bar-fill.gold { background: var(--color-accent-gold); }
+.progress-bar-fill.purple { background: var(--color-accent-purple); }
+.progress-bar-fill.red { background: var(--color-accent-red); }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.progress-bar-fill.cyan { background: linear-gradient(90deg, var(--color-accent-cyan), #81D4FA); }
-.progress-bar-fill.gold { background: linear-gradient(90deg, var(--color-accent-gold), #FFE082); }
-.progress-bar-fill.purple { background: linear-gradient(90deg, var(--color-accent-purple), #B39DDB); }
-.progress-bar-fill.red { background: linear-gradient(90deg, var(--color-accent-red), #EF9A9A); }
+.animate-fade-in { animation: fadeIn 0.3s ease-out both; }
+.animate-pulse-glow,
+.animate-pulse-glow-gold,
+.animate-float,
+.backdrop-shimmer { animation: none; }
+
+/* Sections no longer slide in one by one; the page simply appears */
+.stagger-enter,
+.stagger-enter-active {
+  opacity: 1;
+  transform: none;
+}
 
 .back-to-top {
   position: fixed;
   bottom: 24px;
   right: 140px;
   z-index: 9998;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-hover);
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  box-shadow: 0 6px 14px -8px rgba(31, 42, 68, 0.5);
+  transition: opacity 0.2s ease, transform 0.2s ease;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(10px);
+  transform: translateY(8px);
 }
 
-.back-to-top.visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.back-to-top:hover {
-  background: var(--color-accent-cyan-muted);
-  border-color: var(--color-accent-cyan);
-  color: var(--color-accent-cyan);
-  box-shadow: 0 0 16px rgba(79, 195, 247, 0.15);
-}
+.back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.back-to-top:hover { background: var(--color-bg-elevated); }
 
 @media (max-width: 640px) {
-  .back-to-top {
-    bottom: 12px;
-    right: calc(64px + 12px);
-  }
+  .back-to-top { bottom: 12px; right: calc(64px + 12px); }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .photo-card, .photo-card:hover { transform: none; }
+}
+
+/* coloured strip on top of the active notebook divider (one colour per tab) */
+.tab-strip-0 { background: var(--color-tape-imaginary); }
+.tab-strip-1 { background: var(--color-tape-ice); }
+.tab-strip-2 { background: var(--color-tape-quantum); }
+.tab-strip-3 { background: var(--color-tape-wind); }
+.tab-strip-4 { background: var(--color-tape-fire); }

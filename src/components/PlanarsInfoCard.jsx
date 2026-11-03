@@ -22,7 +22,7 @@ const PlanarsInfoCard = ({planarSet}) => {
         />
       </div>
 
-      <h3 className="text-center font-bold text-lg mb-2 text-text-primary">
+      <h3 className="text-center font-bold text-lg leading-tight text-text-primary mt-1">
         {planarName}
       </h3>
     </div>

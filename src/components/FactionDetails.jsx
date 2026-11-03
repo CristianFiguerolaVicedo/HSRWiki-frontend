@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FACTIONS } from "../util/util";
 import { useCharacters } from "../hooks/useCharacters";
 import { ArrowLeft } from "lucide-react";
+import MemberPhotos from "./MemberPhotos";
 
 const FactionDetails = () => {
     const {id} = useParams();
@@ -25,37 +26,27 @@ const FactionDetails = () => {
         <div className="text-text-primary">
             <button
                 onClick={() => navigate("/factions")}
-                className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer"
+                className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer font-hand text-2xl"
             >
                 <ArrowLeft size={20} />
-                Back to factions
+                back to factions
             </button>
-            <h1 className="text-3xl font-bold mb-4 border-b border-border pb-3 text-text-primary">
+            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-text-primary">
                 {faction.name}
             </h1>
+            <p className="font-hand text-3xl text-accent-red mt-1 mb-8 -rotate-1 origin-left">
+                what we know about them
+            </p>
 
-            <div className="space-y-2">
-                {faction.info.map((p, i) => <p key={i} className="text-text-secondary leading-relaxed">{p}</p>)}
+            <div className="max-w-3xl space-y-4 text-[1.05rem] leading-relaxed text-text-secondary">
+                {faction.info.map((p, i) => <p key={i}>{p}</p>)}
             </div>
 
-            <h2 className="text-xl font-bold mb-4 border-b border-t border-border mt-8 py-3 text-text-primary">
-                Playable characters from this faction
+            <h2 className="text-2xl font-bold mt-12 mb-4 pt-6 border-t-2 border-dashed border-border-hover text-text-primary">
+                Members you can play
             </h2>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                {factionCharacters.map((char) => (
-                    <div key={char.id} className="text-center group cursor-pointer" onClick={() => navigate(`/char/${char.id}`)}>
-                        <img
-                            src={char.miniIcon}
-                            alt={char.name}
-                            className="w-full max-w-[160px] mx-auto rounded-lg transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-accent-cyan/10"
-                        />
-                        <p className="mt-2 text-text-primary text-sm font-medium">
-                            {char.name.replace('Trailblazer', 'TB').replace('#M', '♂').replace('#F', '♀')}
-                        </p>
-                    </div>
-                ))}
-            </div>
+            <MemberPhotos characters={factionCharacters} emptyText="none of them travel with us yet" />
         </div>
     )
 }

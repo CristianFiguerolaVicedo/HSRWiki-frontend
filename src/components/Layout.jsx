@@ -65,7 +65,7 @@ const Layout = ({ children, title, description, hero, breadcrumbs }) => {
     <SectionContext.Provider value={{ SectionReveal }}>
       <div className="flex min-h-screen">
         <Sidebar />
-        <main className="flex-1 min-w-0 transition-all duration-300">
+        <main className="flex-1 min-w-0 overflow-x-clip transition-all duration-300">
           {hero && (
             <div className="relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/10 via-accent-purple/5 to-transparent" />
@@ -101,7 +101,7 @@ const Layout = ({ children, title, description, hero, breadcrumbs }) => {
               </div>
             </div>
           )}
-          <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
+          <div className="max-w-7xl mx-auto px-4 md:px-8 pt-20 pb-6 lg:py-8">
             {children}
           </div>
         </main>

@@ -12,16 +12,6 @@ const ELEMENT_ICONS = {
   PHYSICAL: '/assets/Type_Physical.webp',
 }
 
-const ELEMENT_COLORS = {
-  FIRE: 'element-border-fire',
-  ICE: 'element-border-ice',
-  LIGHTNING: 'element-border-lightning',
-  WIND: 'element-border-wind',
-  QUANTUM: 'element-border-quantum',
-  IMAGINARY: 'element-border-imaginary',
-  PHYSICAL: 'element-border-physical',
-}
-
 const PATH_ICONS = {
   ABUNDANCE: '/assets/Icon_Abundance.webp',
   DESTRUCTION: '/assets/Icon_Destruction.webp',
@@ -34,65 +24,67 @@ const PATH_ICONS = {
   ELATION: '/assets/Icon_Elation.png',
 }
 
+const PATH_NAMES = { HUNT: "The Hunt" };
+
+const capitalize = (value) => value.charAt(0) + value.slice(1).toLowerCase();
+
+// Small, stable tilt per character so the journal looks hand-assembled but never reshuffles
+const tiltFor = (id, spread) => ((Math.abs(id) % 7) - 3) * spread;
+
 const CharInfoCard = ({char}) => {
-  const elementIconPath = ELEMENT_ICONS[char.element];
-  const pathIconPath = PATH_ICONS[char.path.toUpperCase()];
-  const elementBorder = ELEMENT_COLORS[char.element] || '';
   const navigate = useNavigate();
+  const element = char.element;
+  const path = char.path.toUpperCase();
   const idString = char.id.toString();
+  // "TrailblazerHarmony#F" -> "Trailblazer ♀" (the Path is already in the handwritten note)
+  const name = char.name.startsWith('Trailblazer')
+    ? `Trailblazer ${char.name.endsWith('#F') ? '♀' : '♂'}`
+    : char.name;
 
   return (
     <div
-      className={`group bg-bg-card border ${elementBorder} rounded-xl p-4 shadow-lg hover:shadow-xl hover:shadow-accent-cyan/5 relative cursor-pointer transition-all duration-300 animate-fade-in hover:-translate-y-1 hsr-card`}
+      className={`photo-card tape-${element.toLowerCase()} cursor-pointer`}
+      style={{ "--tilt": `${tiltFor(char.id, 0.6)}deg`, "--tape-tilt": `${tiltFor(char.id + 3, 1.4)}deg` }}
       onClick={() => navigate(`/char/${idString}`)}
       role="button"
       tabIndex={0}
       aria-label={`View ${char.name} details`}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/char/${idString}`); } }}
     >
-      <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none ${char.rarity === 5 ? 'rarity-5-glow' : 'rarity-4-glow'}`} />
+      <span className="washi" aria-hidden="true" />
 
-      <div className="flex justify-center mb-3 relative">
+      <div className="photo-card__picture h-44 flex items-end justify-center">
+        {/* "icon" is the 376x512 preview; "splash" is a 2048px portrait meant for detail views */}
         <img
-          src={`${char.splash}`}
-          alt={char.name}
-          className="h-40 object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
+          src={char.icon || char.splash}
+          alt=""
+          loading="lazy"
+          className="h-full w-full object-cover object-top"
         />
       </div>
 
-      <h3 className="text-center font-bold text-lg mb-2 truncate text-text-primary">
-        {char.name.replace('Trailblazer', 'TB').replace('#M', '♂').replace('#F', '♀')}
-      </h3>
-
-      <div className="flex justify-center mb-3">
-        {Array.from({ length: char.rarity }).map((_, index) => (
-          <Star key={index} className="text-accent-gold fill-accent-gold" size={14}/>
-        ))}
-      </div>
-
-      <div className="flex justify-center items-center gap-5 mb-1">
-        <div className="flex flex-col items-center">
-          {elementIconPath && (
-            <img
-              src={elementIconPath}
-              alt={char.element}
-              className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110"
-              title={`Element: ${char.element}`}
-            />
-          )}
-          <span className="text-xs text-text-secondary mt-1">{char.element.charAt(0) + char.element.slice(1).toLowerCase()}</span>
+      <div className="pt-3 px-1">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-semibold text-[1.05rem] leading-tight text-text-primary">
+            {name}
+          </h3>
+          <div className="flex shrink-0 pt-0.5" aria-label={`${char.rarity} stars`}>
+            {Array.from({ length: char.rarity }).map((_, index) => (
+              <Star key={index} className="text-accent-gold fill-accent-gold" size={11}/>
+            ))}
+          </div>
         </div>
 
-        <div className="flex flex-col items-center">
-          {pathIconPath && (
-            <img
-              src={pathIconPath}
-              alt={char.path}
-              className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110"
-              title={`Path: ${char.path}`}
-            />
+        <div className="mt-1.5 flex items-center gap-1.5 text-text-secondary min-w-0">
+          {ELEMENT_ICONS[element] && (
+            <img src={ELEMENT_ICONS[element]} alt="" className="w-5 h-5" title={capitalize(element)} />
           )}
-          <span className="text-xs text-text-secondary mt-1">{char.path.charAt(0) + char.path.slice(1).toLowerCase()}</span>
+          {PATH_ICONS[path] && (
+            <img src={PATH_ICONS[path]} alt="" className="w-5 h-5 invert opacity-70" title={PATH_NAMES[path] || capitalize(path)} />
+          )}
+          <span className="font-hand text-xl leading-[0.95] ml-0.5 min-w-0 break-words">
+            {PATH_NAMES[path] || capitalize(path)}, {capitalize(element)}
+          </span>
         </div>
       </div>
     </div>

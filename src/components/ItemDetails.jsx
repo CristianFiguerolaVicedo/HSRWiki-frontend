@@ -7,8 +7,8 @@ const getRarityColor = (rarity) => {
     switch (rarity) {
         case 5: return 'fill-accent-gold text-accent-gold';
         case 4: return 'fill-accent-purple text-accent-purple';
-        case 3: return 'fill-blue-400 text-blue-400';
-        case 2: return 'fill-green-400 text-green-400';
+        case 3: return 'fill-sky-600 text-sky-700';
+        case 2: return 'fill-emerald-600 text-emerald-700';
         default: return 'fill-text-muted text-text-muted';
     }
 };
@@ -85,10 +85,10 @@ const ItemDetails = () => {
             <div className="max-w-4xl mx-auto">
                 <button
                     onClick={() => navigate("/items")}
-                    className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer"
+                    className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer font-hand text-2xl"
                 >
                     <ArrowLeft size={20} />
-                    Back to Items
+                    back to the backpack
                 </button>
 
                 <div className="flex flex-col md:flex-row gap-8 mb-6">

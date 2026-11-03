@@ -6,15 +6,16 @@ const TierList = () => {
   const { characters, loading } = useCharacters();
   const navigate = useNavigate();
 
+  // Each tier is a strip of paper; the label is a coloured sticker (warm = stronger)
   const tierConfig = {
-    'T0': { label: 'T0', gradient: 'from-red-600 to-red-500', bg: 'bg-red-950/30', border: 'border-red-700/40', glow: 'shadow-red-600/20' },
-    'T0.5': { label: 'T0.5', gradient: 'from-red-500 to-orange-500', bg: 'bg-red-950/20', border: 'border-red-500/30', glow: 'shadow-red-500/15' },
-    'T1': { label: 'T1', gradient: 'from-orange-500 to-amber-500', bg: 'bg-orange-950/20', border: 'border-orange-600/30', glow: 'shadow-orange-600/15' },
-    'T1.5': { label: 'T1.5', gradient: 'from-amber-500 to-yellow-500', bg: 'bg-amber-950/15', border: 'border-amber-500/25', glow: 'shadow-amber-500/10' },
-    'T2': { label: 'T2', gradient: 'from-yellow-500 to-lime-500', bg: 'bg-lime-950/15', border: 'border-lime-500/25', glow: 'shadow-lime-500/10' },
-    'T3': { label: 'T3', gradient: 'from-lime-500 to-emerald-500', bg: 'bg-emerald-950/15', border: 'border-emerald-500/25', glow: 'shadow-emerald-500/10' },
-    'T4': { label: 'T4', gradient: 'from-emerald-500 to-cyan-500', bg: 'bg-cyan-950/15', border: 'border-cyan-500/25', glow: 'shadow-cyan-500/10' },
-    'T5': { label: 'T5', gradient: 'from-cyan-500 to-sky-500', bg: 'bg-sky-950/15', border: 'border-sky-500/25', glow: 'shadow-sky-500/10' }
+    'T0': { label: 'T0', sticker: '#F28B9B', note: 'carries the team' },
+    'T0.5': { label: 'T0.5', sticker: '#F6A57A', note: 'almost there' },
+    'T1': { label: 'T1', sticker: '#F7C46C', note: 'great pick' },
+    'T1.5': { label: 'T1.5', sticker: '#F3DE7A', note: 'solid' },
+    'T2': { label: 'T2', sticker: '#B9DC8A', note: 'does the job' },
+    'T3': { label: 'T3', sticker: '#8FD3B6', note: 'for fans' },
+    'T4': { label: 'T4', sticker: '#8EC9E8', note: '' },
+    'T5': { label: 'T5', sticker: '#A9B7E8', note: '' },
   };
 
   // Version 4.6 rankings (Game8 overall tier list, October 2026): SS -> T0, S+ -> T0.5, S -> T1, A -> T1.5, B -> T2, C -> T3
@@ -50,45 +51,54 @@ const TierList = () => {
   return (
     <div className="text-text-primary rounded-xl">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gradient mb-2">Tier List</h1>
-        <p className="text-text-secondary">
-          Character rankings for version 4.6. T0 is the strongest, T5 is the weakest.
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-text-primary">Tier List</h1>
+        <p className="font-hand text-3xl text-accent-red mt-1 -rotate-1 origin-left">
+          who's carrying the team in version 4.6
         </p>
       </div>
 
-      <div className="space-y-3">
-        {Object.entries(tierGroups).map(([tier, chars]) => {
+      <div className="space-y-4">
+        {Object.entries(tierGroups)
+          .filter(([, chars]) => chars.length > 0)
+          .map(([tier, chars]) => {
           const config = tierConfig[tier];
           return (
-            <div
+            <section
               key={tier}
-              className={`flex flex-col sm:flex-row rounded-xl overflow-hidden border ${config.border} ${config.bg} shadow-lg ${config.glow}`}
+              aria-label={`Tier ${config.label}`}
+              className="glass-panel flex flex-col sm:flex-row sm:items-stretch overflow-visible"
             >
-              <div className={`bg-gradient-to-br ${config.gradient} sm:w-20 flex items-center justify-center py-3 sm:py-0`}>
-                <span className="text-white font-black text-xl tracking-wider drop-shadow-lg">{config.label}</span>
+              <div className="sm:w-28 shrink-0 flex sm:flex-col items-center justify-center gap-x-3 px-4 py-3 border-b sm:border-b-0 sm:border-r-2 border-dashed border-border-hover">
+                <span
+                  className="px-3 py-1.5 rounded-md text-2xl font-extrabold text-text-primary shadow-sm -rotate-3"
+                  style={{ background: config.sticker }}
+                >
+                  {config.label}
+                </span>
+                {config.note && <span className="font-hand text-lg leading-tight text-text-secondary sm:mt-2 text-center">{config.note}</span>}
               </div>
-              <div className="flex-1 p-3 flex flex-wrap gap-2">
-                {chars.length > 0 ? chars.map(char => (
+              <div className="flex-1 p-3 flex flex-wrap gap-2.5">
+                {chars.map(char => (
                   <button
                     key={char.name}
                     onClick={() => navigate(`/char/${char.id}`)}
                     title={char.name}
-                    className="group relative flex flex-col items-center cursor-pointer"
+                    aria-label={char.name}
+                    className="group relative cursor-pointer"
                   >
                     <img
                       src={char.miniIcon}
-                      alt={char.name}
-                      className="h-14 w-14 sm:h-16 sm:w-16 rounded-lg border-2 border-transparent hover:border-accent-gold/50 transition-all duration-200 hover:scale-110 hover:shadow-lg hover:shadow-accent-gold/10"
+                      alt=""
+                      loading="lazy"
+                      className="h-14 w-14 sm:h-16 sm:w-16 rounded-lg bg-bg-elevated border-2 border-white shadow-sm transition-transform duration-150 group-hover:-translate-y-0.5 group-hover:-rotate-2"
                     />
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-[10px] text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-bg-primary/90 px-1.5 py-0.5 rounded">
-                      {char.name.replace('Trailblazer', 'TB').replace('#M', '♂').replace('#F', '♀')}
+                    <span className="pointer-events-none absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-text-primary px-1.5 py-0.5 text-[11px] text-bg-primary opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity z-10">
+                      {char.name.replace('Trailblazer', 'TB ').replace('#M', ' ♂').replace('#F', ' ♀')}
                     </span>
                   </button>
-                )) : (
-                  <span className="text-text-muted text-sm italic py-2">No characters in this tier</span>
-                )}
+                ))}
               </div>
-            </div>
+            </section>
           );
         })}
       </div>

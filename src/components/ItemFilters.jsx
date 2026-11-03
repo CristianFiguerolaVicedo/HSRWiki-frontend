@@ -9,7 +9,7 @@ const RARITIES = [
   {id: "1star", value: 1, label: <Star className="text-text-muted fill-text-muted"/>}
 ];
 
-const chipActiveClass = "bg-bg-elevated border border-accent-cyan/50 text-text-primary";
+const chipActiveClass = "bg-[#FFE68F] border border-[#E3C552] text-text-primary font-semibold";
 const chipInactiveClass = "bg-bg-card border border-border text-text-secondary hover:bg-bg-elevated hover:border-accent-cyan/30 hover:text-text-primary";
 
 const ItemFilters = ({ onFilterChange, initialFilters, availableTypes, availableSubTypes }) => {

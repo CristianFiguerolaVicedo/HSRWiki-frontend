@@ -49,11 +49,11 @@ const CharList = () => {
     <div className="text-text-primary rounded-xl">
       <SectionReveal>
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gradient mb-2">
-            Honkai Star Rail Characters
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-text-primary">
+            Characters
           </h1>
-          <p className="text-text-secondary">
-            Browse through all available characters. {sortedCharacters.length} of {characters.length} characters shown.
+          <p className="font-hand text-3xl text-accent-red mt-1 -rotate-1 origin-left">
+            everyone we've met along the rails, {characters.length} so far
           </p>
         </div>
       </SectionReveal>
@@ -100,15 +100,12 @@ const CharList = () => {
         <SectionReveal>
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold flex items-center gap-2 text-text-primary">
-                <span>Trailblazer</span>
-                <span className="text-sm text-text-muted">({trailblazers.length} variants)</span>
+              <h2 className="text-2xl font-bold flex items-baseline gap-3 text-text-primary">
+                <span>The Trailblazer</span>
+                <span className="font-hand text-2xl font-normal text-text-secondary">that's you, in {trailblazers.length} forms</span>
               </h2>
-              <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border">
-                Main Character
-              </span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-9 pt-3">
               {trailblazers.map((char) => (
                 <CharInfoCard key={char.id} char={char} />
               ))}
@@ -121,12 +118,9 @@ const CharList = () => {
         <SectionReveal>
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-text-primary">Characters ({regularChars.length})</h2>
-              <span className="text-sm text-text-secondary px-3 py-1 bg-bg-elevated rounded-full border border-border">
-                Playable Characters
-              </span>
+              <h2 className="text-2xl font-bold text-text-primary">Travel companions <span className="text-text-muted font-normal">({regularChars.length})</span></h2>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-9 pt-3">
               {regularChars.map((char, i) => (
                 <div key={char.id} style={{ "--stagger-index": i }}>
                   <CharInfoCard char={char} />

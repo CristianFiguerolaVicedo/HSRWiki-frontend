@@ -56,18 +56,20 @@ const PlanarsDetails = () => {
         )
     }
     return (
-        <div className="text-text-primary p-4 md:p-8">
+        <div className="text-text-primary">
             <button
                 onClick={() => navigate("/relics")}
-                className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer"
+                className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-8 cursor-pointer font-hand text-2xl"
             >
                 <ArrowLeft size={20} />
-                Back to relics and planars
+                back to relics
             </button>
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-text-primary">{planar.name}</h1>
+            <p className="font-hand text-2xl text-accent-red mt-1 mb-8 -rotate-1 origin-left">planar ornament, 2 pieces</p>
             <div className="flex flex-col md:flex-row gap-8 mb-8">
                 <div className="flex-1 glass-panel p-6">
                     <h2 className="text-2xl font-bold mb-6 text-text-primary">Set Effects</h2>
-                    <div className="bg-gradient-to-br from-bg-card to-bg-primary p-4 rounded-lg border border-border">
+                    <div className="bg-bg-card p-4 rounded-lg border border-border">
                         <div className="text-text-primary font-bold flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <span className="text-lg">Set Effect</span>

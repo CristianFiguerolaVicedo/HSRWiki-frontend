@@ -3,12 +3,16 @@ import { fetchJson } from "../services/apiClient";
 import LightconeInfoCard from "../components/LightconeInfoCard";
 import LightconeFilters from "../components/LightconeFilters";
 import SkeletonLoader from "../components/SkeletonLoader"
+import FavoritesToggle from "../components/FavoritesToggle";
+import { useFavorites } from "../hooks/useFavorites";
 
 const Lightcones = () => {
   const [lightcones, setLightcones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ paths: [], rarities: [] });
   const [sortBy, setSortBy] = useState("name");
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const { ids: favIds } = useFavorites("lightcones");
 
   useEffect(() => {
     const fetchLightcones = async () => {
@@ -26,11 +30,12 @@ const Lightcones = () => {
 
   const filteredLightcones = useMemo(() => {
     return lightcones.filter((lc) => {
+      if (favoritesOnly && !favIds.includes(String(lc.id))) return false;
       if (filters.rarities.length > 0 && !filters.rarities.includes(lc.rarity)) return false;
       if (filters.paths.length > 0 && !filters.paths.includes(lc.path)) return false;
       return true;
     });
-  }, [lightcones, filters]);
+  }, [lightcones, filters, favoritesOnly, favIds]);
 
   const sortedLightcones = useMemo(() => {
     const cones = [...filteredLightcones];
@@ -62,8 +67,9 @@ const Lightcones = () => {
         <LightconeFilters onFilterChange={handleFilterChange} initialFilters={filters} />
 
         <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
-          <div className="flex items-center gap-2">
-            <span className="text-text-secondary">Sort By:</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <FavoritesToggle active={favoritesOnly} count={favIds.length} onChange={setFavoritesOnly} />
+            <span className="text-text-secondary ml-2">Sort by:</span>
             <select
               value={sortBy}
               onChange={handleSortChange}
@@ -80,12 +86,20 @@ const Lightcones = () => {
         </div>
       </div>
 
-      {sortedLightcones.length === 0 && (
+
+      {favoritesOnly && favIds.length === 0 && (
+        <div className="glass-panel p-10 text-center mb-8">
+          <p className="font-hand text-3xl text-accent-red mb-2">no favorites yet</p>
+          <p className="text-text-secondary">Tap the heart on any card to keep it here.</p>
+        </div>
+      )}
+
+      {sortedLightcones.length === 0 && !(favoritesOnly && favIds.length === 0) && (
         <div className="glass-panel p-12 text-center mb-8 animate-fade-in">
           <div className="text-5xl mb-4 opacity-50">◆</div>
           <h3 className="text-2xl font-bold mb-3 text-text-primary">No lightcones found</h3>
           <p className="text-text-secondary mb-4">No lightcones match your current filter settings.</p>
-          <button onClick={() => setFilters({ paths: [], rarities: [] })}
+          <button onClick={() => { setFilters({ paths: [], rarities: [] }); setFavoritesOnly(false); }}
             className="px-6 py-3 bg-accent-cyan/20 text-accent-cyan rounded-lg border border-accent-cyan/30 hover:bg-accent-cyan/30 transition-all"
           >
             Clear all filters

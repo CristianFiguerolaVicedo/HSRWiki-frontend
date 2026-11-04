@@ -6,6 +6,7 @@ import { getLightConeByName } from "../services/lightConeService";
 import { getRelicSetByName } from "../services/relicService";
 import { useCharacters } from "../hooks/useCharacters";
 import SkeletonLoader from "./SkeletonLoader";
+import FavoriteButton from "./FavoriteButton";
 
 const ELEMENT_ICONS = {
     FIRE: '/assets/Type_Fire.webp',
@@ -455,6 +456,9 @@ const CharDetails = () => {
                             {Array.from({ length: char.rarity }).map((_, index) => (
                                 <Star key={index} className="text-accent-gold fill-accent-gold" size={20}/>
                             ))}
+                        </div>
+                        <div className="mt-4 flex justify-center md:justify-start">
+                            <FavoriteButton kind="characters" id={char.id} name={formatCharName(char.name)} variant="inline" />
                         </div>
                     </div>
                 </div>

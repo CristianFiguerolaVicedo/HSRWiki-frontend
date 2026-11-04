@@ -4,6 +4,8 @@ import CharInfoCard from "../components/CharInfoCard";
 import CharFilters from "../components/CharFilters";
 import { useSectionReveal } from "../components/Layout";
 import SkeletonLoader from "../components/SkeletonLoader";
+import FavoritesToggle from "../components/FavoritesToggle";
+import { useFavorites } from "../hooks/useFavorites";
 
 const CharList = () => {
   const { characters, loading } = useCharacters();
@@ -13,16 +15,19 @@ const CharList = () => {
     paths: [],
   });
   const [sortBy, setSortBy] = useState("name");
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const { ids: favIds } = useFavorites("characters");
   const { SectionReveal } = useSectionReveal();
 
   const filteredCharacters = useMemo(() => {
     return characters.filter((char) => {
+      if (favoritesOnly && !favIds.includes(String(char.id))) return false;
       if (filters.rarities.length > 0 && !filters.rarities.includes(char.rarity)) return false;
       if (filters.elements.length > 0 && !filters.elements.includes(char.element)) return false;
       if (filters.paths.length > 0 && !filters.paths.includes(char.path)) return false;
       return true;
     });
-  }, [characters, filters]);
+  }, [characters, filters, favoritesOnly, favIds]);
 
   const sortedCharacters = useMemo(() => {
     const chars = [...filteredCharacters];
@@ -62,8 +67,9 @@ const CharList = () => {
         <CharFilters onFilterChange={handleFilterChange} initialFilters={filters} />
 
         <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
-          <div className="flex items-center gap-2">
-            <span className="text-text-secondary">Sort by:</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <FavoritesToggle active={favoritesOnly} count={favIds.length} onChange={setFavoritesOnly} />
+            <span className="text-text-secondary ml-2">Sort by:</span>
             <select
               value={sortBy}
               onChange={handleSortChange}
@@ -82,13 +88,21 @@ const CharList = () => {
         </div>
       </div>
 
-      {sortedCharacters.length === 0 && (
+
+      {favoritesOnly && favIds.length === 0 && (
+        <div className="glass-panel p-10 text-center mb-8">
+          <p className="font-hand text-3xl text-accent-red mb-2">no favorites yet</p>
+          <p className="text-text-secondary">Tap the heart on any card to keep it here.</p>
+        </div>
+      )}
+
+      {sortedCharacters.length === 0 && !(favoritesOnly && favIds.length === 0) && (
         <div className="glass-panel p-12 text-center mb-8 animate-fade-in">
           <div className="text-5xl mb-4 opacity-50">◆</div>
           <h3 className="text-2xl font-bold mb-3 text-text-primary">No characters found</h3>
           <p className="text-text-secondary mb-4">No characters match your current filter settings.</p>
           <button
-            onClick={() => setFilters({ elements: [], paths: [], rarities: [] })}
+            onClick={() => { setFilters({ elements: [], paths: [], rarities: [] }); setFavoritesOnly(false); }}
             className="px-6 py-3 bg-accent-cyan/20 text-accent-cyan rounded-lg border border-accent-cyan/30 hover:bg-accent-cyan/30 transition-all"
           >
             Clear all filters

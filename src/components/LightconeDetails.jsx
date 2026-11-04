@@ -2,6 +2,7 @@ import { ArrowLeft, Heart, Shield, Star, Swords } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH_TAPES, pathLabel } from "../util/paths";
+import FavoriteButton from "./FavoriteButton";
 
 import { fetchJson } from "../services/apiClient";
 
@@ -178,6 +179,9 @@ const LightconeDetails = () => {
                             {Array.from({ length: lightcone.rarity }).map((_, index) => (
                                 <Star key={index} className="text-accent-gold fill-accent-gold" size={20}/>
                             ))}
+                        </div>
+                        <div className="mt-4 flex justify-center md:justify-start">
+                            <FavoriteButton kind="lightcones" id={lightcone.id} name={lightcone.name} variant="inline" />
                         </div>
                     </div>
                 </div>

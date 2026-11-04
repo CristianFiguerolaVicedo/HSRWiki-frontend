@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import FavoriteButton from "./FavoriteButton";
 
 const ELEMENT_ICONS = {
   FIRE: '/assets/Type_Fire.webp',
@@ -52,6 +53,7 @@ const CharInfoCard = ({char}) => {
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/char/${idString}`); } }}
     >
       <span className="washi" aria-hidden="true" />
+      <FavoriteButton kind="characters" id={char.id} name={char.name.startsWith("Trailblazer") ? `${name} (${PATH_NAMES[path] || capitalize(path)})` : name} />
 
       <div className="photo-card__picture h-44 flex items-end justify-center">
         {/* "icon" is the 376x512 preview; "splash" is a 2048px portrait meant for detail views */}

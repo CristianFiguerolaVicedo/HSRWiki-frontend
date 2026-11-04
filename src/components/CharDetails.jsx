@@ -8,6 +8,7 @@ import { useCharacters } from "../hooks/useCharacters";
 import SkeletonLoader from "./SkeletonLoader";
 import FavoriteButton from "./FavoriteButton";
 import CharLore from "./CharLore";
+import SkillCard from "./SkillCard";
 
 const ELEMENT_ICONS = {
     FIRE: '/assets/Type_Fire.webp',
@@ -52,6 +53,13 @@ const SKILL_LABELS = {
     memo_skill: "Memosprite Skill", memo_talent: "Memosprite Talent", elation_skill: "Elation Skill",
 };
 
+// Extra skills are labelled by type; Eidolon level-ups use these keys
+const EXTRA_SKILL_KEYS = {
+    "Basic ATK": "basic", "Skill": "skill", "Ultimate": "ult", "Talent": "talent",
+    "Memosprite Skill": "memo_skill", "Memosprite Talent": "memo_talent",
+    "Elation Skill": "elation_skill", "Assist Skill": "assist",
+};
+
 const levelUpSkills = (eidolon) => {
     const skills = eidolon.level_up_skills || eidolon.levelUpSkills;
     return skills && Object.keys(skills).length > 0 ? skills : null;
@@ -73,6 +81,7 @@ const CharDetails = () => {
     const [planarSetData, setPlanarSetData] = useState({});
     const [buildDataLoaded, setBuildDataLoaded] = useState(false);
     const [kit, setKit] = useState("base");
+    const [skillPreset, setSkillPreset] = useState("max");
 
     const navigate = useNavigate();
     const { characters: allCharacters } = useCharacters();
@@ -317,110 +326,34 @@ const CharDetails = () => {
         </div>
     );
 
-    const renderSkillCard = (skillData, label, letter, key) => (
-        <div key={key} className="glass-panel p-6 border border-border">
-            <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-accent-red/10 rounded-lg flex items-center justify-center border border-accent-red/20">
-                    <span className="text-accent-gold text-xl">{letter}</span>
-                </div>
-                <div>
-                    <h3 className="text-xl font-bold text-text-primary">{label}</h3>
-                    {skillData.maxLevel > 1 && (
-                        <div className="flex items-center gap-2 mt-1">
-                            <span className="text-accent-gold text-sm font-semibold px-2 py-0.5 bg-bg-elevated rounded-full">
-                                Max Level: {skillData.maxLevel}
-                            </span>
-                        </div>
-                    )}
-                </div>
+    // Levels each skill gains from Eidolons (E3/E5 usually add +1 basic, +2 to the others)
+    const eidolonBonus = {};
+    (char.eidolons || []).forEach((eidolon) => {
+        Object.entries(levelUpSkills(eidolon) || {}).forEach(([skill, levels]) => {
+            eidolonBonus[skill] = (eidolonBonus[skill] || 0) + levels;
+        });
+    });
+
+    const renderPresetSelector = () => (
+        <div className="flex flex-wrap items-center gap-3 p-3 rounded-lg border border-border bg-bg-card/60">
+            <span className="font-hand text-2xl leading-none text-text-secondary">show every skill at</span>
+            <div className="flex flex-wrap gap-2">
+                {[["min", "Level 1"], ["max", "Max level"], ["eidolon", "Max with Eidolons"]].map(([value, text]) => (
+                    <button
+                        key={value}
+                        type="button"
+                        onClick={() => setSkillPreset(value)}
+                        aria-pressed={skillPreset === value}
+                        className={`px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors ${skillPreset === value
+                            ? "bg-[#FFE68F] border-[#E3C552] text-text-primary font-semibold"
+                            : "bg-bg-card border-border text-text-secondary hover:text-text-primary"}`}
+                    >
+                        {text}
+                    </button>
+                ))}
             </div>
-            <h4 className="text-lg font-semibold mb-2">{skillData.name}</h4>
-            {renderSkillValues(skillData)}
         </div>
     );
-
-    const renderSkillValues = (skillData) => {
-        if (!skillData.params || skillData.params.length === 0 || skillData.params[0].length === 0) {
-            return <p className="text-text-primary/80 text-sm whitespace-pre-line">{skillData.desc || "No skill data available"}</p>;
-        }
-
-        const level1Values = skillData.params[0] || [];
-
-        return (
-            <div className="mt-4">
-                <div className="mb-6 p-4 bg-bg-card/40 rounded-lg border border-border">
-                    <h5 className="text-sm font-semibold text-accent-gold mb-2">Skill Effect:</h5>
-                    <div className="text-text-primary/80 text-sm space-y-2 whitespace-pre-line">
-                        {(() => {
-                            let desc = skillData.desc;
-                            let parts = [];
-                            let lastIndex = 0;
-                            
-                            const regex = /\{(\d+)\}/g;
-                            let match;
-                            let paramIndex = 0;
-                            
-                            while ((match = regex.exec(desc)) !== null) {
-                                if (match.index > lastIndex) {
-                                    parts.push(desc.substring(lastIndex, match.index));
-                                }
-                                
-                                const placeholderIndex = parseInt(match[1]);
-                                const value = level1Values[placeholderIndex] || "N/A";
-                                parts.push(
-                                    <span key={`value-${paramIndex}`} className="text-accent-gold font-bold mx-1">
-                                        {value}
-                                    </span>
-                                );
-                                
-                                lastIndex = regex.lastIndex;
-                                paramIndex++;
-                            }
-                            
-                            if (lastIndex < desc.length) {
-                                parts.push(desc.substring(lastIndex));
-                            }
-                            
-                            if (parts.length === 0) {
-                                return <p>{desc}</p>;
-                            }
-                            
-                            return parts;
-                        })()}
-                    </div>
-                    <div className="mt-2 text-xs text-text-secondary">
-                        <span className="text-text-primary">Note:</span> Values shown in <span className="text-text-primary font-bold">yellow</span> are for Level 1.
-                    </div>
-                </div>
-                
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                        <tbody>
-                            {skillData.params[0].map((_, paramIndex) => {
-                                const values = skillData.params.map(levelParams => 
-                                    levelParams[paramIndex] || "N/A"
-                                );
-                                
-                                return (
-                                    <tr key={paramIndex} className="border-b border-border hover:bg-bg-elevated/50 transition-colors">
-                                        <td className="py-3 px-2">
-                                            <div className="tabular-nums text-lg text-text-primary">
-                                                {values.join("/")}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div className="mt-4 p-3 bg-bg-primary/50 rounded-lg text-xs text-text-secondary">
-                    <p className="mt-1"><span className="text-emerald-700">Example:</span> "50/60/70" means 50 at level 1, 60 at level 2, 70 at level 3</p>
-                </div>
-            </div>
-        );
-    };
 
     return (
         <div className="text-text-primary">
@@ -597,15 +530,19 @@ const CharDetails = () => {
                 {activeTab === "skills" && activeSkills && (
                     <div className="space-y-6">
                         {renderKitSelector()}
-                        {MAIN_SKILLS.filter(({ key }) => activeSkills[key]).map(({ key, label, letter }) =>
-                            renderSkillCard(activeSkills[key], label, letter, key)
-                        )}
+                        {renderPresetSelector()}
+                        {MAIN_SKILLS.filter(({ key }) => activeSkills[key]).map(({ key, label, letter }) => (
+                            <SkillCard key={`${kit}-${skillPreset}-${key}`} skill={activeSkills[key]} label={label} letter={letter}
+                                preset={skillPreset} eidolonBonus={eidolonBonus[key] || 0} />
+                        ))}
                         {activeSkills.extra?.length > 0 && (
                             <>
                                 <h3 className="text-xl font-bold pt-2 text-text-primary border-b border-accent-red/50 pb-2">Additional Skills</h3>
-                                {activeSkills.extra.map((extra, index) =>
-                                    renderSkillCard(extra, extra.type || "Skill", (extra.type || "?").charAt(0), `extra-${index}`)
-                                )}
+                                {activeSkills.extra.map((extra, index) => (
+                                    <SkillCard key={`${kit}-${skillPreset}-extra-${index}`} skill={extra}
+                                        label={SKILL_LABELS[extra.type] || extra.type || "Skill"} letter={(SKILL_LABELS[extra.type] || extra.type || "?").charAt(0)}
+                                        preset={skillPreset} eidolonBonus={eidolonBonus[EXTRA_SKILL_KEYS[extra.type]] || 0} />
+                                ))}
                             </>
                         )}
                     </div>

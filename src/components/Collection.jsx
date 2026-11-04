@@ -38,11 +38,22 @@ export const CollectionControl = ({ kind, id, name }) => {
   }
 
   return (
-    <div className="inline-flex flex-wrap items-center gap-2 p-1.5 pl-3 rounded-full border border-text-primary/30 bg-bg-card">
-      <span className="inline-flex items-center gap-1 text-sm font-semibold text-text-primary">
-        <Check size={15} aria-hidden="true" /> Owned
-      </span>
-      <div className="flex gap-0.5" role="group" aria-label={WORD[kind]}>
+    <div className="w-full max-w-72 rounded-xl border border-text-primary/30 bg-bg-card p-2 pl-3 text-left">
+      <div className="flex items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1 text-sm font-semibold text-text-primary">
+          <Check size={15} aria-hidden="true" /> Owned
+        </span>
+        <button
+          type="button"
+          onClick={() => remove(id)}
+          className="w-7 h-7 rounded-full inline-flex items-center justify-center text-text-muted hover:text-accent-red hover:bg-bg-elevated cursor-pointer"
+          aria-label={`Remove ${name} from your collection`}
+          title="Remove from collection"
+        >
+          <X size={15} aria-hidden="true" />
+        </button>
+      </div>
+      <div className="flex flex-wrap gap-0.5 mt-1" role="group" aria-label={WORD[kind]}>
         {Array.from({ length: max - min + 1 }, (_, i) => min + i).map((value) => (
           <button
             key={value}
@@ -58,15 +69,6 @@ export const CollectionControl = ({ kind, id, name }) => {
           </button>
         ))}
       </div>
-      <button
-        type="button"
-        onClick={() => remove(id)}
-        className="w-7 h-7 rounded-full inline-flex items-center justify-center text-text-muted hover:text-accent-red hover:bg-bg-elevated cursor-pointer"
-        aria-label={`Remove ${name} from your collection`}
-        title="Remove from collection"
-      >
-        <X size={15} aria-hidden="true" />
-      </button>
     </div>
   );
 };

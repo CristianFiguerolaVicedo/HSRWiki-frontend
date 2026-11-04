@@ -1,26 +1,15 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-
-/**
- * In-game level caps. The data lists every level the game has (10 or 15), but a player can only
- * reach 6 (basic attack style skills) or 10 (the rest) through Traces; Eidolons add up to +1/+2.
- */
-export const naturalCap = (maxLevel) => (maxLevel >= 15 ? 10 : maxLevel >= 10 ? 6 : maxLevel);
+import { fillDescription, naturalCap } from "../util/skills";
 
 // {0}, {1}... in the description are replaced by the values of the chosen level
-const Description = ({ desc, values }) => {
-  const parts = [];
-  let last = 0, k = 0;
-  for (const m of desc.matchAll(/\{(\d+)\}/g)) {
-    if (m.index > last) parts.push(desc.slice(last, m.index));
-    parts.push(
-      <span key={k++} className="font-bold text-accent-gold tabular-nums">{values[Number(m[1])] ?? "?"}</span>
-    );
-    last = m.index + m[0].length;
-  }
-  parts.push(desc.slice(last));
-  return <p className="text-text-primary/85 leading-relaxed whitespace-pre-line">{parts}</p>;
-};
+const Description = ({ desc, values }) => (
+  <p className="text-text-primary/85 leading-relaxed whitespace-pre-line">
+    {fillDescription(desc, values).map((part, i) => (part.text !== undefined
+      ? part.text
+      : <span key={i} className="font-bold text-accent-gold tabular-nums">{part.value}</span>))}
+  </p>
+);
 
 /**
  * One skill with a level selector.

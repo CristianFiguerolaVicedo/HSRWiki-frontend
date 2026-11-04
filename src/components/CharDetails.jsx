@@ -1,4 +1,4 @@
-import { ArrowLeft, ClipboardList, Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
+import { ArrowLeft, ClipboardList, Columns3, Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchJson } from "../services/apiClient";
@@ -398,6 +398,16 @@ const CharDetails = () => {
                             <button type="button" onClick={() => navigate(`/planner?add=char:${char.id}`)}
                                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-semibold bg-bg-card border-border text-text-secondary hover:text-text-primary hover:border-border-hover cursor-pointer transition-colors">
                                 <ClipboardList size={16} aria-hidden="true" /> Plan materials
+                            </button>
+                            <button type="button" onClick={() => {
+                                    // Adds this character to the last comparison (three at most, the oldest leaves)
+                                    let last = [];
+                                    try { last = JSON.parse(localStorage.getItem("hsrwiki-compare") || "[]"); } catch { last = []; }
+                                    const ids = [...(Array.isArray(last) ? last : []).filter((x) => x !== String(char.id)), String(char.id)].slice(-3);
+                                    navigate(`/compare?ids=${ids.join(",")}`);
+                                }}
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-semibold bg-bg-card border-border text-text-secondary hover:text-text-primary hover:border-border-hover cursor-pointer transition-colors">
+                                <Columns3 size={16} aria-hidden="true" /> Compare
                             </button>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { Backpack, ChartNoAxesColumn, Component, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X, UserRound, ClipboardList, Calculator } from "lucide-react";
+import { Backpack, ChartNoAxesColumn, Component, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X, UserRound, ClipboardList, Calculator, Columns3 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchJson } from "../services/apiClient";
 
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { path: "/factions", label: "Factions", Icon: Component },
   { path: "/items", label: "Items", Icon: Backpack },
   { path: "/tier-list", label: "Tier List", Icon: ChartNoAxesColumn },
+  { path: "/compare", label: "Compare", Icon: Columns3 },
   { path: "/planner", label: "Planner", Icon: ClipboardList },
   { path: "/calculator", label: "Stat Calculator", Icon: Calculator },
   { path: "/account", label: "My Account", Icon: UserRound },

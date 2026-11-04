@@ -21,6 +21,7 @@ const TierList = lazy(() => import('./pages/TierList'));
 const Account = lazy(() => import('./pages/Account'));
 const Planner = lazy(() => import('./pages/Planner'));
 const Calculator = lazy(() => import('./pages/Calculator'));
+const Compare = lazy(() => import('./pages/Compare'));
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center h-64">
@@ -52,6 +53,7 @@ const App = () => {
                 <Route path='/tier-list' element={<TierList />}/>
                 <Route path='/planner' element={<Planner />}/>
                 <Route path='/calculator' element={<Calculator />}/>
+                <Route path='/compare' element={<Compare />}/>
                 <Route path='/account' element={<Account />}/>
                 <Route path='/account/:uid' element={<Account />}/>
               </Routes>

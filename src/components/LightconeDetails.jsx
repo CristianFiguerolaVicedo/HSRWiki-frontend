@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH_TAPES, pathLabel } from "../util/paths";
 import FavoriteButton from "./FavoriteButton";
+import { CollectionControl } from "./Collection";
 
 import { fetchJson } from "../services/apiClient";
 
@@ -180,8 +181,9 @@ const LightconeDetails = () => {
                                 <Star key={index} className="text-accent-gold fill-accent-gold" size={20}/>
                             ))}
                         </div>
-                        <div className="mt-4 flex justify-center md:justify-start">
+                        <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
                             <FavoriteButton kind="lightcones" id={lightcone.id} name={lightcone.name} variant="inline" />
+                            <CollectionControl kind="lightcones" id={lightcone.id} name="it" />
                         </div>
                     </div>
                 </div>

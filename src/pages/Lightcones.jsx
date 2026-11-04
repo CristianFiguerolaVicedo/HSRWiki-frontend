@@ -5,6 +5,8 @@ import LightconeFilters from "../components/LightconeFilters";
 import SkeletonLoader from "../components/SkeletonLoader"
 import FavoritesToggle from "../components/FavoritesToggle";
 import { useFavorites } from "../hooks/useFavorites";
+import { useCollection } from "../hooks/useCollection";
+import { OwnershipFilter } from "../components/Collection";
 
 const Lightcones = () => {
   const [lightcones, setLightcones] = useState([]);
@@ -12,6 +14,9 @@ const Lightcones = () => {
   const [filters, setFilters] = useState({ paths: [], rarities: [] });
   const [sortBy, setSortBy] = useState("name");
   const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [ownership, setOwnership] = useState("all");
+  const { owned } = useCollection("lightcones");
+  const ownedCount = lightcones.filter((lc) => String(lc.id) in owned).length;
   const { ids: favIds } = useFavorites("lightcones");
 
   useEffect(() => {
@@ -31,11 +36,13 @@ const Lightcones = () => {
   const filteredLightcones = useMemo(() => {
     return lightcones.filter((lc) => {
       if (favoritesOnly && !favIds.includes(String(lc.id))) return false;
+      if (ownership === "owned" && !(String(lc.id) in owned)) return false;
+      if (ownership === "missing" && String(lc.id) in owned) return false;
       if (filters.rarities.length > 0 && !filters.rarities.includes(lc.rarity)) return false;
       if (filters.paths.length > 0 && !filters.paths.includes(lc.path)) return false;
       return true;
     });
-  }, [lightcones, filters, favoritesOnly, favIds]);
+  }, [lightcones, filters, favoritesOnly, favIds, ownership, owned]);
 
   const sortedLightcones = useMemo(() => {
     const cones = [...filteredLightcones];
@@ -69,6 +76,7 @@ const Lightcones = () => {
         <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
           <div className="flex flex-wrap items-center gap-2">
             <FavoritesToggle active={favoritesOnly} count={favIds.length} onChange={setFavoritesOnly} />
+            <OwnershipFilter value={ownership} onChange={setOwnership} ownedCount={ownedCount} total={lightcones.length} />
             <span className="text-text-secondary ml-2">Sort by:</span>
             <select
               value={sortBy}
@@ -99,7 +107,7 @@ const Lightcones = () => {
           <div className="text-5xl mb-4 opacity-50">◆</div>
           <h3 className="text-2xl font-bold mb-3 text-text-primary">No lightcones found</h3>
           <p className="text-text-secondary mb-4">No lightcones match your current filter settings.</p>
-          <button onClick={() => { setFilters({ paths: [], rarities: [] }); setFavoritesOnly(false); }}
+          <button onClick={() => { setFilters({ paths: [], rarities: [] }); setFavoritesOnly(false); setOwnership("all"); }}
             className="px-6 py-3 bg-accent-cyan/20 text-accent-cyan rounded-lg border border-accent-cyan/30 hover:bg-accent-cyan/30 transition-all"
           >
             Clear all filters

@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PATH_TAPES, pathLabel } from "../util/paths";
 import FavoriteButton from "./FavoriteButton";
+import { OwnedBadge } from "./Collection";
 
 const PATH_ICONS = {
   ABUNDANCE: '/assets/Icon_Abundance.webp',
@@ -34,6 +35,7 @@ const LightconeInfoCard = ({lightcone}) => {
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/lightcones/${idString}`); } }}
     >
       <span className="washi" aria-hidden="true" />
+      <OwnedBadge kind="lightcones" id={lightcone.id} />
       <FavoriteButton kind="lightcones" id={lightcone.id} name={lightcone.name} />
 
       <div className="photo-card__picture h-44 flex items-center justify-center p-2">

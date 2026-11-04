@@ -9,6 +9,7 @@ import SkeletonLoader from "./SkeletonLoader";
 import FavoriteButton from "./FavoriteButton";
 import CharLore from "./CharLore";
 import SkillCard from "./SkillCard";
+import { CollectionControl } from "./Collection";
 
 const ELEMENT_ICONS = {
     FIRE: '/assets/Type_Fire.webp',
@@ -391,8 +392,9 @@ const CharDetails = () => {
                                 <Star key={index} className="text-accent-gold fill-accent-gold" size={20}/>
                             ))}
                         </div>
-                        <div className="mt-4 flex justify-center md:justify-start">
+                        <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
                             <FavoriteButton kind="characters" id={char.id} name={formatCharName(char.name)} variant="inline" />
+                            <CollectionControl kind="characters" id={char.id} name={formatCharName(char.name)} />
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,8 @@ import { useSectionReveal } from "../components/Layout";
 import SkeletonLoader from "../components/SkeletonLoader";
 import FavoritesToggle from "../components/FavoritesToggle";
 import { useFavorites } from "../hooks/useFavorites";
+import { useCollection } from "../hooks/useCollection";
+import { OwnershipFilter } from "../components/Collection";
 
 const CharList = () => {
   const { characters, loading } = useCharacters();
@@ -16,18 +18,23 @@ const CharList = () => {
   });
   const [sortBy, setSortBy] = useState("name");
   const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [ownership, setOwnership] = useState("all");
+  const { owned } = useCollection("characters");
+  const ownedCount = characters.filter((char) => String(char.id) in owned).length;
   const { ids: favIds } = useFavorites("characters");
   const { SectionReveal } = useSectionReveal();
 
   const filteredCharacters = useMemo(() => {
     return characters.filter((char) => {
       if (favoritesOnly && !favIds.includes(String(char.id))) return false;
+      if (ownership === "owned" && !(String(char.id) in owned)) return false;
+      if (ownership === "missing" && String(char.id) in owned) return false;
       if (filters.rarities.length > 0 && !filters.rarities.includes(char.rarity)) return false;
       if (filters.elements.length > 0 && !filters.elements.includes(char.element)) return false;
       if (filters.paths.length > 0 && !filters.paths.includes(char.path)) return false;
       return true;
     });
-  }, [characters, filters, favoritesOnly, favIds]);
+  }, [characters, filters, favoritesOnly, favIds, ownership, owned]);
 
   const sortedCharacters = useMemo(() => {
     const chars = [...filteredCharacters];
@@ -69,6 +76,7 @@ const CharList = () => {
         <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
           <div className="flex flex-wrap items-center gap-2">
             <FavoritesToggle active={favoritesOnly} count={favIds.length} onChange={setFavoritesOnly} />
+            <OwnershipFilter value={ownership} onChange={setOwnership} ownedCount={ownedCount} total={characters.length} />
             <span className="text-text-secondary ml-2">Sort by:</span>
             <select
               value={sortBy}
@@ -102,7 +110,7 @@ const CharList = () => {
           <h3 className="text-2xl font-bold mb-3 text-text-primary">No characters found</h3>
           <p className="text-text-secondary mb-4">No characters match your current filter settings.</p>
           <button
-            onClick={() => { setFilters({ elements: [], paths: [], rarities: [] }); setFavoritesOnly(false); }}
+            onClick={() => { setFilters({ elements: [], paths: [], rarities: [] }); setFavoritesOnly(false); setOwnership("all"); }}
             className="px-6 py-3 bg-accent-cyan/20 text-accent-cyan rounded-lg border border-accent-cyan/30 hover:bg-accent-cyan/30 transition-all"
           >
             Clear all filters
@@ -116,7 +124,7 @@ const CharList = () => {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold flex items-baseline gap-3 text-text-primary">
                 <span>The Trailblazer</span>
-                <span className="font-hand text-2xl font-normal text-text-secondary">that's you, in {trailblazers.length} forms</span>
+                <span className="font-hand text-2xl font-normal text-text-secondary">that's you, in {trailblazers.length} {trailblazers.length === 1 ? "form" : "forms"}</span>
               </h2>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-9 pt-3">

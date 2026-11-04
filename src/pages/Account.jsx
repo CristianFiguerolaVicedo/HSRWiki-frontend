@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Check, Star, X } from "lucide-react";
+import { Check, PackagePlus, Star, X } from "lucide-react";
 import apiClient from "../services/apiClient";
 import { pathLabel } from "../util/paths";
+import { updateCollection, useCollection } from "../hooks/useCollection";
 
 const LAST_UID_KEY = "hsrwiki-last-uid";
 
@@ -145,6 +146,42 @@ const ShowcaseEntry = ({ char, index }) => {
   );
 };
 
+// Copies the showcase into the browser collection: Eidolons and the equipped cones' Superimposition.
+// It only raises levels, so a showcase never lowers something the player set by hand.
+const ImportShowcase = ({ characters }) => {
+  const chars = useCollection("characters");
+  const cones = useCollection("lightcones");
+  const [done, setDone] = useState(false);
+
+  const changes = { characters: {}, lightcones: {} };
+  for (const c of characters) {
+    if (!chars.has(c.id) || chars.level(c.id) < c.eidolon) changes.characters[c.id] = c.eidolon;
+    const lc = c.lightCone;
+    if (lc?.id != null && (!cones.has(lc.id) || cones.level(lc.id) < lc.superimposition)) changes.lightcones[lc.id] = lc.superimposition;
+  }
+  const pending = Object.keys(changes.characters).length + Object.keys(changes.lightcones).length;
+
+  return (
+    <div className="glass-panel p-4 flex flex-wrap items-center gap-3">
+      <PackagePlus size={20} className="text-text-secondary shrink-0" aria-hidden="true" />
+      <p className="flex-1 min-w-[200px] text-sm text-text-secondary">
+        {pending > 0
+          ? "Add these characters and their light cones to your collection, with their Eidolons and Superimpositions."
+          : done ? "Done! Your collection now has everything in this showcase." : "Everything in this showcase is already in your collection."}
+      </p>
+      {pending > 0 && (
+        <button
+          type="button"
+          onClick={() => { updateCollection(changes); setDone(true); }}
+          className="px-4 py-2 rounded-lg bg-text-primary text-bg-primary font-semibold hover:bg-accent-cyan transition-colors cursor-pointer"
+        >
+          Add {pending} to my collection
+        </button>
+      )}
+    </div>
+  );
+};
+
 const ERROR_HINTS = {
   404: "Check the number: it's the UID shown at the bottom-left of the game screen.",
   429: "Lookups are limited so the service stays free for everyone.",
@@ -272,6 +309,7 @@ const Account = () => {
                 Showcase <span className="text-text-muted font-normal">({profile.characters.length})</span>
                 <span className="font-hand text-2xl font-normal text-text-secondary">checked against the wiki's builds</span>
               </h2>
+              <ImportShowcase characters={profile.characters} />
               {profile.characters.map((char, i) => <ShowcaseEntry key={char.id} char={char} index={i} />)}
             </div>
           )}

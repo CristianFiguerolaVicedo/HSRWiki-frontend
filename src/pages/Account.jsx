@@ -67,7 +67,7 @@ const RelicSlot = ({ relic }) => (
   </div>
 );
 
-const ShowcaseEntry = ({ char, index }) => {
+const ShowcaseEntry = ({ char, index, uid }) => {
   const navigate = useNavigate();
   const check = char.buildCheck;
 
@@ -102,6 +102,13 @@ const ShowcaseEntry = ({ char, index }) => {
               {check.mainStatsMatched} of {check.mainStatsChecked} main stats like the guide
             </span>
           )}
+          <button
+            type="button"
+            onClick={() => navigate(`/calculator?uid=${uid}&char=${char.id}`)}
+            className="w-full sm:w-auto px-3 py-1 rounded-full border border-border bg-bg-card text-sm text-text-secondary hover:text-text-primary hover:border-border-hover cursor-pointer"
+          >
+            See final stats
+          </button>
         </header>
 
         <div className="grid sm:grid-cols-2 gap-4">
@@ -310,7 +317,7 @@ const Account = () => {
                 <span className="font-hand text-2xl font-normal text-text-secondary">checked against the wiki's builds</span>
               </h2>
               <ImportShowcase characters={profile.characters} />
-              {profile.characters.map((char, i) => <ShowcaseEntry key={char.id} char={char} index={i} />)}
+              {profile.characters.map((char, i) => <ShowcaseEntry key={char.id} char={char} index={i} uid={profile.uid} />)}
             </div>
           )}
         </div>

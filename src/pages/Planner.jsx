@@ -35,7 +35,7 @@ const MaterialList = ({ data, totals, compact = false }) => {
   const rows = sortMaterials(data, totals);
   if (rows.length === 0) return <p className="text-text-muted text-sm">Nothing to farm for this range.</p>;
   return (
-    <ul className={`grid gap-2 ${compact ? "grid-cols-2 sm:grid-cols-3 xl:grid-cols-4" : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"}`}>
+    <ul className={`grid gap-2 ${compact ? "grid-cols-2 sm:grid-cols-3" : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 2xl:grid-cols-3"}`}>
       {rows.map(([id, count]) => {
         const item = data.items[id] || { name: `Item ${id}` };
         return (
@@ -248,7 +248,7 @@ const Planner = () => {
           <p className="text-text-secondary">Add a character or a light cone above, or use "Plan materials" on any character page.</p>
         </div>
       ) : (
-        <div className="grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-6 items-start">
+        <div className="grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-6 items-start">
           <div className="space-y-4">
             {plan.map((entry) => (
               <PlanEntry
@@ -261,7 +261,7 @@ const Planner = () => {
               />
             ))}
           </div>
-          <aside className="glass-panel p-5 xl:sticky xl:top-6">
+          <aside className="glass-panel p-5 lg:sticky lg:top-6">
             <div className="flex items-baseline justify-between gap-3 mb-4">
               <h2 className="text-2xl font-bold">Shopping list</h2>
               <button type="button" onClick={() => updatePlan([])} className="text-sm text-text-muted hover:text-accent-red cursor-pointer">Clear plan</button>

@@ -18,6 +18,7 @@ const FactionDetails = lazy(() => import('./components/FactionDetails'));
 const Items = lazy(() => import('./pages/Items'));
 const ItemDetails = lazy(() => import('./components/ItemDetails'));
 const TierList = lazy(() => import('./pages/TierList'));
+const Account = lazy(() => import('./pages/Account'));
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center h-64">
@@ -47,6 +48,8 @@ const App = () => {
                 <Route path='/items' element={<Items />}/>
                 <Route path='/items/:id' element={<ItemDetails />}/>
                 <Route path='/tier-list' element={<TierList />}/>
+                <Route path='/account' element={<Account />}/>
+                <Route path='/account/:uid' element={<Account />}/>
               </Routes>
             </Suspense>
           </Layout>

@@ -333,3 +333,10 @@ body {
 .tab-strip-2 { background: var(--color-tape-quantum); }
 .tab-strip-3 { background: var(--color-tape-wind); }
 .tab-strip-4 { background: var(--color-tape-fire); }
+.tab-strip-5 { background: var(--color-tape-lightning); }
+
+/* Story text written on the notebook page: a red margin line beside it */
+.ruled-lore { position: relative; }
+@media (min-width: 768px) {
+  .ruled-lore::before { content: ""; position: absolute; left: 3.6rem; top: 0; bottom: 1.25rem; width: 1px; background: color-mix(in srgb, var(--color-accent-red) 35%, transparent); }
+}

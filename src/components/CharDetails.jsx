@@ -7,6 +7,7 @@ import { getRelicSetByName } from "../services/relicService";
 import { useCharacters } from "../hooks/useCharacters";
 import SkeletonLoader from "./SkeletonLoader";
 import FavoriteButton from "./FavoriteButton";
+import CharLore from "./CharLore";
 
 const ELEMENT_ICONS = {
     FIRE: '/assets/Type_Fire.webp',
@@ -573,7 +574,7 @@ const CharDetails = () => {
             </div>
             <div className="mb-6">
                 <nav className="flex flex-wrap gap-1 border-b-2 border-border-hover" role="tablist">
-                    {["overview", "skills", "eidolons", "traces", "builds"].map((tab, i) => (
+                    {["overview", "lore", "skills", "eidolons", "traces", "builds"].map((tab, i) => (
                         <button
                             key={tab}
                             role="tab"
@@ -705,6 +706,8 @@ const CharDetails = () => {
                         )}
                     </div>
                 )}
+
+                {activeTab === "lore" && <CharLore lore={char.lore} name={formatCharName(char.name)} />}
 
                 {activeTab === "builds" && !char.build && (
                     <div className="bg-bg-card/60 rounded-xl p-8 border border-border text-center text-text-secondary">
@@ -1082,6 +1085,20 @@ const CharDetails = () => {
                                         character who walks the Path of
                                         <span className="font-semibold"> {pathLabel}</span>.
                                     </p>
+                                    {char.lore?.description && (
+                                        <div className="mt-3">
+                                            <p className="text-text-secondary leading-relaxed line-clamp-3">
+                                                {char.lore.description.replace(/<\/?[ib]>/g, "")}
+                                            </p>
+                                            <button
+                                                type="button"
+                                                onClick={() => setActiveTab("lore")}
+                                                className="mt-1 font-hand text-xl text-accent-red hover:underline cursor-pointer"
+                                            >
+                                                read their story →
+                                            </button>
+                                        </div>
+                                    )}
                                     <div className="mt-4 flex items-center gap-2">
                                         <span className="text-text-secondary">Rarity:</span>
                                         <div className="flex">

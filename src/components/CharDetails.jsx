@@ -392,7 +392,7 @@ const CharDetails = () => {
                                 <Star key={index} className="text-accent-gold fill-accent-gold" size={20}/>
                             ))}
                         </div>
-                        <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
+                        <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start md:max-w-72">
                             <FavoriteButton kind="characters" id={char.id} name={formatCharName(char.name)} variant="inline" />
                             <CollectionControl kind="characters" id={char.id} name={formatCharName(char.name)} />
                             <button type="button" onClick={() => navigate(`/planner?add=char:${char.id}`)}
@@ -415,15 +415,15 @@ const CharDetails = () => {
                 <div className="flex-1 glass-panel p-6 self-start">
                     <h2 className="text-2xl font-bold mb-6 text-text-primary">Base stats <span className="font-hand text-2xl font-normal text-text-secondary">level 1 and level 80</span></h2>
                     {char.ascension && char.ascension.length > 0 && (
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div className="bg-bg-card p-4 rounded-lg border border-border">
-                                <div className="text-text-primary font-bold flex items-center justify-between">
+                        <div className="grid grid-cols-2 xl:grid-cols-3 gap-3">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border min-w-0">
+                                <div className="text-text-primary font-bold flex flex-wrap items-center justify-between gap-x-2">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Heart/></span> HP
                                     </div>
-                                    <div className="text-xs text-text-secondary">+{char.ascension[0].hp.step.toFixed(2)}/lvl</div>
+                                    <div className="text-xs text-text-secondary whitespace-nowrap">+{char.ascension[0].hp.step.toFixed(2)}/lvl</div>
                                 </div>
-                                <div className="flex justify-between items-baseline mt-2">
+                                <div className="flex flex-wrap justify-between items-baseline gap-x-3 mt-2">
                                     <div>
                                         <div className="text-xl tabular-nums">{char.ascension[0].hp.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
@@ -434,14 +434,14 @@ const CharDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-bg-card p-4 rounded-lg border border-border">
-                                <div className="text-text-primary font-bold flex items-center justify-between">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border min-w-0">
+                                <div className="text-text-primary font-bold flex flex-wrap items-center justify-between gap-x-2">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Swords/></span> ATK
                                     </div>
-                                    <div className="text-xs text-text-secondary">+{char.ascension[0].atk.step.toFixed(2)}/lvl</div>
+                                    <div className="text-xs text-text-secondary whitespace-nowrap">+{char.ascension[0].atk.step.toFixed(2)}/lvl</div>
                                 </div>
-                                <div className="flex justify-between items-baseline mt-2">
+                                <div className="flex flex-wrap justify-between items-baseline gap-x-3 mt-2">
                                     <div>
                                         <div className="text-xl tabular-nums">{char.ascension[0].atk.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
@@ -452,14 +452,14 @@ const CharDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-bg-card p-4 rounded-lg border border-border">
-                                <div className="text-text-primary font-bold flex items-center justify-between">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border min-w-0">
+                                <div className="text-text-primary font-bold flex flex-wrap items-center justify-between gap-x-2">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Shield/></span> DEF
                                     </div>
-                                    <div className="text-xs text-text-secondary">+{char.ascension[0].def.step.toFixed(2)}/lvl</div>
+                                    <div className="text-xs text-text-secondary whitespace-nowrap">+{char.ascension[0].def.step.toFixed(2)}/lvl</div>
                                 </div>
-                                <div className="flex justify-between items-baseline mt-2">
+                                <div className="flex flex-wrap justify-between items-baseline gap-x-3 mt-2">
                                     <div>
                                         <div className="text-xl tabular-nums">{char.ascension[0].def.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
@@ -470,11 +470,11 @@ const CharDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-bg-card p-4 rounded-lg border border-border transition-colors">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border transition-colors min-w-0">
                                 <div className="text-text-primary font-bold flex items-center gap-2">
                                     <span className="text-lg"><Zap/></span> SPD
                                 </div>
-                                <div className="flex justify-between items-baseline mt-2">
+                                <div className="flex flex-wrap justify-between items-baseline gap-x-3 mt-2">
                                     <div>
                                         <div className="text-xl tabular-nums">{char.ascension[0].spd.base.toFixed(0)}</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
@@ -485,11 +485,11 @@ const CharDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-bg-card p-4 rounded-lg border border-border transition-colors">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border transition-colors min-w-0">
                                 <div className="text-text-primary font-bold flex items-center gap-2">
                                     <span className="text-lg"><Target/></span> CRIT Rate
                                 </div>
-                                <div className="flex justify-between items-baseline mt-2">
+                                <div className="flex flex-wrap justify-between items-baseline gap-x-3 mt-2">
                                     <div>
                                         <div className="text-xl tabular-nums">{(char.ascension[0].critRate.base * 100).toFixed(1)}%</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>
@@ -500,13 +500,13 @@ const CharDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-bg-card p-4 rounded-lg border border-border">
-                                <div className="text-text-primary font-bold flex items-center justify-between">
+                            <div className="bg-bg-card p-4 rounded-lg border border-border min-w-0">
+                                <div className="text-text-primary font-bold flex flex-wrap items-center justify-between gap-x-2">
                                     <div className="flex items-center gap-2">
                                         <span className="text-lg"><Sparkles/></span> CRIT DMG
                                     </div>
                                 </div>
-                                <div className="flex justify-between items-baseline mt-2">
+                                <div className="flex flex-wrap justify-between items-baseline gap-x-3 mt-2">
                                     <div>
                                         <div className="text-xl tabular-nums">{(char.ascension[0].critDmg.base * 100).toFixed(0)}%</div>
                                         <div className="text-xs text-text-secondary mt-1">Lv. 1</div>

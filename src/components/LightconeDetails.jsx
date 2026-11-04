@@ -1,4 +1,4 @@
-import { ArrowLeft, Heart, Shield, Star, Swords } from "lucide-react";
+import { ArrowLeft, ClipboardList, Heart, Shield, Star, Swords } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH_TAPES, pathLabel } from "../util/paths";
@@ -184,6 +184,10 @@ const LightconeDetails = () => {
                         <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
                             <FavoriteButton kind="lightcones" id={lightcone.id} name={lightcone.name} variant="inline" />
                             <CollectionControl kind="lightcones" id={lightcone.id} name="it" />
+                            <button type="button" onClick={() => navigate(`/planner?add=lc:${lightcone.id}`)}
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-semibold bg-bg-card border-border text-text-secondary hover:text-text-primary hover:border-border-hover cursor-pointer transition-colors">
+                                <ClipboardList size={16} aria-hidden="true" /> Plan materials
+                            </button>
                         </div>
                     </div>
                 </div>

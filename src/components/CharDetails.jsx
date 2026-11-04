@@ -1,4 +1,4 @@
-import { ArrowLeft, Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
+import { ArrowLeft, ClipboardList, Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchJson } from "../services/apiClient";
@@ -395,6 +395,10 @@ const CharDetails = () => {
                         <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
                             <FavoriteButton kind="characters" id={char.id} name={formatCharName(char.name)} variant="inline" />
                             <CollectionControl kind="characters" id={char.id} name={formatCharName(char.name)} />
+                            <button type="button" onClick={() => navigate(`/planner?add=char:${char.id}`)}
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-semibold bg-bg-card border-border text-text-secondary hover:text-text-primary hover:border-border-hover cursor-pointer transition-colors">
+                                <ClipboardList size={16} aria-hidden="true" /> Plan materials
+                            </button>
                         </div>
                     </div>
                 </div>

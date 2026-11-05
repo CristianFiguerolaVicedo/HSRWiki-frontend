@@ -46,6 +46,10 @@ The interface follows a "travel journal" design: a ruled notebook index as navig
 - **Planets and factions** of the Star Rail universe, and **items** with their descriptions and the characters and light cones that use them.
 - **Tier list** of characters.
 
+### Updates
+
+The **Updates** page lists what changes each week: new game data, new and revised builds, Tier List moves and new planets or factions, with links to each page. The menu marks it as new until you've seen the latest entry.
+
 ### Tools
 
 | Tool | What it does |

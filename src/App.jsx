@@ -23,6 +23,7 @@ const Planner = lazy(() => import('./pages/Planner'));
 const Calculator = lazy(() => import('./pages/Calculator'));
 const Compare = lazy(() => import('./pages/Compare'));
 const TeamBuilder = lazy(() => import('./pages/TeamBuilder'));
+const Updates = lazy(() => import('./pages/Updates'));
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center h-64">
@@ -56,6 +57,7 @@ const App = () => {
                 <Route path='/calculator' element={<Calculator />}/>
                 <Route path='/compare' element={<Compare />}/>
                 <Route path='/teams' element={<TeamBuilder />}/>
+                <Route path='/updates' element={<Updates />}/>
                 <Route path='/account' element={<Account />}/>
                 <Route path='/account/:uid' element={<Account />}/>
               </Routes>

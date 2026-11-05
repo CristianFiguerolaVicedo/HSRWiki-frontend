@@ -1,9 +1,11 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { Backpack, ChartNoAxesColumn, Component, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X, UserRound, ClipboardList, Calculator, Columns3, UsersRound } from "lucide-react";
+import { Backpack, ChartNoAxesColumn, Component, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X, UserRound, ClipboardList, Calculator, Columns3, UsersRound, Newspaper } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchJson } from "../services/apiClient";
+import { onSeenChange, readSeen } from "../util/updates";
 
 const NAV_ITEMS = [
+  { path: "/updates", label: "Updates", Icon: Newspaper },
   { path: "/", label: "Characters", Icon: Users },
   { path: "/lightcones", label: "Light Cones", Icon: Swords },
   { path: "/relics", label: "Relics", Icon: Shirt },
@@ -32,6 +34,17 @@ const Sidebar = () => {
       .then((data) => setGameVersion(data?.gameVersion))
       .catch(() => setGameVersion(null));
   }, []);
+  // "new" mark on Updates while the newest changelog entry hasn't been opened in this browser
+  const [latestUpdate, setLatestUpdate] = useState(null);
+  const [seenUpdate, setSeenUpdate] = useState(readSeen);
+  useEffect(() => {
+    fetchJson("/changelog")
+      .then((data) => setLatestUpdate(data?.entries?.[0]?.date || null))
+      .catch(() => setLatestUpdate(null));
+    return onSeenChange(() => setSeenUpdate(readSeen()));
+  }, []);
+  const hasNewUpdate = Boolean(latestUpdate && latestUpdate > seenUpdate);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -138,7 +151,10 @@ const Sidebar = () => {
                 aria-current={active ? "page" : undefined}
                 title={collapsed ? navItem.label : undefined}
               >
-                <span className="margin-cell self-center pt-[5px]">
+                <span className="margin-cell self-center pt-[5px] relative">
+                  {navItem.path === "/updates" && hasNewUpdate && (
+                    <span className="absolute top-1 right-3 w-2 h-2 rounded-full bg-accent-red" aria-hidden="true" />
+                  )}
                   <IconComponent
                     size={19}
                     className={active ? "text-text-primary" : "text-text-muted group-hover:text-text-primary transition-colors"}
@@ -151,6 +167,11 @@ const Sidebar = () => {
                       ${active ? "highlighter text-text-primary" : "text-text-secondary group-hover:text-text-primary"}`}
                   >
                     {navItem.label}
+                  </span>
+                )}
+                {!collapsed && navItem.path === "/updates" && hasNewUpdate && (
+                  <span className="ml-2 self-center px-1.5 py-0.5 rounded bg-accent-red text-white text-[0.65rem] font-bold uppercase tracking-wide">
+                    new
                   </span>
                 )}
               </button>

@@ -10,6 +10,9 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-38BDF8?logo=tailwindcss&logoColor=white)
 ![React Router](https://img.shields.io/badge/React%20Router-7-D24A7C?logo=reactrouter&logoColor=white)
 
+### [🚂 Open the live site →](https://hsr-wiki-frontend.vercel.app)
+
+[Live site](https://hsr-wiki-frontend.vercel.app) ·
 [Backend repository](https://github.com/CristianFiguerolaVicedo/HSRWiki-backend) ·
 [Features](#features) ·
 [Getting started](#getting-started) ·
@@ -20,6 +23,12 @@
 </div>
 
 ---
+
+## Live site
+
+HSRWiki is deployed and available at **[hsr-wiki-frontend.vercel.app](https://hsr-wiki-frontend.vercel.app)** (frontend on Vercel, API on Render).
+
+> The API runs on Render's free plan: after 15 minutes without visits it goes to sleep, so the first request can take about a minute while it wakes up. After that it responds normally.
 
 ## Overview
 

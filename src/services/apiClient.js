@@ -6,10 +6,10 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
   || (import.meta.env.PROD ? "https://hsrwiki-backend.onrender.com/api" : "http://localhost:8080/api");
 
 // The API runs on Render's free plan: after 15 minutes without visits it sleeps and the first
-// request can take about a minute while it wakes up. So requests wait long enough, GETs are retried
-// for up to 90 seconds while the server is starting, and slow requests are reported so the UI can say why.
+// request can take a minute or two while it wakes up. So requests wait long enough, GETs are retried
+// for up to 4 minutes while the server is starting, and slow requests are reported so the UI can say why.
 const TIMEOUT_MS = 100000;
-const RETRY_FOR_MS = 90000;
+const RETRY_FOR_MS = 240000;
 const RETRY_DELAY_MS = 3000;
 const SLOW_AFTER_MS = 4000;
 

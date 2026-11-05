@@ -43,7 +43,7 @@ const WakingBanner = () => {
       <span className="w-4 h-4 shrink-0 rounded-full border-2 border-accent-red border-t-transparent animate-spin" aria-hidden="true" />
       <p className="text-sm leading-snug">
         <span className="font-semibold">Waking up the server…</span>{" "}
-        <span className="text-text-secondary">It sleeps when nobody visits, so the first load can take up to a minute.</span>
+        <span className="text-text-secondary">It sleeps when nobody visits, so the first load can take a couple of minutes.</span>
       </p>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Postcard from "./Postcard";
+import MemberMosaic from "./MemberMosaic";
 import { useCharacters } from "../hooks/useCharacters";
 
 const PlanetInfoCard = ({planet}) => {
@@ -14,6 +15,7 @@ const PlanetInfoCard = ({planet}) => {
       note={characters.length ? `${count} friends here` : null}
       seed={Number(planet.id)}
       onClick={() => navigate(`/planets/${planet.id}`)}
+      fallback={<MemberMosaic names={planet.characters || []} />}
     />
   )
 }

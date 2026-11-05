@@ -251,3 +251,9 @@ In this final page we can see a list of the better and most used characters orde
 
 <img width="890" height="902" alt="image" src="https://github.com/user-attachments/assets/af495b21-6d73-4d43-8057-59b7429d69e4" />
 <img width="880" height="361" alt="image" src="https://github.com/user-attachments/assets/607e7da1-3513-422b-a768-8d5863d6a100" />
+
+## Deployment (Vercel, free plan)
+
+1. Vercel → **Add New → Project** → this repository (Vite is detected automatically).
+2. Environment variable `VITE_API_BASE_URL` = the backend's address plus `/api` (e.g. `https://hsrwiki-backend.onrender.com/api`).
+3. Every push to `main` redeploys. `vercel.json` sends every route to `index.html`, so opening or reloading a page like `/char/1005` works.

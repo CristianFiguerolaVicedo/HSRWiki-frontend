@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useRef, useState, memo, useCallback } from "react";
+import { createContext, useContext, useEffect, useRef, useState, memo, useCallback, useSyncExternalStore } from "react";
 import { ChevronUp } from "lucide-react";
 import Sidebar from "./Sidebar";
+import { isServerWaking, onServerWakingChange } from "../services/apiClient";
 
 const SectionContext = createContext();
 
@@ -27,6 +28,24 @@ const BackToTop = () => {
     >
       <ChevronUp size={20} />
     </button>
+  );
+};
+
+/** Shown while requests are slow: on the free plan the API sleeps and takes about a minute to wake up. */
+const WakingBanner = () => {
+  const waking = useSyncExternalStore(onServerWakingChange, isServerWaking);
+  if (!waking) return null;
+  return (
+    <div
+      role="status"
+      className="fixed bottom-24 md:bottom-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md glass-panel px-4 py-3 flex items-center gap-3 shadow-lg"
+    >
+      <span className="w-4 h-4 shrink-0 rounded-full border-2 border-accent-red border-t-transparent animate-spin" aria-hidden="true" />
+      <p className="text-sm leading-snug">
+        <span className="font-semibold">Waking up the server…</span>{" "}
+        <span className="text-text-secondary">It sleeps when nobody visits, so the first load can take up to a minute.</span>
+      </p>
+    </div>
   );
 };
 
@@ -106,6 +125,7 @@ const Layout = ({ children, title, description, hero, breadcrumbs }) => {
           </div>
         </main>
         <BackToTop />
+        <WakingBanner />
       </div>
     </SectionContext.Provider>
   );

@@ -18,7 +18,7 @@ const TierList = () => {
     'T5': { label: 'T5', sticker: '#A9B7E8', note: '' },
   };
 
-  // Version 4.6 rankings (Game8 overall tier list, October 2026): SS -> T0, S+ -> T0.5, S -> T1, A -> T1.5, B -> T2, C -> T3
+  // Version 4.6 rankings (Game8 overall tier list, November 2026): SS -> T0, S+ -> T0.5, S -> T1, A -> T1.5, B -> T2, C -> T3
   const tiers = useMemo(() => ({
     'T0': ['Himeko • Nova', 'Silver Wolf LV.999', 'Evanescia', 'Castorice', 'Archer', 'Mortenax Blade', 'Robin • Summeretto', 'Sunday', 'Tribbie', 'Evernight', 'Rin Tohsaka', 'Sparkle', 'Hyacine', 'Yao Guang', 'Huohuo', 'Dan Heng • Permansor Terrae', 'Aventurine • Waveflair', 'Pearl', 'Ashveil'],
     'T0.5': ['Sparxie', 'Cyrene', 'Phainon', 'Firefly', 'Anaxa', 'The Herta', 'Cerydra', 'Ruan Mei', 'Robin', 'Acheron', 'Saber', 'Gilgamesh', 'Mydei', 'Cipher', 'The Dahlia', 'Kafka', 'Bronya', 'TrailblazerRemembrance#F', 'TrailblazerRemembrance#M', 'Fugue', 'Hysilens', 'Aventurine', 'Lingsha', 'Black Swan', 'Welt', 'Gallagher', 'Aglaea', 'Seele', 'TrailblazerElation#F', 'TrailblazerElation#M'],

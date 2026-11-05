@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+// VITE_API_BASE_URL is read when the site is built. Without it, a production build uses the deployed
+// API on Render (so a missing variable on Vercel can't leave the site pointing at localhost).
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  || (import.meta.env.PROD ? "https://hsrwiki-backend.onrender.com/api" : "http://localhost:8080/api");
 
 // The API runs on Render's free plan: after 15 minutes without visits it sleeps and the first
 // request can take about a minute while it wakes up. So requests wait long enough, GETs are retried

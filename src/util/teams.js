@@ -97,3 +97,33 @@ export const capitalize = (v) => v.charAt(0) + v.slice(1).toLowerCase();
 export const shortName = (name) => name.startsWith("Trailblazer")
   ? `Trailblazer ${name.endsWith("#F") ? "♀" : "♂"} (${name.replace("Trailblazer", "").replace(/#.$/, "")})`
   : name;
+
+/**
+ * Guide teams that include someone in the lineup, from every character's guide (not only the
+ * lineup's own: Mortenax Blade's guide pairs him with Acheron even if Acheron's guide doesn't).
+ * The same four characters suggested by two guides count once.
+ * -> { complete: teams with everyone in the lineup, partial: teams with only some of them }
+ *    each { owner, team, members, covered: lineup names it includes, hits, named }
+ */
+export const findGuideTeams = (characters, lineupNames, names) => {
+  const found = new Map();
+  characters.forEach((owner) => (owner.build?.teams || []).forEach((team) => {
+    const m = matchTeam(team, lineupNames, names);
+    if (m.hits === 0) return;
+    const covered = lineupNames.filter((n) => m.members.some((x) => x.accepts.includes(n)));
+    const key = [...team.teamMembers].sort().join("|");
+    const prev = found.get(key);
+    // Prefer the version from the guide of someone in the lineup
+    if (!prev || (!lineupNames.includes(prev.owner.name) && lineupNames.includes(owner.name))) {
+      found.set(key, { owner, team, ...m, covered });
+    }
+  }));
+  const all = [...found.values()].sort((a, b) =>
+    b.covered.length - a.covered.length
+    || Number(lineupNames.includes(b.owner.name)) - Number(lineupNames.includes(a.owner.name))
+    || b.hits / b.named - a.hits / a.named);
+  return {
+    complete: all.filter((s) => s.covered.length === lineupNames.length),
+    partial: all.filter((s) => s.covered.length < lineupNames.length),
+  };
+};

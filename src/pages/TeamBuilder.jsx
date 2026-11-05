@@ -5,7 +5,7 @@ import { useCharacters } from "../hooks/useCharacters";
 import { useCollection } from "../hooks/useCollection";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { pathLabel } from "../util/paths";
-import { ROLES, capitalize, checkTeam, defaultRole, matchTeam, resolveMember, shortName } from "../util/teams";
+import { ROLES, capitalize, checkTeam, defaultRole, findGuideTeams, resolveMember, shortName } from "../util/teams";
 
 const STORE_KEY = "hsrwiki-team";
 const ELEMENTS = ["PHYSICAL", "FIRE", "ICE", "LIGHTNING", "WIND", "QUANTUM", "IMAGINARY"];
@@ -86,17 +86,12 @@ const TeamBuilder = () => {
     setState({ slots });
   };
 
-  // Guide teams of everyone in the lineup, ranked by how many named members are already in
-  const suggestions = [];
-  const seen = new Set();
-  members.filter(Boolean).forEach((c) => (c.build?.teams || []).forEach((team) => {
-    const key = `${c.name}|${team.name}`;
-    if (seen.has(key)) return;
-    seen.add(key);
-    const m = matchTeam(team, lineupNames, names);
-    if (m.hits > 0) suggestions.push({ owner: c, team, ...m });
-  }));
-  suggestions.sort((a, b) => b.hits / b.named - a.hits / a.named || b.hits - a.hits);
+  // Guide teams (from every guide) that include someone in the lineup: with everyone first
+  const { complete, partial } = lineupNames.length
+    ? findGuideTeams(characters, lineupNames, names)
+    : { complete: [], partial: [] };
+  const lineupLabel = members.filter(Boolean).map((c) => shortName(c.name));
+  const joinNames = (list) => (list.length < 2 ? list.join("") : `${list.slice(0, -1).join(", ")} and ${list.at(-1)}`);
 
   const applyTeam = (team) => {
     const slots = [];
@@ -197,37 +192,51 @@ const TeamBuilder = () => {
         <section className="glass-panel p-5 space-y-3">
           <div>
             <h2 className="text-xl font-bold">Teams from the guides</h2>
-            <p className="font-hand text-xl text-text-secondary leading-tight">suggested teams that already include someone you picked</p>
+            <p className="font-hand text-xl text-text-secondary leading-tight">teams from every guide that include someone you picked</p>
           </div>
-          {suggestions.length === 0 && <p className="text-text-secondary text-sm">Add a character to see the teams their guide suggests.</p>}
-          {suggestions.slice(0, 6).map(({ owner, team, members: ms, hits, named }) => (
-            <article key={`${owner.name}-${team.name}`} className="rounded-lg border border-border bg-bg-primary p-3 space-y-2">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="font-semibold">{team.name}</h3>
-                <span className="text-xs text-text-muted tabular-nums">{hits} of {named} already in</span>
-              </div>
-              <ul className="flex flex-wrap gap-1.5">
-                {ms.map((m, i) => {
-                  const inTeam = m.accepts.some((n) => lineupNames.includes(n));
-                  const have = m.accepts.some((n) => owned.has(byName[n]?.id));
-                  return (
-                    <li key={i} className={`px-2 py-0.5 rounded-full text-sm border ${inTeam ? "bg-emerald-50 border-emerald-600/40 text-emerald-800 font-semibold" : m.accepts.length ? "bg-bg-card border-border" : "bg-transparent border-dashed border-border-hover text-text-muted italic"}`}
-                      title={inTeam ? "In your team" : have ? "You have this character" : m.accepts.length ? "" : "Any character that fits"}>
-                      {m.text}{!inTeam && have ? " ✓" : ""}
-                    </li>
-                  );
-                })}
-              </ul>
-              {team.description && (
-                <details>
-                  <summary className="text-sm text-accent-cyan cursor-pointer hover:underline">Why this team</summary>
-                  <p className="text-sm text-text-secondary mt-1 whitespace-pre-line">{team.description}</p>
-                </details>
-              )}
-              <button type="button" onClick={() => applyTeam(team)} className="text-sm px-3 py-1 rounded-md bg-text-primary text-bg-primary font-semibold cursor-pointer">
-                Use this team
-              </button>
-            </article>
+          {lineupNames.length === 0 && <p className="text-text-secondary text-sm">Add a character to see the teams the guides suggest with them.</p>}
+          {lineupNames.length > 1 && complete.length === 0 && partial.length > 0 && (
+            <p className="text-sm rounded-lg border border-accent-red/30 bg-[#FDE3EC]/60 px-3 py-2">
+              No guide puts {joinNames(lineupLabel)} in the same team: the teams below include only some of them.
+            </p>
+          )}
+          {[
+            ["complete", complete, lineupNames.length > 1 ? `Teams with ${joinNames(lineupLabel)}` : null],
+            ["partial", partial, complete.length > 0 ? "Teams with only some of them" : null],
+          ].map(([key, list, title]) => list.length > 0 && (
+            <div key={key} className="space-y-3">
+              {title && <h3 className="text-sm font-bold uppercase tracking-wide text-text-secondary pt-1">{title}</h3>}
+              {list.slice(0, key === "complete" ? 6 : 4).map(({ owner, team, members: ms, hits, named }) => (
+                <article key={`${owner.name}-${team.name}`} className="rounded-lg border border-border bg-bg-primary p-3 space-y-2">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h3 className="font-semibold">{team.name}</h3>
+                    <span className="text-xs text-text-muted tabular-nums">{hits} of {named} already in</span>
+                    <span className="basis-full -mt-1 font-hand text-lg leading-none text-text-secondary">from {shortName(owner.name)}'s guide</span>
+                  </div>
+                  <ul className="flex flex-wrap gap-1.5">
+                    {ms.map((m, i) => {
+                      const inTeam = m.accepts.some((n) => lineupNames.includes(n));
+                      const have = m.accepts.some((n) => owned.has(byName[n]?.id));
+                      return (
+                        <li key={i} className={`px-2 py-0.5 rounded-full text-sm border ${inTeam ? "bg-emerald-50 border-emerald-600/40 text-emerald-800 font-semibold" : m.accepts.length ? "bg-bg-card border-border" : "bg-transparent border-dashed border-border-hover text-text-muted italic"}`}
+                          title={inTeam ? "In your team" : have ? "You have this character" : m.accepts.length ? "" : "Any character that fits"}>
+                          {m.text}{!inTeam && have ? " ✓" : ""}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  {team.description && (
+                    <details>
+                      <summary className="text-sm text-accent-cyan cursor-pointer hover:underline">Why this team</summary>
+                      <p className="text-sm text-text-secondary mt-1 whitespace-pre-line">{team.description}</p>
+                    </details>
+                  )}
+                  <button type="button" onClick={() => applyTeam(team)} className="text-sm px-3 py-1 rounded-md bg-text-primary text-bg-primary font-semibold cursor-pointer">
+                    Use this team
+                  </button>
+                </article>
+              ))}
+            </div>
           ))}
           <p className="text-xs text-text-muted">✓ marks characters in your collection. Dashed slots can be anyone who fits.</p>
         </section>

@@ -18,12 +18,12 @@ const TierList = () => {
     'T5': { label: 'T5', sticker: '#A9B7E8', note: '' },
   };
 
-  // Version 4.6 rankings (Game8 overall tier list, November 2026): SS -> T0, S+ -> T0.5, S -> T1, A -> T1.5, B -> T2, C -> T3
+  // Version 4.7 rankings (Game8 overall tier list, November 2026): SS -> T0, S+ -> T0.5, S -> T1, A -> T1.5, B -> T2, C -> T3
   const tiers = useMemo(() => ({
-    'T0': ['Himeko • Nova', 'Silver Wolf LV.999', 'Evanescia', 'Castorice', 'Archer', 'Mortenax Blade', 'Robin • Summeretto', 'Sunday', 'Tribbie', 'Evernight', 'Rin Tohsaka', 'Sparkle', 'Hyacine', 'Yao Guang', 'Huohuo', 'Dan Heng • Permansor Terrae', 'Aventurine • Waveflair', 'Pearl', 'Ashveil'],
-    'T0.5': ['Sparxie', 'Cyrene', 'Phainon', 'Firefly', 'Anaxa', 'The Herta', 'Cerydra', 'Ruan Mei', 'Robin', 'Acheron', 'Saber', 'Gilgamesh', 'Mydei', 'Cipher', 'The Dahlia', 'Kafka', 'Bronya', 'TrailblazerRemembrance#F', 'TrailblazerRemembrance#M', 'Fugue', 'Hysilens', 'Aventurine', 'Lingsha', 'Black Swan', 'Welt', 'Gallagher', 'Aglaea', 'Seele', 'TrailblazerElation#F', 'TrailblazerElation#M'],
-    'T1': ['Yunli', 'Jade', 'Jingliu', 'Blade', 'Boothill', 'Silver Wolf', 'Tingyun', 'Jing Yuan', 'Topaz & Numby', 'Jiaoqiu', 'Fu Xuan', 'Pela', 'Luocha', 'Feixiao', 'TrailblazerHarmony#F', 'TrailblazerHarmony#M', 'Rappa'],
-    'T1.5': ['Dr. Ratio', 'Dan Heng • Imbibitor Lunae', 'Himeko', 'Argenti', 'Clara', 'March 7th (Imaginary)', 'Moze', 'Asta', 'Gepard', 'Bailu', 'Herta', 'Guinaifen', 'Lynx', 'Hanya', 'Xueyi'],
+    'T0': ['Himeko • Nova', 'Silver Wolf LV.999', 'Evanescia', 'Castorice', 'Archer', 'Mortenax Blade', 'Robin • Summeretto', 'Sunday', 'Tribbie', 'Evernight', 'Rin Tohsaka', 'Sparkle', 'Hyacine', 'Yao Guang', 'Huohuo', 'Dan Heng • Permansor Terrae', 'Aventurine • Waveflair', 'Pearl', 'Ashveil', 'Acheron'],
+    'T0.5': ['Aeon ★ Aha', 'Sparxie', 'Cyrene', 'Phainon', 'Firefly', 'Anaxa', 'The Herta', 'Cerydra', 'Ruan Mei', 'Robin', 'Saber', 'Gilgamesh', 'Mydei', 'Cipher', 'The Dahlia', 'Kafka', 'Bronya', 'TrailblazerRemembrance#F', 'TrailblazerRemembrance#M', 'Fugue', 'Hysilens', 'Aventurine', 'Lingsha', 'Black Swan', 'Welt', 'Gallagher', 'Aglaea', 'Seele', 'TrailblazerElation#F', 'TrailblazerElation#M'],
+    'T1': ['Yunli', 'Jade', 'Jingliu', 'Blade', 'Boothill', 'Silver Wolf', 'Tingyun', 'Jing Yuan', 'Topaz & Numby', 'Jiaoqiu', 'Fu Xuan', 'Pela', 'Luocha', 'Feixiao', 'TrailblazerHarmony#F', 'TrailblazerHarmony#M', 'Rappa', 'Dan Heng • Imbibitor Lunae'],
+    'T1.5': ['Dr. Ratio', 'Himeko', 'Argenti', 'Clara', 'March 7th (Imaginary)', 'Moze', 'Asta', 'Gepard', 'Bailu', 'Herta', 'Guinaifen', 'Lynx', 'Hanya', 'Xueyi'],
     'T2': ['Natasha', 'Qingque', 'March 7th', 'TrailblazerPreservation#F', 'TrailblazerPreservation#M', 'Serval', 'Hook', 'Yanqing', 'Yukong', 'Misha', 'Luka', 'Sampo', 'Dan Heng', 'Sushang'],
     'T3': ['TrailblazerDestruction#F', 'TrailblazerDestruction#M', 'Arlan'],
     'T4': [],
@@ -53,7 +53,7 @@ const TierList = () => {
       <div className="mb-8">
         <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-text-primary">Tier List</h1>
         <p className="font-hand text-3xl text-accent-red mt-1 -rotate-1 origin-left">
-          who's carrying the team in version 4.6
+          who's carrying the team in version 4.7
         </p>
       </div>
 

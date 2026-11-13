@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>HSR Wiki</title>
+  <rect width="64" height="64" rx="14" fill="#1F2A44"/>
+  <path d="M30 9 C32 23 35 27 51 30 C35 33 32 37 30 55 C28 37 25 33 9 30 C25 27 28 23 30 9 Z" fill="#FBF7EE"/>
+  <path d="M50 8 C50.8 13 52 14.2 57 15 C52 15.8 50.8 17 50 22 C49.2 17 48 15.8 43 15 C48 14.2 49.2 13 50 8 Z" fill="#D24A7C"/>
+  <circle cx="49" cy="49" r="3.2" fill="#B8820F"/>
+</svg>

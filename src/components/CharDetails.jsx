@@ -1,4 +1,4 @@
-import { ArrowLeft, ClipboardList, Columns3, Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
+import { ArrowLeft, ClipboardList, Columns3, ExternalLink, Heart, Shield, Sparkles, Star, Swords, Target, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchJson } from "../services/apiClient";
@@ -10,6 +10,7 @@ import FavoriteButton from "./FavoriteButton";
 import CharLore from "./CharLore";
 import SkillCard from "./SkillCard";
 import { CollectionControl } from "./Collection";
+import { planTeamWithUrl } from "../util/teamPlanner";
 
 const ELEMENT_ICONS = {
     FIRE: '/assets/Type_Fire.webp',
@@ -409,6 +410,12 @@ const CharDetails = () => {
                                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-semibold bg-bg-card border-border text-text-secondary hover:text-text-primary hover:border-border-hover cursor-pointer transition-colors">
                                 <Columns3 size={16} aria-hidden="true" /> Compare
                             </button>
+                            {planTeamWithUrl(char.id) && (
+                                <a href={planTeamWithUrl(char.id)} target="_blank" rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-semibold bg-bg-card border-border text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors">
+                                    <ExternalLink size={16} aria-hidden="true" /> Plan a team <span className="sr-only">with {formatCharName(char.name)} in HSR Team Planner (opens in a new tab)</span>
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>

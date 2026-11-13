@@ -1,8 +1,9 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { Backpack, ChartNoAxesColumn, Component, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X, UserRound, ClipboardList, Calculator, Columns3, UsersRound, Newspaper } from "lucide-react";
+import { Backpack, ChartNoAxesColumn, Component, ExternalLink, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X, UserRound, ClipboardList, Calculator, Columns3, UsersRound, Newspaper } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchJson } from "../services/apiClient";
 import { onSeenChange, readSeen } from "../util/updates";
+import { TEAM_PLANNER_URL } from "../util/teamPlanner";
 
 const NAV_ITEMS = [
   { path: "/updates", label: "Updates", Icon: Newspaper },
@@ -67,6 +68,10 @@ const Sidebar = () => {
       item.label.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [searchQuery]);
+
+  // Sister project link (only once it's deployed: VITE_TEAM_PLANNER_URL); follows the search like the rest
+  const showPlannerLink = Boolean(TEAM_PLANNER_URL)
+    && (!searchQuery || "team planner".includes(searchQuery.toLowerCase()));
 
   const handleNavigate = useCallback((path) => {
     navigate(path);
@@ -177,7 +182,26 @@ const Sidebar = () => {
               </button>
             );
           })}
-          {!collapsed && filteredNavItems.length === 0 && (
+          {showPlannerLink && (
+            <a
+              href={TEAM_PLANNER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ruled-row group w-full flex items-end pb-[5px] text-left"
+              title={collapsed ? "Team Planner (opens in a new tab)" : "Plan teams from your own characters (opens in a new tab)"}
+            >
+              <span className="margin-cell self-center pt-[5px]">
+                <ExternalLink size={19} className="text-text-muted group-hover:text-text-primary transition-colors" aria-hidden="true" />
+              </span>
+              {!collapsed && (
+                <span className="ml-3 font-hand text-[1.6rem] leading-none truncate text-text-secondary group-hover:text-text-primary transition-colors">
+                  Team Planner <span aria-hidden="true">↗</span>
+                </span>
+              )}
+              <span className="sr-only">Team Planner (opens in a new tab)</span>
+            </a>
+          )}
+          {!collapsed && filteredNavItems.length === 0 && !showPlannerLink && (
             <p className="ruled-row flex items-center pl-[52px] pr-4 font-hand text-xl text-text-muted">
               nothing by that name here
             </p>

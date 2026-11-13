@@ -14,6 +14,7 @@
 
 [Live site](https://hsr-wiki-frontend.vercel.app) ·
 [Backend repository](https://github.com/CristianFiguerolaVicedo/HSRWiki-backend) ·
+[Team Planner](https://github.com/CristianFiguerolaVicedo/HSR-Team-Planner) ·
 [Features](#features) ·
 [Getting started](#getting-started) ·
 [Deployment](#deployment)
@@ -29,6 +30,12 @@
 HSRWiki is deployed and available at **[hsr-wiki-frontend.vercel.app](https://hsr-wiki-frontend.vercel.app)** (frontend on Vercel, API on Render).
 
 > The API runs on Render's free plan: after 15 minutes without visits it goes to sleep, so the first request can take about a minute while it wakes up. After that it responds normally.
+
+## Sister project: HSR Team Planner
+
+[HSR Team Planner](https://github.com/CristianFiguerolaVicedo/HSR-Team-Planner) builds teams from the characters you own: it reuses this wiki's data (synced from the HSRWiki API), checks roles and synergies, suggests teams per game mode, works out SPD breakpoints and shares teams by link.
+
+The two sites link to each other. Here, the sidebar gets a **Team Planner ↗** entry and every character page a **Plan a team** button that opens the planner's builder with that character already placed (`/builder?with={id}`; both apps use the game's character ids). The planner links back to the wiki from its header and from each character. The links to the planner only appear once `VITE_TEAM_PLANNER_URL` is set, so the live wiki never shows a link that goes nowhere.
 
 ## Overview
 
@@ -126,6 +133,7 @@ Open the address Vite prints (`http://localhost:5173` by default).
 | Variable | Default | Description |
 |---|---|---|
 | `VITE_API_BASE_URL` | `http://localhost:8080/api` | Address of the HSRWiki API |
+| `VITE_TEAM_PLANNER_URL` | not set (links hidden) | Address of the deployed [HSR Team Planner](https://github.com/CristianFiguerolaVicedo/HSR-Team-Planner); turns on the sidebar entry and the "Plan a team" buttons |
 
 Set it in a `.env` file (ignored by git) or in your hosting provider's settings:
 
@@ -138,7 +146,7 @@ VITE_API_BASE_URL=https://your-backend.onrender.com/api
 **Vercel (free plan)**
 
 1. **Add New → Project**, import this repository. Vite is detected automatically.
-2. Add the environment variable `VITE_API_BASE_URL` with the backend's address plus `/api`.
+2. Add the environment variable `VITE_API_BASE_URL` with the backend's address plus `/api`, and `VITE_TEAM_PLANNER_URL` with the Team Planner's address once it's deployed (redeploy after adding it: Vite reads it at build time).
 3. Deploy. Every push to `main` redeploys automatically.
 
 `vercel.json` sends every route to `index.html`, so opening or reloading a page like `/char/1005` works. Remember to add the frontend's address to the backend's `HSRWIKI_CORS_ALLOWEDORIGINS` variable.

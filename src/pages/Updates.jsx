@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChartNoAxesColumn, Database, Globe, Sparkles, Wrench } from "lucide-react";
+import { ChartNoAxesColumn, Database, ExternalLink, Globe, Sparkles, Wrench } from "lucide-react";
 import { fetchJson } from "../services/apiClient";
 import { useCharacters } from "../hooks/useCharacters";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { FACTIONS, PLANETS_DATA } from "../util/util";
 import { markSeen } from "../util/updates";
+import { TEAM_PLANNER_URL } from "../util/teamPlanner";
 
 const SECTIONS = {
   data: { title: "Game data", Icon: Database },
@@ -61,6 +62,10 @@ const useRefs = () => {
       const f = FACTIONS.find((x) => x.name === name);
       return { label: name, to: f ? `/factions/${f.id}` : null };
     }
+    if (kind === "planner") {
+      // Sister site: an external link, or plain text while VITE_TEAM_PLANNER_URL isn't set
+      return { label: name, href: TEAM_PLANNER_URL };
+    }
     return { label: name, to: null };
   }, [characters, lightcones, relics]);
 };
@@ -73,6 +78,13 @@ const RefChip = ({ refInfo }) => {
     </>
   );
   const cls = "inline-flex items-center gap-1.5 align-middle";
+  if (refInfo.href) {
+    return (
+      <a href={refInfo.href} target="_blank" rel="noopener noreferrer" className={`${cls} hover:underline text-accent-cyan`}>
+        {body}<ExternalLink size={14} aria-hidden="true" />
+      </a>
+    );
+  }
   return refInfo.to
     ? <Link to={refInfo.to} className={`${cls} hover:underline`}>{body}</Link>
     : <span className={cls}>{body}</span>;

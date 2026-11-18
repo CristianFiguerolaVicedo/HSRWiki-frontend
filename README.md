@@ -35,7 +35,7 @@ HSRWiki is deployed and available at **[hsr-wiki-frontend.vercel.app](https://hs
 
 [HSR Team Planner](https://github.com/CristianFiguerolaVicedo/HSR-Team-Planner) builds teams from the characters you own: it reuses this wiki's data (synced from the HSRWiki API), checks roles and synergies, suggests teams per game mode, works out SPD breakpoints and shares teams by link.
 
-The two sites link to each other. Here, the sidebar gets a **Team Planner ↗** entry and every character page a **Plan a team** button that opens the planner's builder with that character already placed (`/builder?with={id}`; both apps use the game's character ids). The planner links back to the wiki from its header and from each character. The links to the planner only appear once `VITE_TEAM_PLANNER_URL` is set, so the live wiki never shows a link that goes nowhere.
+The two sites link to each other. Here, the sidebar gets a **Team Planner ↗** entry and every character page a **Plan a team** button that opens the planner's builder with that character already placed (`/builder?with={id}`; both apps use the game's character ids). The planner links back to the wiki from its header and from each character. The **Updates** page announces the planner with a link too (changelog items with a `planner` ref). The links to the planner only appear once `VITE_TEAM_PLANNER_URL` is set, so the live wiki never shows a link that goes nowhere.
 
 ## Overview
 

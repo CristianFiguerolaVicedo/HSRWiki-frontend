@@ -55,7 +55,55 @@ const retryable = (err) => {
   return !err.response || status === 502 || status === 503 || status === 504;
 };
 
+// --- Static snapshot of the API (public/data, made by .github/workflows/data-snapshot.yml) ---
+// The game data only changes once a week, so the site reads it from files on Vercel's CDN, which
+// answer instantly, and only falls back to the live API if a file is missing. Used in production
+// builds; set VITE_USE_SNAPSHOT=true or false to force it either way.
+const USE_SNAPSHOT = import.meta.env.VITE_USE_SNAPSHOT
+  ? import.meta.env.VITE_USE_SNAPSHOT === "true"
+  : Boolean(import.meta.env.PROD);
+
+/** Same as slug() in scripts/snapshot_api.py. */
+export const slug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+/** API path -> snapshot file, or null for what only the live API has (e.g. /profile). */
+export const snapshotPath = (url) => {
+  const path = url.split("?")[0].replace(/\/+$/, "");
+  const parts = path.split("/").filter(Boolean).map(decodeURIComponent);
+  const [kind, a, b] = parts;
+  const lists = ["characters", "lightcones", "relics", "items", "planner", "changelog", "version"];
+  if (parts.length === 1 && lists.includes(kind)) return `/data/${kind}.json`;
+  if (parts.length === 2 && ["characters", "items", "lightcones"].includes(kind) && /^-?\d+$/.test(a)) {
+    return `/data/${kind}/${a}.json`;
+  }
+  if (parts.length === 2 && kind === "relics") return `/data/relics/${slug(a)}.json`;
+  if (parts.length === 3 && kind === "lightcones" && a === "name") return `/data/lightcones/name/${slug(b)}.json`;
+  return null;
+};
+
+const snapshotCache = new Map();
+const fetchSnapshot = (file) => {
+  if (!snapshotCache.has(file)) {
+    const request = fetch(file).then(async (res) => {
+      // Vercel answers unknown paths with the site's index.html, so check that it really is JSON
+      if (!res.ok || !(res.headers.get("content-type") || "").includes("json")) throw new Error("not in snapshot");
+      return res.json();
+    });
+    request.catch(() => snapshotCache.delete(file));
+    snapshotCache.set(file, request);
+  }
+  return snapshotCache.get(file);
+};
+
 export const fetchJson = async (url) => {
+  const file = USE_SNAPSHOT ? snapshotPath(url) : null;
+  if (file) {
+    try {
+      return await fetchSnapshot(file);
+    } catch {
+      // not in the snapshot (or offline): ask the live API below
+    }
+  }
   started();
   try {
     const start = Date.now();

@@ -1,0 +1,93 @@
+# Keeps public/data (a static copy of the HSRWiki API) in step with the backend.
+#
+# The site reads the game data from these files, served by Vercel's CDN, so it opens instantly
+# even while the backend sleeps on Render's free plan. Every two hours this checks whether the
+# backend repository changed (new game version, builds, changelog...). If it did, it builds and
+# starts that backend here, saves every response with scripts/snapshot_api.py and commits the
+# files; the push makes Vercel publish them. Also runnable by hand from the Actions tab.
+name: Data snapshot
+
+on:
+  schedule:
+    - cron: "17 */2 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Rebuild even if the backend didn't change"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-snapshot
+  cancel-in-progress: false
+
+env:
+  BACKEND_REPO: CristianFiguerolaVicedo/HSRWiki-backend
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Did the backend change?
+        id: check
+        run: |
+          sha=$(git ls-remote "https://github.com/$BACKEND_REPO.git" refs/heads/main | cut -f1)
+          last=$(cat public/data/source.txt 2>/dev/null || true)
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          if [ "$sha" = "$last" ] && [ "${{ inputs.force }}" != "true" ]; then
+            echo "Backend still at $sha: nothing to do"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Backend at $sha (snapshot was made from ${last:-nothing})"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.changed == 'true'
+        with:
+          repository: ${{ env.BACKEND_REPO }}
+          ref: ${{ steps.check.outputs.sha }}
+          path: .backend
+
+      - uses: actions/setup-java@v4
+        if: steps.check.outputs.changed == 'true'
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          cache-dependency-path: .backend/pom.xml
+
+      - name: Build and start the backend
+        if: steps.check.outputs.changed == 'true'
+        working-directory: .backend
+        run: |
+          mvn -q -B package -DskipTests
+          nohup java -jar target/*.jar > ../backend.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS --max-time 5 http://localhost:8080/api/version; then echo; exit 0; fi
+            sleep 3
+          done
+          echo "The backend didn't start:"; cat ../backend.log; exit 1
+
+      - name: Save every API response
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          python3 scripts/snapshot_api.py http://localhost:8080/api
+          echo "${{ steps.check.outputs.sha }}" > public/data/source.txt
+
+      - name: Publish if something changed
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git add -A public/data
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          VERSION=$(python3 -c "import json; print(json.load(open('public/data/version.json'))['gameVersion'])")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "Actualizacion de datos a la version $VERSION"
+          git push

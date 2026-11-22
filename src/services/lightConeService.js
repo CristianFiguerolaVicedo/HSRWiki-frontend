@@ -1,9 +1,8 @@
-import apiClient from "./apiClient";
+import { fetchJson } from "./apiClient";
 
 export const getLightConeByName = async (name) => {
     try {
-        const response = await apiClient.get(`/lightcones/name/${encodeURIComponent(name)}`);
-        return response.data;
+        return await fetchJson(`/lightcones/name/${encodeURIComponent(name)}`);
     } catch (error) {
         return null;
     }

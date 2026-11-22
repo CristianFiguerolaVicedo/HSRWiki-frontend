@@ -1,9 +1,8 @@
-import apiClient from "./apiClient";
+import { fetchJson } from "./apiClient";
 
 export const getRelicSetByName = async (setName) => {
     try {
-        const response = await apiClient.get(`/relics/${encodeURIComponent(setName)}`);
-        return response.data;
+        return await fetchJson(`/relics/${encodeURIComponent(setName)}`);
     } catch (error) {
         return null;
     }
@@ -11,8 +10,7 @@ export const getRelicSetByName = async (setName) => {
 
 export const getPlanarSetByName = async (setName) => {
     try {
-        const response = await apiClient.get(`/relics/${encodeURIComponent(setName)}`);
-        return response.data;
+        return await fetchJson(`/relics/${encodeURIComponent(setName)}`);
     } catch (error) {
         return null;
     }

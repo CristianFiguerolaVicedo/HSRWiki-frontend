@@ -77,7 +77,7 @@ def main(base):
     os.rename(tmp, OUT)
 
     size = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(OUT) for f in fs)
-    print(f"Saved {len(files)} files ({size / 1e6:.1f} MB) in public/data, version {files['version.json']}")
+    print(f"Saved {len(files)} files ({size / 1e6:.1f} MB) in public/data, version {files['version.json'].get('gameVersion')}")
 
 
 if __name__ == "__main__":

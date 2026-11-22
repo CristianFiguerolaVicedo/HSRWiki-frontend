@@ -29,7 +29,7 @@
 
 HSRWiki is deployed and available at **[hsr-wiki-frontend.vercel.app](https://hsr-wiki-frontend.vercel.app)** (frontend on Vercel, API on Render).
 
-> The API runs on Render's free plan: after 15 minutes without visits it goes to sleep, so the first request can take about a minute while it wakes up. After that it responds normally.
+> The site opens instantly: the game data is served as static files from Vercel (see [Game data snapshot](#game-data-snapshot)). Only **My Account**, which looks up live showcases, calls the API on Render's free plan, which sleeps after 15 minutes without visits and takes a few seconds to wake up.
 
 ## Sister project: HSR Team Planner
 
@@ -151,7 +151,13 @@ VITE_API_BASE_URL=https://your-backend.onrender.com/api
 2. Add the environment variable `VITE_API_BASE_URL` with the backend's address plus `/api`, and `VITE_TEAM_PLANNER_URL` with the Team Planner's address, `https://hsr-team-planner.vercel.app`, without a trailing slash (redeploy after adding or changing it: Vite reads it at build time).
 3. Deploy. Every push to `main` redeploys automatically.
 
-`vercel.json` sends every route to `index.html`, so opening or reloading a page like `/char/1005` works. Remember to add the frontend's address to the backend's `HSRWIKI_CORS_ALLOWEDORIGINS` variable.
+`vercel.json` sends every route except `/data/` to `index.html`, so opening or reloading a page like `/char/1005` works. Remember to add the frontend's address to the backend's `HSRWIKI_CORS_ALLOWEDORIGINS` variable.
+
+## Game data snapshot
+
+The game data changes once a week, so the site doesn't need the API to show it. `public/data/` holds a static copy of every public API response (characters, light cones, relics, items, planner data, changelog), and `src/services/apiClient.js` reads those files first; if one is missing it falls back to the live API. Production builds use the snapshot; set `VITE_USE_SNAPSHOT=true` or `false` to force either way.
+
+The [`Data snapshot`](.github/workflows/data-snapshot.yml) workflow keeps it up to date: every two hours it checks whether the backend repository changed, and if so builds and starts the backend inside GitHub Actions, saves every response with `scripts/snapshot_api.py` and commits the files as `Actualizacion de datos a la version X.Y.Z`, which makes Vercel publish them. It can also be run by hand from the **Actions** tab.
 
 ## Credits
 

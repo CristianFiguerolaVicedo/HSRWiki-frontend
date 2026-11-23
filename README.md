@@ -159,7 +159,7 @@ VITE_API_BASE_URL=https://your-backend.onrender.com/api
 
 ## Game data snapshot
 
-The game data changes once a week, so the site doesn't need the API to show it. `public/data/` holds a static copy of every public API response (characters, light cones, relics, items, planner data, changelog), and `src/services/apiClient.js` reads those files first; if one is missing it falls back to the live API. Production builds use the snapshot; set `VITE_USE_SNAPSHOT=true` or `false` to force either way.
+The game data changes once a week, so the site doesn't need the API to show it. `public/data/` holds a static copy of every public API response (characters, light cones, relics, items, planner data, endgame phases, changelog), and `src/services/apiClient.js` reads those files first; if one is missing it falls back to the live API. Production builds use the snapshot; set `VITE_USE_SNAPSHOT=true` or `false` to force either way.
 
 The [`Data snapshot`](.github/workflows/data-snapshot.yml) workflow keeps it up to date: every two hours it checks whether the backend repository changed, and if so builds and starts the backend inside GitHub Actions, saves every response with `scripts/snapshot_api.py` and commits the files as `Actualizacion de datos a la version X.Y.Z`, which makes Vercel publish them. It can also be run by hand from the **Actions** tab.
 

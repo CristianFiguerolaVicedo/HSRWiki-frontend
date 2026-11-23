@@ -15,7 +15,7 @@ URL -> file (keep in sync with snapshotPath() in src/services/apiClient.js):
     /relics                  -> relics.json
     /relics/{name}           -> relics/{slug}.json
     /items, /items/{id}      -> items.json, items/{id}.json
-    /planner, /changelog, /version -> planner.json, changelog.json, version.json
+    /planner, /changelog, /version, /endgame -> planner.json, changelog.json, version.json, endgame.json
 """
 
 import json
@@ -50,7 +50,7 @@ def main(base):
             raise SystemExit(f"Two URLs map to the same file: {file}")
         files[file] = data
 
-    for name in ["characters", "lightcones", "relics", "items", "planner", "changelog", "version"]:
+    for name in ["characters", "lightcones", "relics", "items", "planner", "changelog", "version", "endgame"]:
         add(f"{name}.json", get(f"/{name}"))
 
     jobs = []  # (file, path)

@@ -71,7 +71,7 @@ export const snapshotPath = (url) => {
   const path = url.split("?")[0].replace(/\/+$/, "");
   const parts = path.split("/").filter(Boolean).map(decodeURIComponent);
   const [kind, a, b] = parts;
-  const lists = ["characters", "lightcones", "relics", "items", "planner", "changelog", "version"];
+  const lists = ["characters", "lightcones", "relics", "items", "planner", "changelog", "version", "endgame"];
   if (parts.length === 1 && lists.includes(kind)) return `/data/${kind}.json`;
   if (parts.length === 2 && ["characters", "items", "lightcones"].includes(kind) && /^-?\d+$/.test(a)) {
     return `/data/${kind}/${a}.json`;

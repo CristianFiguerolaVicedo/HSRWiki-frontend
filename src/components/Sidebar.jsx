@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { Backpack, ChartNoAxesColumn, Component, ExternalLink, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X, UserRound, ClipboardList, Calculator, Columns3, UsersRound, Newspaper } from "lucide-react";
+import { Backpack, ChartNoAxesColumn, Component, ExternalLink, Gamepad2, Menu, Orbit, Search, Shirt, Swords, Users, X, UserRound, ClipboardList, Calculator, Columns3, UsersRound, Newspaper, Trophy } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchJson } from "../services/apiClient";
 import { onSeenChange, readSeen } from "../util/updates";
@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { path: "/factions", label: "Factions", Icon: Component },
   { path: "/items", label: "Items", Icon: Backpack },
   { path: "/tier-list", label: "Tier List", Icon: ChartNoAxesColumn },
+  { path: "/endgame", label: "Endgame", Icon: Trophy },
   { path: "/compare", label: "Compare", Icon: Columns3 },
   { path: "/teams", label: "Team Builder", Icon: UsersRound },
   { path: "/planner", label: "Planner", Icon: ClipboardList },

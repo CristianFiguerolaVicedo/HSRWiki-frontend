@@ -4,7 +4,7 @@
 
 **An unofficial Honkai: Star Rail wiki and toolbox, styled as the Astral Express's travel journal.**
 
-![Game data](https://img.shields.io/badge/game%20data-v4.6-B8820F)
+![Game data](https://img.shields.io/badge/game%20data-v4.7-B8820F)
 ![React](https://img.shields.io/badge/React-19-1F2A44?logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-38BDF8?logo=tailwindcss&logoColor=white)
@@ -41,7 +41,7 @@ Not to be confused with the wiki's own **Planner** page, which works out the mat
 
 ## Overview
 
-HSRWiki brings together everything a Honkai: Star Rail player looks up between sessions: every character, light cone, relic, planet, faction and item of the game, recommended builds and teams, and tools to plan materials, compute stats and check your own in-game builds. Game data is served by the [HSRWiki backend](https://github.com/CristianFiguerolaVicedo/HSRWiki-backend) and is up to date with version 4.6.
+HSRWiki brings together everything a Honkai: Star Rail player looks up between sessions: every character, light cone, relic, planet, faction and item of the game, recommended builds and teams, and tools to plan materials, compute stats and check your own in-game builds. Game data is served by the [HSRWiki backend](https://github.com/CristianFiguerolaVicedo/HSRWiki-backend) and is up to date with version 4.7.
 
 The interface follows a "travel journal" design: a ruled notebook index as navigation, characters as taped photo cards, and handwritten notes, while keeping the information clear and easy to scan on desktop and mobile.
 
@@ -54,6 +54,10 @@ The interface follows a "travel journal" design: a ruled notebook index as navig
 - **Light cones, relics and planar ornaments,** each with its own page.
 - **Planets and factions** of the Star Rail universe, and **items** with their descriptions and the characters and light cones that use them.
 - **Tier list** of characters.
+
+### Endgame
+
+The **Endgame** page shows the current and upcoming phases of Memory of Chaos, Pure Fiction, Apocalyptic Shadow and Anomaly Arbitration: dates and days left, the phase effects, the buffs to choose from, and every stage's enemies wave by wave with their level and weaknesses. Each half has recommended characters and teams from a public guide (linked) when there is one, plus teams suggested automatically from the wiki's character guides whose main damage dealer hits that half's weaknesses. With a collection saved, it can suggest only teams you own.
 
 ### Updates
 

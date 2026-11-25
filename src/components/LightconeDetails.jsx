@@ -56,20 +56,17 @@ const LightconeDetails = () => {
 
         const level1Params = params[0];
 
-        let formattedDesc = desc;
-        level1Params.forEach((value, index) => {
-            formattedDesc = formattedDesc.replace(
-                `{${index}}`,
-                `<span class="text-text-primary font-bold">${value}</span>`
-            );
+        // The text comes from game data downloaded from third-party repositories, so it is never
+        // inserted as HTML: it is split at its {0}, {1}... placeholders and the values become React nodes.
+        const formattedDesc = desc.split(/(\{\d+\})/).map((part, i) => {
+            const match = part.match(/^\{(\d+)\}$/);
+            if (!match || level1Params[Number(match[1])] === undefined) return part;
+            return <span key={i} className="text-text-primary font-bold">{level1Params[Number(match[1])]}</span>;
         });
 
         return (
             <div className="space-y-4">
-                <div 
-                    className="text-text-secondary"
-                    dangerouslySetInnerHTML={{ __html: formattedDesc }}
-                />
+                <div className="text-text-secondary">{formattedDesc}</div>
 
                 <div className="mt-6">
                     <h4 className="text-lg font-bold mb-4 text-text-primary">Superimposition Levels</h4>
